@@ -1,5 +1,6 @@
-import {searchVariables,petValuesArr,threeSeatSupportArr} from '../models/companiesModel.js';
-import  search_variables from '../models/companiesModel.js';
+import('../models/companiesModel.js')
+.then ((module) => {
+    
 
 
 document.getElementById("list_button").addEventListener("click", () => {
@@ -18,7 +19,7 @@ document.getElementById("pet_checkbox").addEventListener("click", () => {
     let elements = document.querySelectorAll('.lh-content');
 
     for (let i=0; i<companies.length; i++){
-        if(filter === petValuesArr[i]){
+        if(filter === module.petValuesArr[i]){
             elements[i].style.display = "";
         } else {
             elements[i].style.display = "none";
@@ -33,7 +34,7 @@ document.getElementById("3seat_bus").addEventListener("click", () => {
     let elements = document.querySelectorAll('.lh-content');
 
     for (let i=0; i<companies.length; i++){
-        if(filter === threeSeatSupportArr[i]){
+        if(filter === module.threeSeatSupportArr[i]){
             elements[i].style.display = "";
         } else {
             elements[i].style.display = "none";
@@ -53,4 +54,79 @@ document.getElementById("reset_button").addEventListener("click", () =>{
 
     document.getElementById('pet_checkbox').checked = false;
     document.getElementById('3seat_bus').checked = false;
+})
+
+pointFilter = () => {
+
+    let point = document.getElementById('star_slide').value;
+    let companies = document.querySelectorAll('.company_names');
+    let elements = document.querySelectorAll('.lh-content');
+
+    for (let i=0; i<companies.length; i++){
+        if(module.pointsArr[i] >= point) {
+            elements[i].style.display = ""
+        } else {
+            elements[i].style.display = "none";
+        }
+    }
+}
+
+companyNameFilter = () => {
+
+    let searchText = document.querySelector('#company_name_text');
+    let filter = searchText.value.toUpperCase();
+    let companies = document.querySelectorAll('.company_names');
+    let elements = document.querySelectorAll('.lh-content');
+    
+    for (let i=0; i<companies.length; i++) {
+        let txtValue = companies[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1){
+            elements[i].style.display = "";
+        } else {
+            elements[i].style.display = "none";
+        }
+    }
+}
+
+departureFilter = () => {
+
+    let searchText = document.querySelector('#departure_place_text');
+    let filter = searchText.value.toUpperCase();
+    let companies = document.querySelectorAll('.company_names');
+    let elements = document.querySelectorAll('.lh-content');
+    
+    for (let i=0; i<companies.length; i++) {
+        let txtValue = placesArr[i].toString();
+        if (txtValue.toUpperCase().indexOf(filter) > -1){
+            elements[i].style.display = "";
+        } else {
+            elements[i].style.display = "none";
+        }
+    }
+}
+
+destinationFilter = () => {
+
+    let searchText = document.querySelector('#arrival_place_text');
+    let filter = searchText.value.toUpperCase();
+    let companies = document.querySelectorAll('.company_names');
+    let elements = document.querySelectorAll('.lh-content');
+    
+    for (let i=0; i<companies.length; i++) {
+        let txtValue = placesArr[i].toString();
+        if (txtValue.toUpperCase().indexOf(filter) > -1){
+            elements[i].style.display = "";
+        } else {
+            elements[i].style.display = "none";
+        }
+    }
+}
+
+
+
+
+
+
+
+
 })
