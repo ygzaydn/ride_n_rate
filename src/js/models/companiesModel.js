@@ -53,7 +53,7 @@ const places = {
  
 const placesArr = Array.from(Object.values(places));
 
-const companyNameFilter = () => {
+let companyNameFilter = () => {
 
     let searchText = document.querySelector('#company_name_text');
     let filter = searchText.value.toUpperCase();
@@ -70,7 +70,7 @@ const companyNameFilter = () => {
     }
 }
 
-const departureFilter = () => {
+let departureFilter = () => {
 
     let searchText = document.querySelector('#departure_place_text');
     let filter = searchText.value.toUpperCase();
@@ -87,7 +87,7 @@ const departureFilter = () => {
     }
 }
 
-const destinationFilter = () => {
+let destinationFilter = () => {
 
     let searchText = document.querySelector('#arrival_place_text');
     let filter = searchText.value.toUpperCase();
@@ -104,7 +104,7 @@ const destinationFilter = () => {
     }
 }
 
-const pointFilter = () => {
+let pointFilter = () => {
 
     let point = document.getElementById('star_slide').value;
     let companies = document.querySelectorAll('.company_names');
