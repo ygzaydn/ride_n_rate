@@ -1,40 +1,22 @@
-const indexScreen = document.querySelectorAll('.form-control');
-const indexScreenArr = Array.from(indexScreen); 
+import('../models/indexModel.js')
+.then((module) => {
 
-const searchVariables = {
-    departure : indexScreenArr[0],
-    destination : indexScreenArr[1],
-    day : indexScreenArr[2].selectedIndex+1,
-    month : indexScreenArr[3].selectedIndex+1
-} 
+    document.getElementById("search_button").addEventListener("click",() => {
 
-class search_parameters {
+        const searchParameters = new module.search_parameters(module.searchVariables.departure.value, module.searchVariables.destination.value, module.searchVariables.day, module.searchVariables.month);
     
-    constructor( departure, destination, day, month){
-        this.departure = departure;
-        this.destination = destination;
-        this.day = day;
-        this.month = month;
-    }
+        searchParameters.summarize();
 
-    summarize = () => {
-        console.log(`Departure = ${this.departure}
-        Destination = ${this.destination}
-        Day = ${this.day}
-        Month = ${this.month}`)
-    }
-}
+        if (searchParameters.departure !== "" && searchParameters.destination !== ""){
+        window.open(`search.html?filters=departure:${searchParameters.departure};destination:${searchParameters.destination};day:${searchParameters.day};month:${searchParameters.month}`);
+        }
+        else {
+            alert(`Lütfen girdiğiniz bilgileri kontrol edin`);
+        }
+    });
 
-document.getElementById("search_button").addEventListener("click",() => {
 
-    const searchParameters = new search_parameters(searchVariables.departure.value, searchVariables.destination.value, searchVariables.day, searchVariables.month);
+})
 
-    searchParameters.summarize();
-    if (searchParameters.departure !== "" && searchParameters.destination !== ""){
-    window.open(`search.html?filters=departure:${searchParameters.departure};destination:${searchParameters.destination};day:${searchParameters.day};month:${searchParameters.month}`);
-    }
-    else {
-        alert(`Lütfen girdiğiniz bilgileri kontrol edin`);
-    }
-});
+
 
