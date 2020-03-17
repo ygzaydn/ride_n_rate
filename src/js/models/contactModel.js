@@ -8,7 +8,8 @@ const contactVariables = {
     message : contactScreenArr[3],
 }
 
-class contact_variables {
+export {contactScreen, contactScreenArr, contactVariables}
+export class contact_variables {
 
     constructor(username, email, topic, message) {
         this.username = username;
@@ -24,10 +25,3 @@ class contact_variables {
         Message = ${this.message}`);
     }
 }
-
-document.getElementById("send_button").addEventListener("click", () => {
-    const newMessage = new contact_variables(contactVariables.username.value, contactVariables.email.value, contactVariables.topic.value, contactVariables.message.value);
-
-    newMessage.summarize();
-
-})
