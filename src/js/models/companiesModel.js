@@ -54,7 +54,7 @@ const places = {
 const placesArr = Array.from(Object.values(places));
 
 export {companiesScreen, companiesScreenArr, searchVariables, pointsArr, petValuesArr, threeSeatSupportArr, placesArr};
-export default class search_variables {
+export class search_variables {
 
     constructor (companyName, departure, destination, minimumPoint, pet, threeSeat) {
         this.companyName = companyName;

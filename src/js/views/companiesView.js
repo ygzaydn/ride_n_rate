@@ -1,12 +1,11 @@
 import('../models/companiesModel.js')
-.then ((module) => {
-    
-
+.then ((module) => 
+{
 
 document.getElementById("list_button").addEventListener("click", () => {
 
-    const userFilter = new search_variables(searchVariables.companyName.value, searchVariables.departure.value,
-        searchVariables.destination.value, searchVariables.minimumPoint.textContent.trim(), searchVariables.pet.checked, searchVariables.threeSeat.checked)
+    const userFilter = new module.search_variables(module.searchVariables.companyName.value, module.searchVariables.departure.value,
+        module.searchVariables.destination.value, module.searchVariables.minimumPoint.textContent.trim(), module.searchVariables.pet.checked, module.searchVariables.threeSeat.checked)
         
     userFilter.summarize();
 
@@ -96,7 +95,7 @@ departureFilter = () => {
     let elements = document.querySelectorAll('.lh-content');
     
     for (let i=0; i<companies.length; i++) {
-        let txtValue = placesArr[i].toString();
+        let txtValue = module.placesArr[i].toString();
         if (txtValue.toUpperCase().indexOf(filter) > -1){
             elements[i].style.display = "";
         } else {
@@ -113,7 +112,7 @@ destinationFilter = () => {
     let elements = document.querySelectorAll('.lh-content');
     
     for (let i=0; i<companies.length; i++) {
-        let txtValue = placesArr[i].toString();
+        let txtValue = module.placesArr[i].toString();
         if (txtValue.toUpperCase().indexOf(filter) > -1){
             elements[i].style.display = "";
         } else {
@@ -121,11 +120,6 @@ destinationFilter = () => {
         }
     }
 }
-
-
-
-
-
 
 
 
