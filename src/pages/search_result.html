@@ -141,11 +141,7 @@
                   <!-- <label class="text-black" for="message">Mesaj</label>  -->
                   <textarea name="message" id="message_box_hostess" cols="30" rows="7" class="small_box" placeholder="Mesaj..."></textarea>
 
-                  <div class="row form-group">
-                    <div class="col-md-12">
-                      <input type="submit" value="Gönder" class="btn btn-primary btn-md text-white">
-                    </div>
-                  </div>
+
               </div>
               <div class="col-md-5 ml-auto">
                 <h2 class="text-primary mb-3">Mola & Konaklama</h2>
@@ -164,11 +160,6 @@
 
                   <textarea name="message" id="message_box_break" cols="30" rows="7" class="small_box" placeholder="Mesaj..."></textarea>
     
-                  <div class="row form-group">
-                    <div class="col-md-12">
-                      <input type="submit" value="Gönder" class="btn btn-primary btn-md text-white">
-                    </div>
-                  </div>
               </div>
               <div class="col-md-5 ml-auto">
                 <h2 class="text-primary mb-3">Yolculuk Süresi</h2>
@@ -187,11 +178,6 @@
 
               <textarea name="message" id="message_box_travel" cols="30" rows="7" class="small_box" placeholder="Mesaj..."></textarea>
   
-                <div class="row form-group">
-                  <div class="col-md-12">
-                    <input type="submit" value="Gönder" class="btn btn-primary btn-md text-white">
-                  </div>
-                </div>
               </div>
               <div class="col-md-5 ml-auto">
                 <h2 class="text-primary mb-3">Bagajlama</h2>
@@ -214,11 +200,6 @@
                             <textarea name="message" id="message_box_baggage" cols="30" rows="7" class="small_box" placeholder="Mesaj..."></textarea>
 <!--                           </div>
                           </div> -->         
-                <div class="row form-group">
-                  <div class="col-md-12">
-                    <input type="submit" value="Gönder" class="btn btn-primary btn-md text-white">
-                  </div>
-                </div>
               </div>
               <div class="col-md-5 ml-auto">
                 <h2 class="text-primary mb-3">Konfor</h2>
@@ -237,11 +218,6 @@
                 </div>
          
                 <textarea name="message" id="message_box_comfort" cols="30" rows="7" class="small_box" placeholder="Mesaj..."></textarea>
-                <div class="row form-group">
-                  <div class="col-md-12">
-                   <input type="submit" value="Gönder" class="btn btn-primary btn-md text-white">
-                  </div>
-                </div>
               </div>
               <div class="col-md-5 ml-auto">
                 <h2 class="text-primary mb-3">Araç Kalitesi</h2>
@@ -259,11 +235,6 @@
                   <label for="vehicle1.1" title="text">1 comfort</label>
                   </div>
                   <textarea name="message" id="message_box_vehicle" cols="30" rows="7" class="small_box" placeholder="Mesaj..."></textarea>
-                  <div class="row form-group">
-                    <div class="col-md-12">
-                      <input type="submit" value="Gönder" class="btn btn-primary btn-md text-white">
-                    </div>
-                  </div>
                 </div>
          
                 <div class="col-md-5 ml-auto">
@@ -281,15 +252,11 @@
                     <input type="radio" id="pet1.1" name="rate7" value="1" class="1pet"/>
                     <label for="pet1.1" title="text">1 pet</label>
                   </div>
-         
                   <textarea name="message" id="message_box_pet" cols="30" rows="7" class="small_box" placeholder="Mesaj..."></textarea>
-                  <div class="row form-group">
-                    <div class="col-md-12">
-                      <input type="submit" value="Gönder" class="btn btn-primary btn-md text-white">
-                    </div>
-                  </div>
                 </div>
               </div>
+                  <input type="submit" value="Gönder" style=" margin:auto;
+                  display:block;" class="btn btn-primary btn-md text-white">
             </div>
           </div>
         </div>
@@ -693,7 +660,9 @@
   <script src="../js/template/rangeslider.min.js"></script>
   
   <script src="../js/template/main.js"></script>
-  <script src="../js/template/aboutData.js"></script>
+
+  <script type="module" src="../js/models/searchResultModel.js"></script>
+  <script src="../js/views/searchResultView.js"></script>
   
   </body>
 </html>
