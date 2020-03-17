@@ -1,52 +1,8 @@
-const signUpScreen = document.querySelectorAll('.form-control');
-const signupScreenArr = Array.from(signUpScreen); 
-
-const signUpVariables = {
-    username : signupScreenArr[0],
-    email : signupScreenArr[1],
-    password : signupScreenArr[2],
-    repassword : signupScreenArr[3]
-
-}
-
-const signInVariables = {
-    email : signupScreenArr[4],
-    password : signupScreenArr[5],
-}
-
-class new_User {
-    constructor (username, email, password, repassword){
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.repassword = repassword;
-    }
-    
-    summarize = () => {
-        console.log(`Username = ${this.username}
-        Email = ${this.email}
-        Password = ${this.password}
-        Repassword = ${this.repassword}`)
-    }
-
-        
-}
-
-class registered_User {
-    constructor(email,password){
-        this.email = email;
-        this.password = password;
-    }
-
-    summarize = () => {
-        console.log(`Email = ${this.email}
-        Password = ${this.password}`)
-    }
-}
-
+import('../models/signUpModel.js')
+.then((module) => { 
 document.getElementById("SignUp").addEventListener("click", ()=>{
 
-    const newUser = new new_User(signUpVariables.username.value, signUpVariables.email.value,signUpVariables.password.value, signUpVariables.repassword.value);
+    const newUser = new module.new_User(module.signUpVariables.username.value, module.signUpVariables.email.value,module.signUpVariables.password.value, module.signUpVariables.repassword.value);
 
     const emailIndNum = (parseInt(newUser.email.indexOf('@')));
 
@@ -70,7 +26,7 @@ document.getElementById("SignUp").addEventListener("click", ()=>{
 
 document.getElementById("SignIn").addEventListener("click", ()=>{
     
-    const registeredUser = new registered_User(signInVariables.email.value,signInVariables.password.value);
+    const registeredUser = new module.registered_User(module.signInVariables.email.value,module.signInVariables.password.value);
 
     registeredUser.summarize();
     if (registeredUser.email !== "" && registeredUser.password !== ""){
@@ -82,4 +38,5 @@ document.getElementById("SignIn").addEventListener("click", ()=>{
     } else {
         alert(`Bilgilerinizi kontrol edin.`)
     }
+})
 })
