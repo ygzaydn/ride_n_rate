@@ -54,7 +54,7 @@ document.getElementById("reset_button").addEventListener("click", () =>{
     document.getElementById('3seat_bus').checked = false;
 })
 
-pointFilter = () => {
+const pointFilter = () => {
 
     let point = document.getElementById('star_slide').value;
     let companies = document.querySelectorAll('.company_names');
@@ -69,7 +69,7 @@ pointFilter = () => {
     }
 }
 
-companyNameFilter = () => {
+function companyNameFilter() {
 
     let searchText = document.querySelector('#company_name_text');
     let filter = searchText.value.toUpperCase();
@@ -84,9 +84,9 @@ companyNameFilter = () => {
             elements[i].style.display = "none";
         }
     }
-}
+};
 
-departureFilter = () => {
+function departureFilter() {
 
     let searchText = document.querySelector('#departure_place_text');
     let filter = searchText.value.toUpperCase();
@@ -101,9 +101,9 @@ departureFilter = () => {
             elements[i].style.display = "none";
         }
     }
-}
+};
 
-destinationFilter = () => {
+function destinationFilter() {
 
     let searchText = document.querySelector('#arrival_place_text');
     let filter = searchText.value.toUpperCase();
@@ -118,5 +118,11 @@ destinationFilter = () => {
             elements[i].style.display = "none";
         }
     }
-}
+};
+
+document.getElementById("company_name_text").addEventListener('keyup', companyNameFilter);
+document.getElementById("arrival_place_text").addEventListener('keyup', destinationFilter);
+document.getElementById("star_slide").addEventListener('click', pointFilter);
+document.getElementById("departure_place_text").addEventListener('keyup', departureFilter);
+
 

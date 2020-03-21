@@ -79,12 +79,12 @@ gulp.task('companyComment', function(){
 });
 
 gulp.task('companies', function(){
-    return browserify('./src/js/views/companyRatingView.js')
+    return browserify('./src/js/views/companiesView.js')
     .transform(babelify.configure({
         presets: ["es2015"]
     }))
     .bundle()
-    .pipe(source('companyRatingBundle.js'))
+    .pipe(source('companiesBundle.js'))
     .pipe(gulp.dest(destFolder));
 });
 
