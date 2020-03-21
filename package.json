@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "liveserver" : "live-server --open=./src/pages/index.html"
+    "liveserver": "browserify ./src/js/views/indexView.js -o bundle.js & live-server --open=./src/pages/index.html",
+    "build": "browserify ./src/js/views/indexView.js -o bundle.js",
+    "start": "webpack-dev-server --mode development --open"
   },
   "repository": {
     "type": "git",
@@ -18,12 +20,20 @@
   },
   "homepage": "https://github.com/ygzaydn/ride_n_rate#readme",
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "browserify": "^16.5.0",
+    "html-webpack-plugin": "^3.2.0",
     "live-server": "^1.2.1",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "browserify": "^16.5.0",
+    "babel-polyfill": "^6.26.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jquery": "^3.4.1"

@@ -1,5 +1,15 @@
+import {axios} from './axios'
+
 const signUpScreen = document.querySelectorAll('.form-control');
-const signupScreenArr = Array.from(signUpScreen); 
+const signupScreenArr = Array.from(signUpScreen);
+
+axios.get('localhost:9999/ping')
+.then(resp => {
+    console.log(resp)
+})
+.catch(err => {
+    console.log(err)
+})
 
 const signUpVariables = {
     username : signupScreenArr[0],
@@ -44,3 +54,5 @@ export class registered_User {
         Password = ${this.password}`)
     }
 }
+
+ 

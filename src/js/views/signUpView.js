@@ -1,5 +1,7 @@
+
 import('../models/signUpModel.js')
 .then((module) => { 
+
 document.getElementById("SignUp").addEventListener("click", ()=>{
 
     const newUser = new module.new_User(module.signUpVariables.username.value, module.signUpVariables.email.value,module.signUpVariables.password.value, module.signUpVariables.repassword.value);

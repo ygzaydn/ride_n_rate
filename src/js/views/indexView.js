@@ -1,22 +1,42 @@
-import('../models/indexModel.js')
-.then((module) => {
+const axios = require('axios').default
 
-    document.getElementById("search_button").addEventListener("click",() => {
+/* async function ping (query) {
+    const res = await axios(`http://127.0.0.1:9999/${query}`);
+    console.log(res);
+}
+ping(ping); */
 
-        const searchParameters = new module.search_parameters(module.searchVariables.departure.value, module.searchVariables.destination.value, module.searchVariables.day, module.searchVariables.month);
-    
-        searchParameters.summarize();
+async function pingRequest () {
+    const config = {
+        method : 'get',
+        url : 'http://127.0.0.1:9999/ping'
+    }
+    let res = await axios(config)
+    console.log(res.data);
+}
+pingRequest();
 
-        if (searchParameters.departure !== "" && searchParameters.destination !== ""){
-        window.open(`search.html?filters=departure:${searchParameters.departure};destination:${searchParameters.destination};day:${searchParameters.day};month:${searchParameters.month}`);
-        }
-        else {
-            alert(`Lütfen girdiğiniz bilgileri kontrol edin`);
-        }
-    });
+/* fetch('http://127.0.0.1:9999/ping')
+.then((res)=> {
+    console.log(res)
+}) */
 
+import {indexScreen, indexScreenArr, searchVariables} from '../models/indexModel.js'
+import search_parameter from '../models/indexModel'
 
-})
+document.getElementById("search_button").addEventListener("click",() => {
+
+    const searchParameters = new search_parameters(searchVariables.departure.value, searchVariables.destination.value, searchVariables.day, searchVariables.month);
+
+    searchParameters.summarize();
+
+    if (searchParameters.departure !== "" && searchParameters.destination !== ""){
+    window.open(`search.html?filters=departure:${searchParameters.departure};destination:${searchParameters.destination};day:${searchParameters.day};month:${searchParameters.month}`);
+    }
+    else {
+        alert(`Lütfen girdiğiniz bilgileri kontrol edin`);
+    }
+});
 
 
 
