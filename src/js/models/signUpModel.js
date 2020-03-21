@@ -1,4 +1,4 @@
-import {axios} from './axios'
+const axios = require('axios').default
 
 const signUpScreen = document.querySelectorAll('.form-control');
 const signupScreenArr = Array.from(signUpScreen);
@@ -33,14 +33,12 @@ export class new_User {
         this.repassword = repassword;
     }
     
-    summarize = () => {
+    summarize() {
         console.log(`Username = ${this.username}
         Email = ${this.email}
         Password = ${this.password}
         Repassword = ${this.repassword}`)
-    }
-
-        
+    }    
 }
 
 export class registered_User {
@@ -49,7 +47,7 @@ export class registered_User {
         this.password = password;
     }
 
-    summarize = () => {
+    summarize() {
         console.log(`Email = ${this.email}
         Password = ${this.password}`)
     }
