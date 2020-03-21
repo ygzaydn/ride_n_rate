@@ -11,6 +11,37 @@ axios.get('localhost:9999/ping')
     console.log(err)
 })
 
+async function loginRequest (email, password) {
+    const config = {
+        method : 'post',
+        url : 'http://127.0.0.1:9999/api/auth/login',
+        data: {
+            "user": {
+                "email": email,
+                "password": password
+            }
+          }
+    }
+    let res = await axios(config);
+    console.log(res);
+}
+
+async function signInRequest (username, email, password) {
+    const config = {
+        method : 'post',
+        url : 'http://127.0.0.1:9999/api/auth/signup',
+        data: {
+            "user": {
+                "userName": username,
+                "email": email,
+                "password": password
+            }
+          }
+    }
+    let res = await axios(config);
+    console.log(res);
+}
+
 const signUpVariables = {
     username : signupScreenArr[0],
     email : signupScreenArr[1],
@@ -24,7 +55,8 @@ const signInVariables = {
     password : signupScreenArr[5],
 }
 
-export {signUpScreen, signupScreenArr, signUpVariables, signInVariables}
+export {signInVariables, signUpScreen, signupScreenArr, signUpVariables, loginRequest, signInRequest}
+
 export class new_User {
     constructor (username, email, password, repassword){
         this.username = username;

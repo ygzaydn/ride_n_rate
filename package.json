@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "liveserver": "live-server --open=./src/pages/index.html",
     "build": "browserify ./src/js/views/indexView.js -o indexBundle.js & browserify ./src/js/views/signUpView.js -o signUpBundle.js",
-    "gulp": "gulp default",
+    "gulp": "gulp signup && gulp index",
     "watch": "watchify ./src/js/views/indexView.js -o bundle.js",
     "start": "webpack-dev-server --mode development --open"
   },

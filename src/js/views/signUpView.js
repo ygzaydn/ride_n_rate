@@ -1,36 +1,6 @@
 const axios = require('axios').default
 
-async function loginRequest () {
-    const config = {
-        method : 'post',
-        url : 'http://127.0.0.1:9999/api/auth/login',
-        data: {
-            "user": {
-                "email": "testmail@test.test",
-                "password": "test"
-            }
-          }
-    }
-    let res = await axios(config);
-    console.log(res);
-}
-
-async function signInRequest (username, email, password) {
-    const config = {
-        method : 'post',
-        url : 'http://127.0.0.1:9999/api/auth/signup',
-        data: {
-            "user": {
-                "userName": username,
-                "email": email,
-                "password": password
-            }
-          }
-    }
-    let res = await axios(config);
-    console.log(res);
-}
-import {signUpScreen, signupScreenArr, signUpVariables, signInVariables, new_User, registered_User} from '../models/signUpModel'
+import {signUpScreen, signupScreenArr, signUpVariables, signInVariables, new_User, registered_User, loginRequest, signInRequest} from '../models/signUpModel'
 
 document.getElementById("SignUp").addEventListener("click", ()=>{
 
@@ -64,7 +34,8 @@ document.getElementById("SignIn").addEventListener("click", ()=>{
     registeredUser.summarize();
     if (registeredUser.email !== "" && registeredUser.password !== ""){
         if(registeredUser.email.indexOf("@") > 0){
-            loginRequest();
+            loginRequest(registeredUser.email, registeredUser.password);
+            registeredUser.summarize();
     //window.open(`logged_index.html`);
     } else {
         alert(`Epostanızı kontrol edin.`)
