@@ -1,5 +1,4 @@
-import('../models/searchModel.js')
-.then((module) => {
+import {threeSeatSupportArr, petValuesArr, pointsArr, searchVariables, companiesScreenArr, companiesScreen, search_variables} from '../models/searchModel'
 
 pointFilter = () => {
 
@@ -8,7 +7,7 @@ pointFilter = () => {
     let elements = document.querySelectorAll('.lh-content');
 
     for (i=0; i<companies.length; i++){
-        if(module.pointsArr[i] >= point) {
+        if(pointsArr[i] >= point) {
             elements[i].style.display = ""
         } else {
             elements[i].style.display = "none";
@@ -35,7 +34,7 @@ document.getElementById("pet_checkbox").addEventListener("click", () => {
     let elements = document.querySelectorAll('.lh-content');
 
     for (i=0; i<companies.length; i++){
-        if(filter === module.petValuesArr[i]){
+        if(filter === petValuesArr[i]){
             elements[i].style.display = "";
         } else {
             elements[i].style.display = "none";
@@ -50,7 +49,7 @@ document.getElementById("3seat_bus").addEventListener("click", () => {
     let elements = document.querySelectorAll('.lh-content');
 
     for (i=0; i<companies.length; i++){
-        if(filter === module.threeSeatSupportArr[i]){
+        if(filter === modu.threeSeatSupportArr[i]){
             elements[i].style.display = "";
         } else {
             elements[i].style.display = "none";
@@ -68,6 +67,4 @@ document.getElementById("reset_button").addEventListener("click", () =>{
 
     document.getElementById('pet_checkbox').checked = false;
     document.getElementById('3seat_bus').checked = false;
-})
-
 })

@@ -28,6 +28,76 @@ gulp.task('signup', function(){
     .pipe(gulp.dest(destFolder));
 });
 
+gulp.task('about', function(){
+    return browserify('./src/js/views/aboutView.js')
+    .transform(babelify.configure({
+        presets: ["es2015"]
+    }))
+    .bundle()
+    .pipe(source('aboutBundle.js'))
+    .pipe(gulp.dest(destFolder));
+});
+
+gulp.task('searchResult', function(){
+    return browserify('./src/js/views/searchResultView.js')
+    .transform(babelify.configure({
+        presets: ["es2015"]
+    }))
+    .bundle()
+    .pipe(source('searchResultBundle.js'))
+    .pipe(gulp.dest(destFolder));
+});
+
+gulp.task('search', function(){
+    return browserify('./src/js/views/searchView.js')
+    .transform(babelify.configure({
+        presets: ["es2015"]
+    }))
+    .bundle()
+    .pipe(source('searchBundle.js'))
+    .pipe(gulp.dest(destFolder));
+});
+
+gulp.task('companyRating', function(){
+    return browserify('./src/js/views/companyRatingView.js')
+    .transform(babelify.configure({
+        presets: ["es2015"]
+    }))
+    .bundle()
+    .pipe(source('companyRatingBundle.js'))
+    .pipe(gulp.dest(destFolder));
+});
+
+gulp.task('companyComment', function(){
+    return browserify('./src/js/views/companyCommentView.js')
+    .transform(babelify.configure({
+        presets: ["es2015"]
+    }))
+    .bundle()
+    .pipe(source('companyCommentBundle.js'))
+    .pipe(gulp.dest(destFolder));
+});
+
+gulp.task('companies', function(){
+    return browserify('./src/js/views/companyRatingView.js')
+    .transform(babelify.configure({
+        presets: ["es2015"]
+    }))
+    .bundle()
+    .pipe(source('companyRatingBundle.js'))
+    .pipe(gulp.dest(destFolder));
+});
+
+gulp.task('contact', function(){
+    return browserify('./src/js/views/contactView.js')
+    .transform(babelify.configure({
+        presets: ["es2015"]
+    }))
+    .bundle()
+    .pipe(source('contactBundle.js'))
+    .pipe(gulp.dest(destFolder));
+});
+
 // --------------------------------------- Default Gulp Task
 
 /* gulp.task('default', ['index', 'signup']); */

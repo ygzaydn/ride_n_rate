@@ -16,7 +16,7 @@ export class new_comment {
         this.avatar = avatar;
     }
 
-    summarize = () => {
+    summarize() {
         console.log(`Name : ${this.name}
         Email : ${this.email}
         Message : ${this.message}`)

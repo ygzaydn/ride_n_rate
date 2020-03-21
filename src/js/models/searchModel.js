@@ -48,7 +48,7 @@ export class search_variables {
         this.threeSeat = threeSeat;
     }
 
-    summarize = () => {
+    summarize() {
         console.log (`Minimum Point = ${this.minimumPoint}
         Pet = ${this.pet}
         Three Seat Bus = ${this.threeSeat}`)

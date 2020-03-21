@@ -1,6 +1,6 @@
-import('../models/companyCommentModel.js')
-.then ((module) => 
-{
+
+import {companyComment, companyCommentArr, submit, commentList, commentInput, new_comment} from '../models/companyCommentModel'
+
 getTime = () => {
   let date = new Date();
 
@@ -10,7 +10,7 @@ getTime = () => {
 
 template = (data) => {
 
-  module.commentList.insertAdjacentHTML("afterbegin",`
+  commentList.insertAdjacentHTML("afterbegin",`
   <li class="comment">
     <div class="vcard bio">
       <img src="${data.avatar}" alt="Image placeholder">
@@ -27,14 +27,14 @@ template = (data) => {
 document.getElementById("post_comment").addEventListener("click", (event)=>{
 
     const newComment = {
-        name : module.companyCommentArr[0],
-        email : module.companyCommentArr[1],
-        message : module.companyCommentArr[2],
+        name : companyCommentArr[0],
+        email : companyCommentArr[1],
+        message : companyCommentArr[2],
         avatar : "/src/images/comment_vcard.jpg"
 
     }
 
-    const comment = new module.new_comment(newComment.name.value, newComment.email.value, newComment.message.value, newComment.avatar);
+    const comment = new new_comment(newComment.name.value, newComment.email.value, newComment.message.value, newComment.avatar);
 
     comment.summarize();
     event.preventDefault();
@@ -42,7 +42,7 @@ document.getElementById("post_comment").addEventListener("click", (event)=>{
     template(comment);
 
     // Save the list to localStorage
-    localStorage.setItem('commentListing', module.commentList.innerHTML);
+    localStorage.setItem('commentListing', commentList.innerHTML);
     window.open(`${window.location.href}`);
     } else {
       alert (`Bilgilerinizi kontrol edin`);
@@ -55,7 +55,5 @@ const saved = localStorage.getItem('commentListing');
 
 // Check if it exists and if so set HTML to value
 if (saved) {
-  module.commentList.innerHTML = saved;
+  commentList.innerHTML = saved;
 }
-
-})

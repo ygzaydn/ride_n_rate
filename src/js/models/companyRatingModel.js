@@ -13,7 +13,7 @@ export class company_rating {
         this.category7 = category7;
     }
 
-    summarize = () => {
+    summarize() {
         console.log(`Category-1 = ${this.category1}
         Category-2 = ${this.category2}
         Category-3 = ${this.category3}
@@ -24,8 +24,6 @@ export class company_rating {
     }
 
 }
-
-
 
 /* fetch("http://127.0.0.1:9999/ping")
 .then ((res) => {

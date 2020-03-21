@@ -2,6 +2,7 @@ const axios = require('axios').default
 
 import {signUpScreen, signupScreenArr, signUpVariables, signInVariables, new_User, registered_User, loginRequest, signInRequest} from '../models/signUpModel'
 
+
 document.getElementById("SignUp").addEventListener("click", ()=>{
 
     const newUser = new new_User(signUpVariables.username.value, signUpVariables.email.value, signUpVariables.password.value, signUpVariables.repassword.value);

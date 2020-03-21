@@ -65,7 +65,7 @@ export class search_variables {
         this.threeSeat = threeSeat;
     }
 
-    summarize = () => {
+    summarize() {
         console.log (`Company Name = ${this.companyName}
         Departure = ${this.departure}
         Destination = ${this.destination}

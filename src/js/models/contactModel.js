@@ -18,7 +18,7 @@ export class contact_variables {
         this.message = message;
     }
 
-    summarize = () => {
+    summarize() {
         console.log(`Username = ${this.username}
         Email = ${this.email}
         Topic = ${this.topic}

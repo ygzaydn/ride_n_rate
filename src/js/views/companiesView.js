@@ -1,11 +1,10 @@
-import('../models/companiesModel.js')
-.then ((module) => 
-{
+import {companiesScreen, companiesScreenArr, searchVariables, pointsArr, petValuesArr, threeSeatSupportArr, placesArr, search_variables} from '../models/companiesModel'
+
 
 document.getElementById("list_button").addEventListener("click", () => {
 
-    const userFilter = new module.search_variables(module.searchVariables.companyName.value, module.searchVariables.departure.value,
-        module.searchVariables.destination.value, module.searchVariables.minimumPoint.textContent.trim(), module.searchVariables.pet.checked, module.searchVariables.threeSeat.checked)
+    const userFilter = new search_variables(searchVariables.companyName.value, searchVariables.departure.value,
+        searchVariables.destination.value, searchVariables.minimumPoint.textContent.trim(), searchVariables.pet.checked, searchVariables.threeSeat.checked)
         
     userFilter.summarize();
 
@@ -18,7 +17,7 @@ document.getElementById("pet_checkbox").addEventListener("click", () => {
     let elements = document.querySelectorAll('.lh-content');
 
     for (let i=0; i<companies.length; i++){
-        if(filter === module.petValuesArr[i]){
+        if(filter === petValuesArr[i]){
             elements[i].style.display = "";
         } else {
             elements[i].style.display = "none";
@@ -33,7 +32,7 @@ document.getElementById("3seat_bus").addEventListener("click", () => {
     let elements = document.querySelectorAll('.lh-content');
 
     for (let i=0; i<companies.length; i++){
-        if(filter === module.threeSeatSupportArr[i]){
+        if(filter === threeSeatSupportArr[i]){
             elements[i].style.display = "";
         } else {
             elements[i].style.display = "none";
@@ -62,7 +61,7 @@ pointFilter = () => {
     let elements = document.querySelectorAll('.lh-content');
 
     for (let i=0; i<companies.length; i++){
-        if(module.pointsArr[i] >= point) {
+        if(pointsArr[i] >= point) {
             elements[i].style.display = ""
         } else {
             elements[i].style.display = "none";
@@ -95,7 +94,7 @@ departureFilter = () => {
     let elements = document.querySelectorAll('.lh-content');
     
     for (let i=0; i<companies.length; i++) {
-        let txtValue = module.placesArr[i].toString();
+        let txtValue = placesArr[i].toString();
         if (txtValue.toUpperCase().indexOf(filter) > -1){
             elements[i].style.display = "";
         } else {
@@ -112,7 +111,7 @@ destinationFilter = () => {
     let elements = document.querySelectorAll('.lh-content');
     
     for (let i=0; i<companies.length; i++) {
-        let txtValue = module.placesArr[i].toString();
+        let txtValue = placesArr[i].toString();
         if (txtValue.toUpperCase().indexOf(filter) > -1){
             elements[i].style.display = "";
         } else {
@@ -121,6 +120,3 @@ destinationFilter = () => {
     }
 }
 
-
-
-})

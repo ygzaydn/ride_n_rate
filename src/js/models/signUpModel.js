@@ -3,14 +3,6 @@ const axios = require('axios').default
 const signUpScreen = document.querySelectorAll('.form-control');
 const signupScreenArr = Array.from(signUpScreen);
 
-axios.get('localhost:9999/ping')
-.then(resp => {
-    console.log(resp)
-})
-.catch(err => {
-    console.log(err)
-})
-
 async function loginRequest (email, password) {
     const config = {
         method : 'post',
