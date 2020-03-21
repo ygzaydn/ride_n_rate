@@ -11,8 +11,10 @@ async function pingRequest () {
         method : 'get',
         url : 'http://127.0.0.1:9999/ping'
     }
-    let res = await axios(config)
-    console.log(res.data);
+    let res = await axios(config);
+    let data = JSON.parse(JSON.stringify(res));
+    
+    console.log(data.data);
 }
 pingRequest();
 
@@ -21,8 +23,31 @@ pingRequest();
     console.log(res)
 }) */
 
-import {indexScreen, indexScreenArr, searchVariables} from '../models/indexModel.js'
-import search_parameter from '../models/indexModel'
+const indexScreen = document.querySelectorAll('.form-control');
+const indexScreenArr = Array.from(indexScreen); 
+
+const searchVariables = {
+    departure : indexScreenArr[0],
+    destination : indexScreenArr[1],
+    day : indexScreenArr[2].selectedIndex+1,
+    month : indexScreenArr[3].selectedIndex+1
+} 
+class search_parameters {
+    
+    constructor( departure, destination, day, month){
+        this.departure = departure;
+        this.destination = destination;
+        this.day = day;
+        this.month = month;
+    }
+
+    summarize = () => {
+        console.log(`Departure = ${this.departure}
+        Destination = ${this.destination}
+        Day = ${this.day}
+        Month = ${this.month}`)
+    }
+}
 
 document.getElementById("search_button").addEventListener("click",() => {
 
