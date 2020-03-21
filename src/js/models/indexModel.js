@@ -18,7 +18,7 @@ export class search_parameters {
         this.month = month;
     }
 
-    summarize = () => {
+    summarize() {
         console.log(`Departure = ${this.departure}
         Destination = ${this.destination}
         Day = ${this.day}

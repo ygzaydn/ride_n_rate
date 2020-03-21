@@ -23,7 +23,7 @@ pingRequest();
     console.log(res)
 }) */
 
-const indexScreen = document.querySelectorAll('.form-control');
+/* const indexScreen = document.querySelectorAll('.form-control');
 const indexScreenArr = Array.from(indexScreen); 
 
 const searchVariables = {
@@ -47,7 +47,10 @@ class search_parameters {
         Day = ${this.day}
         Month = ${this.month}`)
     }
-}
+} */
+
+import {indexScreen, indexScreenArr, searchVariables, search_parameters} from '../models/indexModel';
+
 
 document.getElementById("search_button").addEventListener("click",() => {
 
