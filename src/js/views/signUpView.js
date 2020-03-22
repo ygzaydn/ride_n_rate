@@ -1,6 +1,8 @@
-const axios = require('axios').default
+const axios = require('axios').default;
+axios.defaults.withCredentials = true;
 
 import {signUpScreen, signupScreenArr, signUpVariables, signInVariables, new_User, registered_User, loginRequest, signInRequest} from '../models/signUpModel'
+import {userCredientals} from '../models/aboutModel';
 
 
 document.getElementById("SignUp").addEventListener("click", ()=>{
@@ -20,12 +22,12 @@ document.getElementById("SignUp").addEventListener("click", ()=>{
     signInRequest(newUser.username, newUser.email, newUser.password);
     newUser.summarize();
 
-    document.cookie = `signUpUsername=${newUser.username}`;
+/*     document.cookie = `signUpUsername=${newUser.username}`;
     document.cookie = `signUpPassword = ${newUser.password};`
     document.cookie = `signUpRepassword = ${newUser.repassword};`
-    document.cookie = `signUpEmail = ${newUser.email};`
+    document.cookie = `signUpEmail = ${newUser.email};` */
     }
-    console.log(`Cookie ${document.cookie} is sent!`);
+  /*   console.log(`Cookie ${document.cookie} is sent!`); */
 })
 
 document.getElementById("SignIn").addEventListener("click", ()=>{
@@ -35,7 +37,8 @@ document.getElementById("SignIn").addEventListener("click", ()=>{
     registeredUser.summarize();
     if (registeredUser.email !== "" && registeredUser.password !== ""){
         if(registeredUser.email.indexOf("@") > 0){
-            loginRequest(registeredUser.email, registeredUser.password);
+            loginRequest(registeredUser.email, registeredUser.password)
+            .then(userCredientals());
             registeredUser.summarize();
     //window.open(`logged_index.html`);
     } else {

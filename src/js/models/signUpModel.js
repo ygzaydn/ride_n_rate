@@ -1,4 +1,5 @@
-const axios = require('axios').default
+const axios = require('axios').default;
+axios.defaults.withCredentials = true;
 
 const signUpScreen = document.querySelectorAll('.form-control');
 const signupScreenArr = Array.from(signUpScreen);
@@ -8,21 +9,19 @@ async function loginRequest (email, password) {
         method : 'post',
         url : 'http://127.0.0.1:9999/api/auth/login',
         data: {
-            "user": {
-                "email": email,
-                "password": password
+            user: {
+                email: email,
+                password: password
             }
           }
     }
-    
     try {
         let res = await axios(config);
         console.log(res);
-        console.log(res.data.user);
-        console.log(res.status);
+        /* console.log(res.data.user);
+        console.log(res.status); */
     } catch (e) {
         console.log(e);
-        console.log(e.status);
     }
 
 }
