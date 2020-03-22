@@ -1,4 +1,4 @@
-import {companiesScreen, companiesScreenArr, searchVariables, pointsArr, petValuesArr, threeSeatSupportArr, placesArr, search_variables} from '../models/companiesModel'
+import {searchVariables, pointsArr, petValuesArr, threeSeatSupportArr, placesArr, search_variables} from '../models/companiesModel'
 
 
 document.getElementById("list_button").addEventListener("click", () => {
@@ -54,7 +54,7 @@ document.getElementById("reset_button").addEventListener("click", () =>{
     document.getElementById('3seat_bus').checked = false;
 })
 
-const pointFilter = () => {
+window.pointFilter = function() {
 
     let point = document.getElementById('star_slide').value;
     let companies = document.querySelectorAll('.company_names');
@@ -122,7 +122,19 @@ function destinationFilter() {
 
 document.getElementById("company_name_text").addEventListener('keyup', companyNameFilter);
 document.getElementById("arrival_place_text").addEventListener('keyup', destinationFilter);
-document.getElementById("star_slide").addEventListener('click', pointFilter);
+/* document.getElementById("star_slide_main").addEventListener('keyup', () => {
+    let point = document.getElementById('star_slide').value;
+    let companies = document.querySelectorAll('.company_names');
+    let elements = document.querySelectorAll('.lh-content');
+
+    for (let i=0; i<companies.length; i++){
+        if(pointsArr[i] >= point) {
+            elements[i].style.display = ""
+        } else {
+            elements[i].style.display = "none";
+        }
+    }
+}); */
 document.getElementById("departure_place_text").addEventListener('keyup', departureFilter);
 
 
