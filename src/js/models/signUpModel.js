@@ -26,6 +26,22 @@ async function loginRequest (email, password) {
 
 }
 
+async function userCredientals() {
+    const config = {
+        method : 'get',
+        url : 'http://127.0.0.1:9999/api/users/profile'
+    }
+    try {
+    let res = await axios(config);
+    console.log(res.status);
+    if(res.status === 200){
+        window.open(`index.html`);
+    }
+    } catch(error) {
+        console.log(error);
+    }
+}
+
 async function signInRequest (username, email, password) {
     const config = {
         method : 'post',
@@ -55,7 +71,7 @@ const signInVariables = {
     password : signupScreenArr[5],
 }
 
-export {signInVariables, signUpScreen, signupScreenArr, signUpVariables, loginRequest, signInRequest}
+export {signInVariables, signUpScreen, signupScreenArr, signUpVariables, loginRequest, signInRequest, userCredientals}
 
 export class new_User {
     constructor (username, email, password, repassword){

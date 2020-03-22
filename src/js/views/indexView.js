@@ -1,32 +1,10 @@
-const axios = require('axios').default
+const axios = require('axios').default;
+axios.defaults.withCredentials = true;
 
-/* async function ping (query) {
-    const res = await axios(`http://127.0.0.1:9999/${query}`);
-    console.log(res);
-}
-ping(ping); */
+import {indexScreen, indexScreenArr, searchVariables, search_parameters} from '../models/indexModel';
+import {registeredSectionPage} from '../register'
 
-async function pingRequest () {
-    const config = {
-        method : 'get',
-        url : 'http://127.0.0.1:9999/ping'
-    }
-    let res = await axios(config);
-    let data = JSON.parse(JSON.stringify(res));
-    
-    console.log(data.data);
-}
-pingRequest();
-
-/* fetch('http://127.0.0.1:9999/ping')
-.then((res)=> {
-    console.log(res)
-}) */
-
-
-import {indexScreen, indexScreenArr, searchVariables, search_parameters, registeredSectionPage} from '../models/indexModel';
-
-registeredSectionPage(true);
+registeredSectionPage();
 
 document.getElementById("search_button").addEventListener("click",() => {
 

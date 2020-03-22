@@ -1,3 +1,6 @@
+const axios = require('axios').default;
+axios.defaults.withCredentials = true;
+
 const indexScreen = document.querySelectorAll('.form-control');
 const indexScreenArr = Array.from(indexScreen); 
 
@@ -8,17 +11,19 @@ const searchVariables = {
     month : indexScreenArr[3].selectedIndex+1
 } 
 
-const registeredSectionPage = (x) => {
-    if(x) {
-    const registerSection = document.getElementById('register-section');
-    registerSection.innerHTML = '';
-    const registerButton = document.querySelector('.site-menu').children[3].children[0];
-    registerButton.href = "about.html"
-    registerButton.textContent = "Bilgilerim";
+
+async function pingRequest () {
+    const config = {
+        method : 'get',
+        url : 'http://127.0.0.1:9999/ping'
     }
+    let res = await axios(config);
+    let data = JSON.parse(JSON.stringify(res));
+    
+    console.log(data.data);
 }
 
-export {indexScreen, indexScreenArr, searchVariables, registeredSectionPage}
+export {indexScreen, indexScreenArr, searchVariables}
 export class search_parameters {
     
     constructor( departure, destination, day, month){

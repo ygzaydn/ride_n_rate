@@ -1,6 +1,8 @@
-import {userCredientals} from '../models/aboutModel'
+import {countNumber} from '../models/aboutModel';
 
-userCredientals();
+
+countNumber();
+
 const logOutButton = document.getElementById("SignOut");
 logOutButton.addEventListener("click",() => {
 

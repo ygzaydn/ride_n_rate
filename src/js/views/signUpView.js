@@ -1,8 +1,7 @@
 const axios = require('axios').default;
 axios.defaults.withCredentials = true;
 
-import {signUpScreen, signupScreenArr, signUpVariables, signInVariables, new_User, registered_User, loginRequest, signInRequest} from '../models/signUpModel'
-import {userCredientals} from '../models/aboutModel';
+import {signUpScreen, signupScreenArr, signUpVariables, signInVariables, new_User, registered_User, loginRequest, signInRequest, userCredientals} from '../models/signUpModel'
 
 
 document.getElementById("SignUp").addEventListener("click", ()=>{
@@ -40,7 +39,6 @@ document.getElementById("SignIn").addEventListener("click", ()=>{
             loginRequest(registeredUser.email, registeredUser.password)
             .then(userCredientals());
             registeredUser.summarize();
-    //window.open(`logged_index.html`);
     } else {
         alert(`Epostanızı kontrol edin.`)
     }
