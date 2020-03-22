@@ -14,8 +14,17 @@ async function loginRequest (email, password) {
             }
           }
     }
-    let res = await axios(config);
-    console.log(res);
+    
+    try {
+        let res = await axios(config);
+        console.log(res);
+        console.log(res.data.user);
+        console.log(res.status);
+    } catch (e) {
+        console.log(e);
+        console.log(e.status);
+    }
+
 }
 
 async function signInRequest (username, email, password) {
