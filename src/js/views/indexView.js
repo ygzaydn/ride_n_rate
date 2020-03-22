@@ -24,8 +24,9 @@ pingRequest();
 }) */
 
 
-import {indexScreen, indexScreenArr, searchVariables, search_parameters} from '../models/indexModel';
+import {indexScreen, indexScreenArr, searchVariables, search_parameters, registeredSectionPage} from '../models/indexModel';
 
+registeredSectionPage(true);
 
 document.getElementById("search_button").addEventListener("click",() => {
 

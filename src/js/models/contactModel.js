@@ -10,16 +10,9 @@ const contactVariables = {
     message : contactScreenArr[3],
 }
 
-const userCredientals = async () => {
-    const config = {
-        method : 'get',
-        url : 'http://127.0.0.1:9999/api/users/profile'
-    }
-    let res = await axios(config);
-    console.log(res.data);
-}
 
-export {contactScreen, contactScreenArr, contactVariables, userCredientals}
+
+export {contactScreen, contactScreenArr, contactVariables}
 export class contact_variables {
 
     constructor(username, email, topic, message) {

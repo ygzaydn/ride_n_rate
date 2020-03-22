@@ -8,7 +8,17 @@ const searchVariables = {
     month : indexScreenArr[3].selectedIndex+1
 } 
 
-export {indexScreen, indexScreenArr, searchVariables}
+const registeredSectionPage = (x) => {
+    if(x) {
+    const registerSection = document.getElementById('register-section');
+    registerSection.innerHTML = '';
+    const registerButton = document.querySelector('.site-menu').children[3].children[0];
+    registerButton.href = "about.html"
+    registerButton.textContent = "Bilgilerim";
+    }
+}
+
+export {indexScreen, indexScreenArr, searchVariables, registeredSectionPage}
 export class search_parameters {
     
     constructor( departure, destination, day, month){
