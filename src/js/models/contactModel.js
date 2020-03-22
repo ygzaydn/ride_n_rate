@@ -19,7 +19,7 @@ const userCredientals = async () => {
     console.log(res.data);
 }
 
-export {contactScreen, contactScreenArr, contactVariables}
+export {contactScreen, contactScreenArr, contactVariables, userCredientals}
 export class contact_variables {
 
     constructor(username, email, topic, message) {

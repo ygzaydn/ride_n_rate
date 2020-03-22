@@ -2,8 +2,7 @@
 node_modules/
 
 #files
-indexBundle.js
-signUpBundle.js
+bundle/
 
 #package-lock
 package-lock.json
