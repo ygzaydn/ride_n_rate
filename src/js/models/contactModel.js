@@ -1,3 +1,5 @@
+const axios = require('axios').default
+
 const contactScreen = document.querySelectorAll(".form-control");
 const contactScreenArr = Array.from(contactScreen);
 
@@ -6,6 +8,15 @@ const contactVariables = {
     email : contactScreenArr[1],
     topic : contactScreenArr[2],
     message : contactScreenArr[3],
+}
+
+const userCredientals = async () => {
+    const config = {
+        method : 'get',
+        url : 'http://127.0.0.1:9999/api/users/profile'
+    }
+    let res = await axios(config);
+    console.log(res.data);
 }
 
 export {contactScreen, contactScreenArr, contactVariables}
