@@ -19,6 +19,7 @@ document.getElementById("SignUp").addEventListener("click", ()=>{
     else {
     
     signInRequest(newUser.username, newUser.email, newUser.password);
+    alert('Lütfen mailinizi kontrol edin.');
     newUser.summarize();
 
 /*     document.cookie = `signUpUsername=${newUser.username}`;

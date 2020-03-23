@@ -24,19 +24,34 @@ async function userInfo() {
         url: 'http://127.0.0.1:9999/api/users/profile'
     }
     try {
-    let res = await axios(config);
-    let username = res.data.data.userName;
-    let email = res.data.data.email;
-    let date = res.data.data.createdAt;
-    date = date.split("T");
+        let res = await axios(config);
+        let username = res.data.data.userName;
+        let email = res.data.data.email;
+        let date = res.data.data.createdAt;
+        date = date.split("T");
 
-    DOM.children[0].innerHTML= `Kullanıcı adı: ${username}`;
-    DOM.children[1].innerHTML= `Email: ${email}`;
-    DOM.children[3].innerHTML= `Kayıt tarihi: ${date[0]} - ${date[1]}`;
+        DOM.children[0].innerHTML= `Kullanıcı adı: ${username}`;
+        DOM.children[1].innerHTML= `Email: ${email}`;
+        DOM.children[3].innerHTML= `Kayıt tarihi: ${date[0]} - ${date[1]}`;
 
     } catch(err) {
         console.log(err);
     }
 }
 
-export {countNumber, userInfo};
+async function logOut() {
+    const config = {
+        method : 'get',
+        url : 'http://127.0.0.1:9999/api/auth/logout'
+    }
+    try {
+        let res = await axios(config);
+        if (res.status === 200){
+            window.open('index.html')
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export {countNumber, userInfo, logOut};

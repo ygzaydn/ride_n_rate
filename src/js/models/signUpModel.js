@@ -56,6 +56,7 @@ async function signInRequest (username, email, password) {
     }
     let res = await axios(config);
     console.log(res);
+    window.open('signup.html?#');
 }
 
 const signUpVariables = {
