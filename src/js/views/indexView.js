@@ -1,9 +1,7 @@
-const axios = require('axios').default;
-axios.defaults.withCredentials = true;
-
-import {indexScreen, indexScreenArr, searchVariables, search_parameters} from '../models/indexModel';
+import {searchVariables, search_parameters, pingRequest} from '../models/indexModel';
 import {registeredSectionPage} from '../register'
 
+pingRequest();
 registeredSectionPage();
 
 document.getElementById("search_button").addEventListener("click",() => {

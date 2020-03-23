@@ -1,5 +1,4 @@
-
-import {contactScreen, contactScreenArr, contactVariables, contact_variables, } from '../models/contactModel'
+import {contactVariables, contact_variables} from '../models/contactModel'
 
 import {registeredSectionPage} from '../register'
 

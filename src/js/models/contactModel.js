@@ -1,5 +1,3 @@
-const axios = require('axios').default
-
 const contactScreen = document.querySelectorAll(".form-control");
 const contactScreenArr = Array.from(contactScreen);
 

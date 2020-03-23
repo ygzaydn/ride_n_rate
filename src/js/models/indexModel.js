@@ -1,5 +1,6 @@
 const axios = require('axios').default;
 axios.defaults.withCredentials = true;
+import {url} from '../register';
 
 const indexScreen = document.querySelectorAll('.form-control');
 const indexScreenArr = Array.from(indexScreen); 
@@ -11,11 +12,10 @@ const searchVariables = {
     month : indexScreenArr[3].selectedIndex+1
 } 
 
-
-async function pingRequest () {
+async function pingRequest() {
     const config = {
         method : 'get',
-        url : 'http://127.0.0.1:9999/ping'
+        url : `${url}/ping`
     }
     let res = await axios(config);
     let data = JSON.parse(JSON.stringify(res));
@@ -23,7 +23,7 @@ async function pingRequest () {
     console.log(data.data);
 }
 
-export {indexScreen, indexScreenArr, searchVariables}
+export {indexScreen, indexScreenArr, searchVariables, pingRequest}
 export class search_parameters {
     
     constructor( departure, destination, day, month){

@@ -1,5 +1,6 @@
 const axios = require('axios').default;
 axios.defaults.withCredentials = true;
+import {url} from '../register';
 
 const signUpScreen = document.querySelectorAll('.form-control');
 const signupScreenArr = Array.from(signUpScreen);
@@ -7,7 +8,7 @@ const signupScreenArr = Array.from(signUpScreen);
 async function loginRequest (email, password) {
     const config = {
         method : 'post',
-        url : 'http://127.0.0.1:9999/api/auth/login',
+        url : `${url}/api/auth/login`,
         data: {
             user: {
                 email: email,
@@ -17,7 +18,7 @@ async function loginRequest (email, password) {
     }
     try {
         let res = await axios(config);
-        console.log(res);
+        //console.log(res);
         /* console.log(res.data.user);
         console.log(res.status); */
     } catch (e) {
@@ -29,7 +30,7 @@ async function loginRequest (email, password) {
 async function userCredientals() {
     const config = {
         method : 'get',
-        url : 'http://127.0.0.1:9999/api/users/profile'
+        url : `${url}/api/users/profile`
     }
     try {
     let res = await axios(config);
@@ -45,7 +46,7 @@ async function userCredientals() {
 async function signInRequest (username, email, password) {
     const config = {
         method : 'post',
-        url : 'http://127.0.0.1:9999/api/auth/signup',
+        url : `${url}/api/auth/signup`,
         data: {
             "user": {
                 "userName": username,
@@ -56,7 +57,6 @@ async function signInRequest (username, email, password) {
     }
     let res = await axios(config);
     console.log(res);
-    window.open('signup.html?#');
 }
 
 const signUpVariables = {

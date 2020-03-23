@@ -1,10 +1,12 @@
 const axios = require('axios').default;
 axios.defaults.withCredentials = true;
 
+const url = 'https://guardianbe.herokuapp.com';
+
 async function registeredSectionPage() {
     const config = {
         method : 'get',
-        url : 'http://127.0.0.1:9999/api/auth/session'
+        url : `${url}/api/auth/session`
     }
     try {
         let res = await axios(config);
@@ -20,4 +22,4 @@ async function registeredSectionPage() {
     }
 }
 
-export {registeredSectionPage};
+export {registeredSectionPage, url};

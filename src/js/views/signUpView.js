@@ -1,6 +1,3 @@
-const axios = require('axios').default;
-axios.defaults.withCredentials = true;
-
 import {signUpScreen, signupScreenArr, signUpVariables, signInVariables, new_User, registered_User, loginRequest, signInRequest, userCredientals} from '../models/signUpModel'
 
 
@@ -19,7 +16,7 @@ document.getElementById("SignUp").addEventListener("click", ()=>{
     else {
     
     signInRequest(newUser.username, newUser.email, newUser.password);
-    alert('Lütfen mailinizi kontrol edin.');
+    //alert('Mailinize bir aktivasyon linki gönderdik. Hesabınızı aktif etmek için lütfen mailinize girin.');
     newUser.summarize();
 
 /*     document.cookie = `signUpUsername=${newUser.username}`;
@@ -39,7 +36,6 @@ document.getElementById("SignIn").addEventListener("click", ()=>{
         if(registeredUser.email.indexOf("@") > 0){
             loginRequest(registeredUser.email, registeredUser.password)
             .then(userCredientals());
-            registeredUser.summarize();
     } else {
         alert(`Epostanızı kontrol edin.`)
     }

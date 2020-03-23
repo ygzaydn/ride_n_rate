@@ -1,12 +1,13 @@
 const axios = require('axios').default;
 axios.defaults.withCredentials = true;
+import {url} from '../register';
 
 const DOM = document.getElementById('checklist');
 
 async function countNumber() {
     const config = {
         method : 'get',
-        url : 'http://127.0.0.1:9999/api/stats/review/count'
+        url : `${url}/api/stats/review/count`
     }
     try {
         let res = await axios(config);
@@ -21,7 +22,7 @@ async function countNumber() {
 async function userInfo() {
     const config = {
         method : 'get',
-        url: 'http://127.0.0.1:9999/api/users/profile'
+        url: `${url}/api/users/profile`
     }
     try {
         let res = await axios(config);
@@ -42,7 +43,7 @@ async function userInfo() {
 async function logOut() {
     const config = {
         method : 'get',
-        url : 'http://127.0.0.1:9999/api/auth/logout'
+        url : `${url}/api/auth/logout`
     }
     try {
         let res = await axios(config);
