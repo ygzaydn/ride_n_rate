@@ -1,6 +1,10 @@
 
 import {companyComment, companyCommentArr, submit, commentList, commentInput, new_comment} from '../models/companyCommentModel'
 
+import {registeredSectionPage} from '../register'
+
+registeredSectionPage();
+
 getTime = () => {
   let date = new Date();
 

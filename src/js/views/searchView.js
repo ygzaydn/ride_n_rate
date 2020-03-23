@@ -1,5 +1,9 @@
 import {threeSeatSupportArr, petValuesArr, pointsArr, searchVariables, companiesScreenArr, companiesScreen, search_variables} from '../models/searchModel'
 
+import {registeredSectionPage} from '../register'
+
+registeredSectionPage();
+
 pointFilter = () => {
 
     let point = document.getElementById('star_slide').value;
