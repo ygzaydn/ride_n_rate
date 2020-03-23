@@ -5,6 +5,11 @@ import {url} from '../register';
 const signUpScreen = document.querySelectorAll('.form-control');
 const signupScreenArr = Array.from(signUpScreen);
 
+window.popUpFunction = function () {
+    let popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+}
+
 async function loginRequest (email, password) {
     const config = {
         method : 'post',
@@ -56,7 +61,10 @@ async function signInRequest (username, email, password) {
           }
     }
     let res = await axios(config);
-    console.log(res);
+    if(res.status === 201){
+        popUpFunction();
+        console.log(res);
+    }
 }
 
 const signUpVariables = {

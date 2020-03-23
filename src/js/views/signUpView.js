@@ -16,15 +16,8 @@ document.getElementById("SignUp").addEventListener("click", ()=>{
     else {
     
     signInRequest(newUser.username, newUser.email, newUser.password);
-    //alert('Mailinize bir aktivasyon linki gönderdik. Hesabınızı aktif etmek için lütfen mailinize girin.');
     newUser.summarize();
-
-/*     document.cookie = `signUpUsername=${newUser.username}`;
-    document.cookie = `signUpPassword = ${newUser.password};`
-    document.cookie = `signUpRepassword = ${newUser.repassword};`
-    document.cookie = `signUpEmail = ${newUser.email};` */
     }
-  /*   console.log(`Cookie ${document.cookie} is sent!`); */
 })
 
 document.getElementById("SignIn").addEventListener("click", ()=>{
