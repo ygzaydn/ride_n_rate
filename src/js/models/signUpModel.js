@@ -41,7 +41,7 @@ async function userCredientals() {
     let res = await axios(config);
     console.log(res.status);
     if(res.status === 200){
-        window.open(`index.html`);
+        window.open(`index.html`,'_self');
     }
     } catch(error) {
         console.log(error);

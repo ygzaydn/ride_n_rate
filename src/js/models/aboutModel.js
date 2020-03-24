@@ -48,7 +48,7 @@ async function logOut() {
     try {
         let res = await axios(config);
         if (res.status === 200){
-            window.open('index.html')
+            window.open('index.html','self')
         }
     } catch (err) {
         console.log(err);
