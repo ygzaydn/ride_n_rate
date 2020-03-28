@@ -1,0 +1,42 @@
+{
+  "name": "ride_n_rate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "liveserver": "live-server --open=./src/pages/index.html",
+    "build": "browserify ./src/js/views/indexView.js -o indexBundle.js & browserify ./src/js/views/signUpView.js -o signUpBundle.js",
+    "gulp": "gulp signup && gulp index && gulp about && gulp searchResult && gulp search && gulp companyRating && gulp companyComment && gulp companies && gulp contact",
+    "watch": "watchify ./src/js/views/indexView.js -o bundle.js",
+    "start": "webpack-dev-server --mode development --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ygzaydn/ride_n_rate.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ygzaydn/ride_n_rate/issues"
+  },
+  "homepage": "https://github.com/ygzaydn/ride_n_rate#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.9.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.1.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babelify": "^8.0.0",
+    "browserify": "^16.5.0",
+    "live-server": "^1.2.1",
+    "nodemon": "^2.0.2",
+    "vinyl-source-stream": "^2.0.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "gulp": "^4.0.2",
+    "jquery": "^3.4.1"
+  }
+}
