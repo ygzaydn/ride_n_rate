@@ -7,7 +7,8 @@ const DOM = document.getElementById('checklist');
 async function countNumber() {
     const config = {
         method : 'get',
-        url : `${url}/api/stats/review/count`
+        url : `${url}/api/stats/review/count`,
+        headers: {'Authorization': `Token ${localStorage.getItem('token')}`}
     }
     try {
         let res = await axios(config);
@@ -22,7 +23,9 @@ async function countNumber() {
 async function userInfo() {
     const config = {
         method : 'get',
-        url: `${url}/api/users/profile`
+        url: `${url}/api/users/profile`,
+        headers: {'Authorization': `Token ${localStorage.getItem('token')}`}
+        
     }
     try {
         let res = await axios(config);
@@ -43,11 +46,16 @@ async function userInfo() {
 async function logOut() {
     const config = {
         method : 'get',
-        url : `${url}/api/auth/logout`
+        url : `${url}/api/auth/logout`,
+        headers: {'Authorization': `Token ${localStorage.getItem('token')}`},
+/*         data: {
+            jwt: localStorage.getItem('token')
+        } */ 
     }
     try {
         let res = await axios(config);
         if (res.status === 200){
+            localStorage.setItem('token',0);
             window.open('index.html','self')
         }
     } catch (err) {

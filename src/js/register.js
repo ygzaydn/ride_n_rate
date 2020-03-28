@@ -6,7 +6,8 @@ const url = 'https://guardianbe.herokuapp.com';
 async function registeredSectionPage() {
     const config = {
         method : 'get',
-        url : `${url}/api/auth/session`
+        url : `${url}/api/auth/session`,
+        headers: {'Authorization': `Token ${localStorage.getItem('token')}`}
     }
     try {
         let res = await axios(config);
