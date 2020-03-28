@@ -1,1 +1,0 @@
-# ride_n_rate
