@@ -1856,10 +1856,13 @@ exports.registeredSectionPage = registeredSectionPage;
 exports.url = url;
 
 },{"axios":1}],30:[function(require,module,exports){
-"use strict";
+'use strict';
 
-var _aboutModel = require("../models/aboutModel");
+var _aboutModel = require('../models/aboutModel');
 
+var _register = require('../register');
+
+(0, _register.registeredSectionPage)();
 (0, _aboutModel.countNumber)();
 (0, _aboutModel.userInfo)();
 
@@ -1869,4 +1872,4 @@ logOutButton.addEventListener("click", function () {
   (0, _aboutModel.logOut)();
 });
 
-},{"../models/aboutModel":28}]},{},[30]);
+},{"../models/aboutModel":28,"../register":29}]},{},[30]);

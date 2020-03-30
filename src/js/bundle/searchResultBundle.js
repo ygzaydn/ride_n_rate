@@ -1761,9 +1761,14 @@ async function registeredSectionPage() {
         if (res.status === 200) {
             var registerSection = document.getElementById('register-section');
             registerSection.innerHTML = '';
-            var registerButton = document.querySelector('.site-menu').children[3].children[0];
+
+            var registerButtonNew = document.querySelector('.site-menu').children[2].children[0];
+            registerButtonNew.href = "about.html";
+            registerButtonNew.innerText = "Bilgilerim";
+
+            var registerButton = document.querySelector('.signupelement');
             registerButton.href = "about.html";
-            registerButton.innerHTML = "<span>Bilgilerim</span>";
+            registerButton.innerText = "Bilgilerim";
         }
     } catch (err) {
         console.log(err);

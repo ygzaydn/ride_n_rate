@@ -1838,9 +1838,14 @@ async function registeredSectionPage() {
         if (res.status === 200) {
             var registerSection = document.getElementById('register-section');
             registerSection.innerHTML = '';
-            var registerButton = document.querySelector('.site-menu').children[3].children[0];
+
+            var registerButtonNew = document.querySelector('.site-menu').children[2].children[0];
+            registerButtonNew.href = "about.html";
+            registerButtonNew.innerText = "Bilgilerim";
+
+            var registerButton = document.querySelector('.signupelement');
             registerButton.href = "about.html";
-            registerButton.innerHTML = "<span>Bilgilerim</span>";
+            registerButton.innerText = "Bilgilerim";
         }
     } catch (err) {
         console.log(err);
@@ -1851,10 +1856,13 @@ exports.registeredSectionPage = registeredSectionPage;
 exports.url = url;
 
 },{"axios":1}],30:[function(require,module,exports){
-"use strict";
+'use strict';
 
-var _aboutModel = require("../models/aboutModel");
+var _aboutModel = require('../models/aboutModel');
 
+var _register = require('../register');
+
+(0, _register.registeredSectionPage)();
 (0, _aboutModel.countNumber)();
 (0, _aboutModel.userInfo)();
 
@@ -1864,4 +1872,4 @@ logOutButton.addEventListener("click", function () {
   (0, _aboutModel.logOut)();
 });
 
-},{"../models/aboutModel":28}]},{},[30]);
+},{"../models/aboutModel":28,"../register":29}]},{},[30]);
