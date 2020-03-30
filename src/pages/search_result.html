@@ -50,27 +50,10 @@
           <div class="col-12 col-md-10 d-none d-xl-block">
             <nav class="site-navigation position-relative text-right" role="navigation">
 
-              <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
-                <li><a href="index.html"><span>Anasayfa</span></a></li>
-                <li class="has-children">
-                  <a href="index.html"><span>Dropdown</span></a>
-                  <ul class="dropdown arrow-top">
-                    <li><a href="#">Menu One</a></li>
-                    <li><a href="#">Menu Two</a></li>
-                    <li><a href="#">Menu Three</a></li>
-                    <li class="has-children">
-                      <a href="#">Dropdown</a>
-                      <ul class="dropdown">
-                        <li><a href="#">Menu One</a></li>
-                        <li><a href="#">Menu Two</a></li>
-                        <li><a href="#">Menu Three</a></li>
-                        <li><a href="#">Menu Four</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
+              <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block liste">
+                <li class="active"><a href="index.html"><span>Anasayfa</span></a></li>
                 <li><a href="companies.html"><span>Firmalar</span></a></li>
-                <li><a href="signup.html"><span>Giriş yap / Kayıt ol</span></a></li>
+                <li><a class = "signupelement" href="signup.html#" ><span>Giriş yap / Kayıt ol</span></a></li>
                 <li><a href="contact.html"><span>Bize Ulaşın</span></a></li>
               </ul>
             </nav>
@@ -661,8 +644,7 @@
   
   <script src="../js/template/main.js"></script>
 
-  <script type="module" src="../js/models/searchResultModel.js"></script>
-  <script src="../js/views/searchResultView.js"></script>
+  <script src="../../bundle/searchResultBundle.js"></script>
   
   </body>
 </html>

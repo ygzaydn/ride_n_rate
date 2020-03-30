@@ -14,9 +14,14 @@ async function registeredSectionPage() {
         if(res.status === 200) {
             const registerSection = document.getElementById('register-section');
             registerSection.innerHTML = '';
-            const registerButton = document.querySelector('.site-menu').children[3].children[0];
+        
+            const registerButtonNew = document.querySelector('.site-menu').children[2].children[0];
+            registerButtonNew.href = "about.html"
+            registerButtonNew.innerText = "Bilgilerim";
+
+            const registerButton = document.querySelector('.signupelement');
             registerButton.href = "about.html"
-            registerButton.innerHTML = "<span>Bilgilerim</span>";
+            registerButton.innerText = "Bilgilerim";
         }
     } catch (err) {
         console.log(err);
@@ -24,3 +29,4 @@ async function registeredSectionPage() {
 }
 
 export {registeredSectionPage, url};
+
