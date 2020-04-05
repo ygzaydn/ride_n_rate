@@ -4,13 +4,38 @@ const companiesScreen = document.querySelectorAll('.form-group');
 const companiesScreenArr = Array.from(companiesScreen);
 import {url} from '../register';
 
+const companyListDOM = document.querySelector('.company-names');
+
 async function companySearch () {
     const config = {
         method : 'post',
         url : `${url}/api/companies/all` 
     }
     let result = await axios(config);
-    console.log(result);
+    let resultData = result.data;
+    resultData.forEach( el => {
+    let title = el.title;
+    let parsedTitle = title.substring(7);
+    companyListDOM.insertAdjacentHTML('afterbegin',`
+    <div class="d-block d-md-flex listing-horizontal">
+    <a href="#" class="img d-block" style="background-image: url('../images/companies/${parsedTitle}.png')">
+    </a>
+    <div class="lh-content">
+      <h3><a class="company_names" href="#">${parsedTitle}</a></h3>
+      <p>
+        <span class="icon-star text-warning"></span>
+        <span class="icon-star text-warning"></span>
+        <span class="icon-star text-warning"></span>
+        <span class="icon-star text-half"></span>
+        <span class="icon-star text-secondary"></span>
+        <span>(46 Değerlendirme)</span>
+      </p>
+      <span>(42 Yorum)</span>
+    </div>
+    </div>
+    `);
+    
+    })
 
 }
 
