@@ -1783,7 +1783,7 @@ var companyName = window.location.href.split('?')[1];
 
 function companyPageEdit() {
     console.log('Company name is = ' + companyName);
-    mainLogoDOM.nodeValue = 'background-image: url("../images/companies/' + companyName + '.png"); background-size: contain; background-position: 50% -25px;'; //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
+    mainLogoDOM.nodeValue = 'background-image: url("src/images/companies/' + companyName + '.png"); background-size: contain; background-position: 50% -25px;'; //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
     mainCompanyNameDOM.data = '' + companyName;
     lowerMenuCompanyNameDOM.data = companyName + ' \u015Eubeleri';
     lowerMenuDestinationsDOM.innerText = '\u015Eube isimleri';
@@ -1883,7 +1883,7 @@ console.log((0, _companyCommentModel.getTime)());
 
 var companyPageEditx = function companyPageEditx() {
   console.log(_companyCommentModel.companyName);
-  mainLogoDOM = 'background-image: url("../images/companies/' + _companyCommentModel.companyName + '.png"); background-size: contain; background-position: 50% -25px;'; //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
+  mainLogoDOM = 'background-image: url("src/images/companies/' + _companyCommentModel.companyName + '.png"); background-size: contain; background-position: 50% -25px;'; //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
   mainCompanyNameDOM = '' + _companyCommentModel.companyName;
   lowerMenuCompanyNameDOM = _companyCommentModel.companyName + ' \u015Eubeleri';
   lowerMenuDestinationsDOM = '\u015Eube isimleri';
