@@ -1757,11 +1757,57 @@ var submit = document.getElementById('post_comment');
 var commentList = document.querySelector('.comment-list');
 var commentInput = document.getElementById('message');
 
+var mainLogoDOM = document.querySelector('.inner-page-cover').attributes.style; //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
+
+var mainCompanyNameDOM = document.querySelector('.company-name').children[0].firstChild; // Kamilkoç
+
+var lowerMenuCompanyNameDOM = document.querySelector('.offices').children[0].firstChild; // Kamilkoç Turizm Şubeleri
+
+var lowerMenuTextTitle = document.querySelector('.ek-baslik').childNodes[3]; // "Ek başlık"
+
+var lowerMenuTextInfoFirst = document.querySelector('.ek-baslik').children[2]; // "Firma bilgileri -3"
+var lowerMenuTextInfoSecond = document.querySelector('.ek-baslik').children[3]; // "Firma bilgileri -4"
+var lowerMenuTextInfoThird = document.querySelector('.ek-baslik').children[4]; // "Firma bilgileri -4"
+
+
+var lowerMenuDestinationsDOM = document.querySelector('.offices').children[2]; /* 
+                                                                               "İstanbul İzmir Ankara Antalya Samsun İzmit
+                                                                               İstanbul İzmir Ankara Antalya Samsun İzmit
+                                                                               İstanbul İzmir Ankara Antalya Samsun İzmit
+                                                                               İstanbul İzmir Ankara Antalya Samsun İzmit
+                                                                               İstanbul İzmir Ankara Antalya Samsun İzmit
+                                                                               İstanbul İzmir Ankara Antalya Samsun İzmit
+                                                                               İstanbul İzmir Ankara Antalya Samsun İzmit" */
+
+var companyName = window.location.href.split('?')[1];
+
+function companyPageEdit() {
+    console.log('Company name is = ' + companyName);
+    mainLogoDOM.nodeValue = 'background-image: url("../images/companies/' + companyName + '.png"); background-size: contain; background-position: 50% -25px;'; //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
+    mainCompanyNameDOM.data = '' + companyName;
+    lowerMenuCompanyNameDOM.data = companyName + ' \u015Eubeleri';
+    lowerMenuDestinationsDOM.innerText = '\u015Eube isimleri';
+    lowerMenuTextTitle.innerHTML = 'Ba\u015Fl\u0131k No-1';
+    lowerMenuTextInfoFirst.innerHTML = 'Firma Bilgileri -3';
+    lowerMenuTextInfoSecond.innerHTML = 'Firma Bilgileri -4';
+    lowerMenuTextInfoThird.innerHTML = 'Firma Bilgileri -5';
+}
+
+var getTime = function getTime() {
+    var date = new Date();
+    var fullDate = date.getHours() + ':' + date.getMinutes() + ' - ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+
+    return fullDate;
+};
+
 exports.companyComment = companyComment;
 exports.companyCommentArr = companyCommentArr;
 exports.submit = submit;
 exports.commentList = commentList;
 exports.commentInput = commentInput;
+exports.getTime = getTime;
+exports.companyPageEdit = companyPageEdit;
+exports.companyName = companyName;
 
 var new_comment = exports.new_comment = function () {
     function new_comment(name, email, message, avatar) {
@@ -1830,16 +1876,23 @@ var _companyCommentModel = require('../models/companyCommentModel');
 var _register = require('../register');
 
 (0, _register.registeredSectionPage)();
+(0, _companyCommentModel.getTime)();
+(0, _companyCommentModel.companyPageEdit)();
 
-getTime = function getTime() {
-  var date = new Date();
+console.log((0, _companyCommentModel.getTime)());
 
-  return fullDate = date.getHours() + ':' + date.getMinutes() + ' - ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+var companyPageEditx = function companyPageEditx() {
+  console.log(_companyCommentModel.companyName);
+  mainLogoDOM = 'background-image: url("../images/companies/' + _companyCommentModel.companyName + '.png"); background-size: contain; background-position: 50% -25px;'; //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
+  mainCompanyNameDOM = '' + _companyCommentModel.companyName;
+  lowerMenuCompanyNameDOM = _companyCommentModel.companyName + ' \u015Eubeleri';
+  lowerMenuDestinationsDOM = '\u015Eube isimleri';
 };
+companyPageEditx();
 
-template = function template(data) {
+var template = function template(data) {
 
-  _companyCommentModel.commentList.insertAdjacentHTML("afterbegin", '\n  <li class="comment">\n    <div class="vcard bio">\n      <img src="' + data.avatar + '" alt="Image placeholder">\n    </div>\n    <div class="comment-body">\n      <h3>' + data.name + '</h3>\n      <div class="meta">' + getTime() + '</div>\n      <p>' + data.message + '</p>\n    </div>\n  </li>\n');
+  _companyCommentModel.commentList.insertAdjacentHTML("afterbegin", '\n  <li class="comment">\n    <div class="vcard bio">\n      <img src="' + data.avatar + '" alt="Image placeholder">\n    </div>\n    <div class="comment-body">\n      <h3>' + data.name + '</h3>\n      <div class="meta">' + (0, _companyCommentModel.getTime)() + '</div>\n      <p>' + data.message + '</p>\n    </div>\n  </li>\n');
 };
 
 document.getElementById("post_comment").addEventListener("click", function (event) {

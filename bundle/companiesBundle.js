@@ -1740,18 +1740,42 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],28:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.search_variables = exports.companySearch = exports.placesArr = exports.threeSeatSupportArr = exports.petValuesArr = exports.pointsArr = exports.searchVariables = exports.companiesScreenArr = exports.companiesScreen = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _register = require('../register');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var axios = require('axios').default;
+axios.defaults.withCredentials = true;
 var companiesScreen = document.querySelectorAll('.form-group');
 var companiesScreenArr = Array.from(companiesScreen);
+
+
+var companyListDOM = document.querySelector('.company-names');
+
+async function companySearch() {
+    var config = {
+        method: 'post',
+        url: _register.url + '/api/companies/all'
+    };
+    var result = await axios(config);
+    var resultData = result.data;
+    resultData.forEach(function (el) {
+        var title = el.title;
+        var parsedTitle = title.substring(7);
+        var parsedTitleNoSpace = parsedTitle.replace(/\s+/g, '').toLowerCase();
+        console.log(parsedTitleNoSpace);
+        companyListDOM.insertAdjacentHTML('afterbegin', '\n    <div class="d-block d-md-flex listing-horizontal">\n    <a href="#" class="img d-block" style="background-image: url(\'../images/companies/' + parsedTitleNoSpace + '.png\')">\n    </a>\n    <div class="lh-content">\n      <h3><a class="company_names" href="companydetail.html?' + parsedTitleNoSpace + '">' + parsedTitle + '</a></h3>\n      <p>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-half"></span>\n        <span class="icon-star text-secondary"></span>\n        <span>(46 De\u011Ferlendirme)</span>\n      </p>\n      <span>(42 Yorum)</span>\n    </div>\n    </div>\n    ');
+    });
+}
 
 var searchVariables = {
     companyName: companiesScreenArr[0].getElementsByClassName("form-control")[0], //value
@@ -1812,6 +1836,7 @@ exports.pointsArr = pointsArr;
 exports.petValuesArr = petValuesArr;
 exports.threeSeatSupportArr = threeSeatSupportArr;
 exports.placesArr = placesArr;
+exports.companySearch = companySearch;
 
 var search_variables = exports.search_variables = function () {
     function search_variables(companyName, departure, destination, minimumPoint, pet, threeSeat) {
@@ -1826,16 +1851,16 @@ var search_variables = exports.search_variables = function () {
     }
 
     _createClass(search_variables, [{
-        key: "summarize",
+        key: 'summarize',
         value: function summarize() {
-            console.log("Company Name = " + this.companyName + "\n        Departure = " + this.departure + "\n        Destination = " + this.destination + "\n        Minimum Point = " + this.minimumPoint + "\n        Pet = " + this.pet + "\n        Three Seat Bus = " + this.threeSeat);
+            console.log('Company Name = ' + this.companyName + '\n        Departure = ' + this.departure + '\n        Destination = ' + this.destination + '\n        Minimum Point = ' + this.minimumPoint + '\n        Pet = ' + this.pet + '\n        Three Seat Bus = ' + this.threeSeat);
         }
     }]);
 
     return search_variables;
 }();
 
-},{}],29:[function(require,module,exports){
+},{"../register":29,"axios":1}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1882,6 +1907,7 @@ var _companiesModel = require('../models/companiesModel');
 var _register = require('../register');
 
 (0, _register.registeredSectionPage)();
+(0, _companiesModel.companySearch)();
 
 document.getElementById("list_button").addEventListener("click", function () {
 
