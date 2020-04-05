@@ -1,7 +1,7 @@
 const companyRatingDOM = document.querySelectorAll('.rate');
 const companyRatingDOMArr = Array.from(companyRatingDOM);
 
-export {companyRatingDOM, companyRatingDOMArr};
+export {companyRatingDOMArr};
 export class company_rating {
     constructor (category1, category2, category3, category4, category5, category6, category7) {
         this.category1 = category1;

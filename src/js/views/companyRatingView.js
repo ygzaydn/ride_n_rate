@@ -1,6 +1,6 @@
 import {companyRatingDOMArr, company_rating} from '../models/companyRatingModel';
 
-getRating = (indEl, el, ...ind) => {
+function getRating (indEl, el, ...ind) {
     let rating = 0;
     let arr = eval(ind[indEl]);
     
