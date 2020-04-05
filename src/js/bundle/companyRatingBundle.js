@@ -12,7 +12,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var companyRatingDOM = document.querySelectorAll('.rate');
 var companyRatingDOMArr = Array.from(companyRatingDOM);
 
-exports.companyRatingDOM = companyRatingDOM;
 exports.companyRatingDOMArr = companyRatingDOMArr;
 
 var company_rating = exports.company_rating = function () {
@@ -38,27 +37,18 @@ var company_rating = exports.company_rating = function () {
     return company_rating;
 }();
 
-/* fetch("http://127.0.0.1:9999/ping")
-.then ((res) => {
-    console.log(res);
-    return res.json();
-})
-.then((data)=> {
-    console.log(data);
-})
-.catch (err => console.log(err)) */
-
 },{}],2:[function(require,module,exports){
 "use strict";
 
 var _companyRatingModel = require("../models/companyRatingModel");
 
-getRating = function getRating(indEl, el) {
+function getRating(indEl, el) {
+    var rating = 0;
+
     for (var _len = arguments.length, ind = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
         ind[_key - 2] = arguments[_key];
     }
 
-    var rating = 0;
     var arr = eval(ind[indEl]);
 
     if (eval("arr.getElementsByClassName('5star').rate" + el + ".checked") === true) {
