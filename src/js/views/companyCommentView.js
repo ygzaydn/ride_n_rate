@@ -7,7 +7,7 @@ registeredSectionPage();
 getTime();
 companyPageEdit();
 
-console.log('asd');
+console.log(getTime());
 
 template = (data) => {
 
