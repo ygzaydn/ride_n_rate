@@ -1,8 +1,9 @@
-import {searchVariables, pointsArr, petValuesArr, threeSeatSupportArr, placesArr, search_variables} from '../models/companiesModel'
+import {searchVariables, pointsArr, petValuesArr, threeSeatSupportArr, placesArr, search_variables, companySearch} from '../models/companiesModel'
 
 import {registeredSectionPage} from '../register'
 
 registeredSectionPage();
+companySearch();
 
 
 document.getElementById("list_button").addEventListener("click", () => {

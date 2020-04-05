@@ -1,5 +1,18 @@
+const axios = require('axios').default;
+axios.defaults.withCredentials = true;
 const companiesScreen = document.querySelectorAll('.form-group');
 const companiesScreenArr = Array.from(companiesScreen);
+import {url} from '../register';
+
+async function companySearch () {
+    const config = {
+        method : 'post',
+        url : `${url}/api/companies/all` 
+    }
+    let result = await axios(config);
+    console.log(result);
+
+}
 
 let searchVariables = {
     companyName : companiesScreenArr[0].getElementsByClassName("form-control")[0], //value
@@ -53,7 +66,7 @@ const places = {
  
 const placesArr = Array.from(Object.values(places));
 
-export {companiesScreen, companiesScreenArr, searchVariables, pointsArr, petValuesArr, threeSeatSupportArr, placesArr};
+export {companiesScreen, companiesScreenArr, searchVariables, pointsArr, petValuesArr, threeSeatSupportArr, placesArr, companySearch};
 export class search_variables {
 
     constructor (companyName, departure, destination, minimumPoint, pet, threeSeat) {
