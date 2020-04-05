@@ -1791,6 +1791,7 @@ function companyPageEdit() {
     lowerMenuTextInfoFirst.innerHTML = 'Firma Bilgileri -3';
     lowerMenuTextInfoSecond.innerHTML = 'Firma Bilgileri -4';
     lowerMenuTextInfoThird.innerHTML = 'Firma Bilgileri -5';
+    document.title = `${companyName} - Ride'n'Rate`
 }
 
 var getTime = function getTime() {
