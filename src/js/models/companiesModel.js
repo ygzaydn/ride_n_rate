@@ -17,9 +17,10 @@ async function companySearch () {
     let title = el.title;
     let parsedTitle = title.substring(7);
     let parsedTitleNoSpace = parsedTitle.replace(/\s+/g, '').toLowerCase();
+    console.log(parsedTitleNoSpace);
     companyListDOM.insertAdjacentHTML('afterbegin',`
     <div class="d-block d-md-flex listing-horizontal">
-    <a href="#" class="img d-block" style="background-image: url('../images/companies/${parsedTitle}.png')">
+    <a href="#" class="img d-block" style="background-image: url('../images/companies/${parsedTitleNoSpace}.png')">
     </a>
     <div class="lh-content">
       <h3><a class="company_names" href="companydetail.html#${parsedTitleNoSpace}">${parsedTitle}</a></h3>

@@ -24,13 +24,3 @@ export class company_rating {
     }
 
 }
-
-/* fetch("http://127.0.0.1:9999/ping")
-.then ((res) => {
-    console.log(res);
-    return res.json();
-})
-.then((data)=> {
-    console.log(data);
-})
-.catch (err => console.log(err)) */

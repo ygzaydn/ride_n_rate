@@ -1,20 +1,17 @@
 
-import {companyComment, companyCommentArr, submit, commentList, commentInput, new_comment} from '../models/companyCommentModel'
+import {getTime, companyCommentArr, commentList, companyPageEdit, new_comment} from '../models/companyCommentModel'
 
 import {registeredSectionPage} from '../register'
 
 registeredSectionPage();
+getTime();
+companyPageEdit();
 
-getTime = () => {
-  let date = new Date();
-
-  return fullDate = `${date.getHours()}:${date.getMinutes()} - ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`
-  
-}
+console.log('asd');
 
 template = (data) => {
 
-  commentList.insertAdjacentHTML("afterbegin",`
+commentList.insertAdjacentHTML("afterbegin",`
   <li class="comment">
     <div class="vcard bio">
       <img src="${data.avatar}" alt="Image placeholder">
