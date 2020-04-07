@@ -23,13 +23,14 @@ travelFilter();
 window.urlParser = () => {
 
     const departure = location.href.split('?')[1].split('%22')[1];
-
     const destination = location.href.split('?')[1].split('%22')[3];
+    const hour = location.href.split('?')[1].split('%22')[5];
+    const minute = location.href.split('?')[1].split('%22')[7];
 
 
     document.getElementById('results_urlparser').textContent = `
     Kalkış yeri : ${departure},\
-    İniş yeri: ${destination}\ olan aramanın sonuçları aşağıda listelenmiştir.
+    İniş yeri: ${destination}\ Saat : ${hour}:${minute} bilgilerine sahip seferler aşağıda listelenmiştir..
     `
 }
 

@@ -11,7 +11,7 @@ async function travelFilter () {
                 query: {
                     fromHour: 13,
                     fromCity: "Ankara",
-                    toCity: "Mersin",
+                    toCity: `${location.href.split('?')[1].split('%22')[3]}` //location.href.split('?')[1].split('%22')[3]
                 },
                 pagination:{pageNumber:1}
             }

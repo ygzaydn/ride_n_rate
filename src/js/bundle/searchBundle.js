@@ -1766,7 +1766,7 @@ async function travelFilter() {
                 query: {
                     fromHour: 13,
                     fromCity: "Ankara",
-                    toCity: "Mersin"
+                    toCity: '' + location.href.split('?')[1].split('%22')[3] //location.href.split('?')[1].split('%22')[3]
                 },
                 pagination: { pageNumber: 1 }
             }
@@ -1911,10 +1911,11 @@ var _register = require('../register');
 window.urlParser = function () {
 
     var departure = location.href.split('?')[1].split('%22')[1];
-
     var destination = location.href.split('?')[1].split('%22')[3];
+    var hour = location.href.split('?')[1].split('%22')[5];
+    var minute = location.href.split('?')[1].split('%22')[7];
 
-    document.getElementById('results_urlparser').textContent = '\n    Kalk\u0131\u015F yeri : ' + departure + ',    \u0130ni\u015F yeri: ' + destination + ' olan araman\u0131n sonu\xE7lar\u0131 a\u015Fa\u011F\u0131da listelenmi\u015Ftir.\n    ';
+    document.getElementById('results_urlparser').textContent = '\n    Kalk\u0131\u015F yeri : ' + departure + ',    \u0130ni\u015F yeri: ' + destination + ' Saat : ' + hour + ':' + minute + ' bilgilerine sahip seferler a\u015Fa\u011F\u0131da listelenmi\u015Ftir..\n    ';
 };
 
 /* document.getElementById("pet_checkbox").addEventListener("click", () => {
