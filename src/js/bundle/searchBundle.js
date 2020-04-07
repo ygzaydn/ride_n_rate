@@ -1764,11 +1764,11 @@ async function travelFilter() {
         data: {
             filters: {
                 query: {
-                    fromHour: parseInt(13, 10),
+                    fromHour: 13,
                     fromCity: "Ankara",
                     toCity: "Mersin"
                 },
-                pagination: { pageNumber: parseInt(1, 10) }
+                pagination: { pageNumber: 1 }
             }
         }
     };
@@ -1902,17 +1902,13 @@ var _register = require('../register');
     }
 }
  */
-/* urlParser = () => {
+window.urlParser = function () {
 
-    const url = window.location.href.split("=")[1];
-    const departure = url.split(";")[0].split(":")[1];
-    const destination = url.split(";")[1].split(":")[1];
+    var departure = location.href.split('?')[1].split('_')[1].split(':')[1];
+    var destination = location.href.split('?')[1].split('_')[2].split(':')[1];
 
-    document.getElementById('results_urlparser').textContent = `
-    Kalkış yeri : ${departure},\
-    İniş yeri: ${destination}\ olan aramanın sonuçları aşağıda listelenmiştir.
-    `
-} */
+    document.getElementById('results_urlparser').textContent = '\n    Kalk\u0131\u015F yeri : ' + departure + ',    \u0130ni\u015F yeri: ' + destination + ' olan araman\u0131n sonu\xE7lar\u0131 a\u015Fa\u011F\u0131da listelenmi\u015Ftir.\n    ';
+};
 
 /* document.getElementById("pet_checkbox").addEventListener("click", () => {
 

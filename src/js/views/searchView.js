@@ -20,17 +20,16 @@ travelFilter();
     }
 }
  */
-/* urlParser = () => {
+window.urlParser = () => {
 
-    const url = window.location.href.split("=")[1];
-    const departure = url.split(";")[0].split(":")[1];
-    const destination = url.split(";")[1].split(":")[1];
+    const departure = location.href.split('?')[1].split('_')[1].split(':')[1];
+    const destination = location.href.split('?')[1].split('_')[2].split(':')[1];
 
     document.getElementById('results_urlparser').textContent = `
     Kalkış yeri : ${departure},\
     İniş yeri: ${destination}\ olan aramanın sonuçları aşağıda listelenmiştir.
     `
-} */
+}
 
 /* document.getElementById("pet_checkbox").addEventListener("click", () => {
 
