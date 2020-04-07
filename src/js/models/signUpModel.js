@@ -2,6 +2,7 @@ const axios = require('axios').default;
 axios.defaults.withCredentials = true;
 import {url} from '../register';
 
+
 const signUpScreen = document.querySelectorAll('.form-control');
 const signupScreenArr = Array.from(signUpScreen);
 
@@ -23,7 +24,8 @@ async function loginRequest (email, password) {
     }
     try {
         let res = await axios(config);
-        //console.log(res);
+        console.log(res.data.jwt);
+        localStorage.setItem('token',res.data.jwt);
         /* console.log(res.data.user);
         console.log(res.status); */
     } catch (e) {
@@ -35,13 +37,14 @@ async function loginRequest (email, password) {
 async function userCredientals() {
     const config = {
         method : 'get',
-        url : `${url}/api/users/profile`
+        url : `${url}/api/users/profile`,
+        headers: {'Authorization': `Token ${localStorage.getItem('token')}`}
     }
     try {
     let res = await axios(config);
     console.log(res.status);
     if(res.status === 200){
-        window.open(`index.html`);
+        window.open(`index.html`,'_self');
     }
     } catch(error) {
         console.log(error);

@@ -4,6 +4,7 @@ import {registeredSectionPage} from '../register'
 pingRequest();
 registeredSectionPage();
 
+
 document.getElementById("search_button").addEventListener("click",() => {
 
     const searchParameters = new search_parameters(searchVariables.departure.value, searchVariables.destination.value, searchVariables.day, searchVariables.month);

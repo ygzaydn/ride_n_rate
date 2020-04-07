@@ -28,7 +28,7 @@ document.getElementById("SignIn").addEventListener("click", ()=>{
     if (registeredUser.email !== "" && registeredUser.password !== ""){
         if(registeredUser.email.indexOf("@") > 0){
             loginRequest(registeredUser.email, registeredUser.password)
-            .then(userCredientals());
+            .then( setTimeout(() => {userCredientals()}, 3000));
     } else {
         alert(`Epostanızı kontrol edin.`)
     }
