@@ -19,7 +19,34 @@ async function travelFilter () {
     }
     try {
     let res = await axios(config);
-    console.log(res);
+    let resArr = res.data;
+    
+    resArr.forEach(el => {
+        let companyNameWithoutSpace = el.title.split('-')[0].replace(/\s+/g, '').toLowerCase();
+        const DOM = document.querySelector('.companies');
+        DOM.insertAdjacentHTML('beforeend', `
+        <div class="d-block d-md-flex listing-horizontal">
+        <a href="#" class="img d-block" style="background-image: url('src/images/companies/${companyNameWithoutSpace}.png'); object-fit: cover;">
+        </a>
+        <div class="lh-content">
+  
+    <h3><a class="company_names" href="search_result.html"${el.title.split('-')[0]}</a></h3>
+    <!--  <p>
+    <span class="icon-star text-warning"></span>
+    <span class="icon-star text-warning"></span>
+    <span class="icon-star text-warning"></span>
+    <span class="icon-star text-warning"></span>
+    <span class="icon-star text-secondary"></span>
+    <span>(492 Değerlendirme)</span>
+    </p> -->
+    <h3>${el.fromCity} - ${el.toCity}<br></h3>
+    <span>(4 Yorum) - (123213 Değerlendirme)<br></span>
+  
+  <span>Kalkış: ${el.fromHour}:${el.fromMinute}</span>
+    </div>
+    </div>`)
+    })
+
     } catch(err) {console.log(err);
     }
 }

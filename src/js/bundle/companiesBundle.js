@@ -1769,7 +1769,7 @@ async function companySearch() {
     var points = [];
     var result = await axios(config);
     var resultData = result.data;
-    //console.log(resultData);
+    console.log(resultData);
 
     resultData.forEach(function (el) {
         var title = el.title;

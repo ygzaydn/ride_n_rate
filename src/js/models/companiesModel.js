@@ -15,7 +15,7 @@ async function companySearch () {
     const points = [];
     let result = await axios(config);
     let resultData = result.data;
-    //console.log(resultData);
+    console.log(resultData);
 
     resultData.forEach( el => {
     let title = el.title;
