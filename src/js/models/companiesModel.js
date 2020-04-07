@@ -1,9 +1,10 @@
 const axios = require('axios').default;
 axios.defaults.withCredentials = true;
-const companiesScreen = document.querySelectorAll('.form-group');
-const companiesScreenArr = Array.from(companiesScreen);
 import {url} from '../register';
 
+
+const companiesScreen = document.querySelectorAll('.form-group');
+const companiesScreenArr = Array.from(companiesScreen);
 const companyListDOM = document.querySelector('.company-names');
 
 async function companySearch () {
@@ -11,38 +12,47 @@ async function companySearch () {
         method : 'post',
         url : `${url}/api/companies/all`,
     }
+    const points = [];
     let result = await axios(config);
     let resultData = result.data;
-    console.log(resultData);
+    //console.log(resultData);
 
     resultData.forEach( el => {
     let title = el.title;
     let parsedTitle = title.substring(7);
     let parsedTitleNoSpace = parsedTitle.replace(/\s+/g, '').toLowerCase();
-    let id = el._id;
+    points.push(el.calculatedAverageRating);
     
     companyListDOM.insertAdjacentHTML('afterbegin',`
     <div class="d-block d-md-flex listing-horizontal">
     <a href="#" class="img d-block" style="background-image: url('src/images/companies/${parsedTitleNoSpace}.png')">
     </a>
     <div class="lh-content">
-      <h3><a class="company_names" href="companydetail.html?${id}">${parsedTitle}</a></h3>
+      <h3><a class="company_names" href="companydetail.html?${el.uuid}">${parsedTitle}</a></h3>
       <p>
         <span class="icon-star text-warning"></span>
         <span class="icon-star text-warning"></span>
         <span class="icon-star text-warning"></span>
         <span class="icon-star text-half"></span>
         <span class="icon-star text-secondary"></span>
-        <span>(46 Değerlendirme)</span>
+        <span>(${el.reviewCount} Değerlendirme)</span>
       </p>
-      <span>(42 Yorum)</span>
+      <span>(${el.reviewCount} Yorum)</span>
     </div>
     </div>
     `);
     
     });
-
+    return points;
+    
 }
+
+async function componentDidMount () {
+    let points = await companySearch();
+    console.log(points);
+  }
+componentDidMount();
+
 
 let searchVariables = {
     companyName : companiesScreenArr[0].getElementsByClassName("form-control")[0], //value

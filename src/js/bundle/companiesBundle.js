@@ -1755,10 +1755,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var axios = require('axios').default;
 axios.defaults.withCredentials = true;
+
+
 var companiesScreen = document.querySelectorAll('.form-group');
 var companiesScreenArr = Array.from(companiesScreen);
-
-
 var companyListDOM = document.querySelector('.company-names');
 
 async function companySearch() {
@@ -1766,19 +1766,27 @@ async function companySearch() {
         method: 'post',
         url: _register.url + '/api/companies/all'
     };
+    var points = [];
     var result = await axios(config);
     var resultData = result.data;
-    console.log(resultData);
+    //console.log(resultData);
 
     resultData.forEach(function (el) {
         var title = el.title;
         var parsedTitle = title.substring(7);
         var parsedTitleNoSpace = parsedTitle.replace(/\s+/g, '').toLowerCase();
-        var id = el._id;
+        points.push(el.calculatedAverageRating);
 
-        companyListDOM.insertAdjacentHTML('afterbegin', '\n    <div class="d-block d-md-flex listing-horizontal">\n    <a href="#" class="img d-block" style="background-image: url(\'src/images/companies/' + parsedTitleNoSpace + '.png\')">\n    </a>\n    <div class="lh-content">\n      <h3><a class="company_names" href="companydetail.html?' + id + '">' + parsedTitle + '</a></h3>\n      <p>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-half"></span>\n        <span class="icon-star text-secondary"></span>\n        <span>(46 De\u011Ferlendirme)</span>\n      </p>\n      <span>(42 Yorum)</span>\n    </div>\n    </div>\n    ');
+        companyListDOM.insertAdjacentHTML('afterbegin', '\n    <div class="d-block d-md-flex listing-horizontal">\n    <a href="#" class="img d-block" style="background-image: url(\'src/images/companies/' + parsedTitleNoSpace + '.png\')">\n    </a>\n    <div class="lh-content">\n      <h3><a class="company_names" href="companydetail.html?' + el.uuid + '">' + parsedTitle + '</a></h3>\n      <p>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-half"></span>\n        <span class="icon-star text-secondary"></span>\n        <span>(' + el.reviewCount + ' De\u011Ferlendirme)</span>\n      </p>\n      <span>(' + el.reviewCount + ' Yorum)</span>\n    </div>\n    </div>\n    ');
     });
+    return points;
 }
+
+async function componentDidMount() {
+    var points = await companySearch();
+    console.log(points);
+}
+componentDidMount();
 
 var searchVariables = {
     companyName: companiesScreenArr[0].getElementsByClassName("form-control")[0], //value

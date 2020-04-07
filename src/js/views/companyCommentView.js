@@ -5,17 +5,6 @@ registeredSectionPage();
 getTime();
 companySearchDetailed();
 
-console.log(getTime());
-
-/* const companyPageEditx = () => {
-  console.log(companyName);
-  mainLogoDOM = `background-image: url("../images/companies/${companyName}.png"); background-size: contain; background-position: 50% -25px;` //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
-  mainCompanyNameDOM = `${companyName}`;
-  lowerMenuCompanyNameDOM = `${companyName} Şubeleri`
-  lowerMenuDestinationsDOM = `Şube isimleri`
-}
-companyPageEditx(); */
-
 const template = (data) => {
 
 commentList.insertAdjacentHTML("afterbegin",`

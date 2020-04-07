@@ -34,39 +34,26 @@ const lowerMenuDestinationsDOM = document.querySelector('.offices').children[2];
 
 async function companySearchDetailed () {
     const config = {
-        method : 'post',
-        url : `${url}/api/companies/all`,
+        method : 'get',
+        url : `${url}/api/companies/${companyID}`,
     }
     let result = await axios(config);
     let resultData = result.data;
+    let title = resultData.title;
+    let parsedTitle = title.substring(7);
+    let parsedTitleNoSpace = parsedTitle.replace(/\s+/g, '').toLowerCase();
     console.log(resultData);
-    resultData.forEach ( el => {
-        if (el._id === companyID){
-            mainLogoDOM.nodeValue = `background-image: url("../images/companies/${el.name}.png"); background-size: contain; background-position: 50% -25px;` //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
-            mainCompanyNameDOM.data = `${el.name}`;
-            lowerMenuCompanyNameDOM.data = `${el.name} Şubeleri`
-            lowerMenuDestinationsDOM.innerText = `Şube isimleri`
-            lowerMenuTextTitle.innerHTML = `Başlık No-1`
-            lowerMenuTextInfoFirst.innerHTML = `Firma Bilgileri -3`
-            lowerMenuTextInfoSecond.innerHTML = `Firma Bilgileri -4`
-            lowerMenuTextInfoThird.innerHTML = `Firma Bilgileri -5`
-        }
-    })
-}
-
-
-/*function companyPageEdit() {
-    console.log(`Company name is = ${companyName}`);
-    mainLogoDOM.nodeValue = `background-image: url("../images/companies/${companyName}.png"); background-size: contain; background-position: 50% -25px;` //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
-    mainCompanyNameDOM.data = `${companyName}`;
-    lowerMenuCompanyNameDOM.data = `${companyName} Şubeleri`
+    mainLogoDOM.nodeValue = `background-image: url("src/images/companies/${parsedTitleNoSpace}.png"); background-size: contain; background-position: 50% -25px;` //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
+    mainCompanyNameDOM.data = `${result.data.name}`;
+    lowerMenuCompanyNameDOM.data = `${result.data.name} Şubeleri`
     lowerMenuDestinationsDOM.innerText = `Şube isimleri`
     lowerMenuTextTitle.innerHTML = `Başlık No-1`
     lowerMenuTextInfoFirst.innerHTML = `Firma Bilgileri -3`
     lowerMenuTextInfoSecond.innerHTML = `Firma Bilgileri -4`
     lowerMenuTextInfoThird.innerHTML = `Firma Bilgileri -5`
+        
+}
 
-}*/
 
 const getTime = () => {
     let date = new Date();
