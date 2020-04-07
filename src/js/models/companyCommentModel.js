@@ -1,9 +1,14 @@
+const axios = require('axios').default;
+axios.defaults.withCredentials = true;
+import {url} from '../register';
 const companyComment = document.querySelectorAll('.form-control');
 const companyCommentArr = Array.from(companyComment);
 
 const submit = document.getElementById('post_comment');
 const commentList = document.querySelector('.comment-list');
 const commentInput = document.getElementById('message');
+
+const companyID = window.location.href.split('?')[1];
 
 const mainLogoDOM = document.querySelector('.inner-page-cover').attributes.style; //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
 
@@ -27,9 +32,30 @@ const lowerMenuDestinationsDOM = document.querySelector('.offices').children[2];
 İstanbul İzmir Ankara Antalya Samsun İzmit
 İstanbul İzmir Ankara Antalya Samsun İzmit" */
 
-const companyName = window.location.href.split('?')[1];
+async function companySearchDetailed () {
+    const config = {
+        method : 'post',
+        url : `${url}/api/companies/all`,
+    }
+    let result = await axios(config);
+    let resultData = result.data;
+    console.log(resultData);
+    resultData.forEach ( el => {
+        if (el._id === companyID){
+            mainLogoDOM.nodeValue = `background-image: url("../images/companies/${el.name}.png"); background-size: contain; background-position: 50% -25px;` //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
+            mainCompanyNameDOM.data = `${el.name}`;
+            lowerMenuCompanyNameDOM.data = `${el.name} Şubeleri`
+            lowerMenuDestinationsDOM.innerText = `Şube isimleri`
+            lowerMenuTextTitle.innerHTML = `Başlık No-1`
+            lowerMenuTextInfoFirst.innerHTML = `Firma Bilgileri -3`
+            lowerMenuTextInfoSecond.innerHTML = `Firma Bilgileri -4`
+            lowerMenuTextInfoThird.innerHTML = `Firma Bilgileri -5`
+        }
+    })
+}
 
-function companyPageEdit() {
+
+/*function companyPageEdit() {
     console.log(`Company name is = ${companyName}`);
     mainLogoDOM.nodeValue = `background-image: url("../images/companies/${companyName}.png"); background-size: contain; background-position: 50% -25px;` //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
     mainCompanyNameDOM.data = `${companyName}`;
@@ -40,7 +66,7 @@ function companyPageEdit() {
     lowerMenuTextInfoSecond.innerHTML = `Firma Bilgileri -4`
     lowerMenuTextInfoThird.innerHTML = `Firma Bilgileri -5`
 
-}
+}*/
 
 const getTime = () => {
     let date = new Date();
@@ -50,7 +76,7 @@ const getTime = () => {
 }
 
 
-export {companyComment, companyCommentArr, submit, commentList, commentInput, getTime, companyPageEdit, companyName}
+export {companyComment, companyCommentArr, submit, commentList, commentInput, getTime, companySearchDetailed}
 
 export class new_comment {
 

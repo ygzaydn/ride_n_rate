@@ -9,21 +9,24 @@ const companyListDOM = document.querySelector('.company-names');
 async function companySearch () {
     const config = {
         method : 'post',
-        url : `${url}/api/companies/all` 
+        url : `${url}/api/companies/all`,
     }
     let result = await axios(config);
     let resultData = result.data;
+    console.log(resultData);
+
     resultData.forEach( el => {
     let title = el.title;
     let parsedTitle = title.substring(7);
     let parsedTitleNoSpace = parsedTitle.replace(/\s+/g, '').toLowerCase();
-    console.log(parsedTitleNoSpace);
+    let id = el._id;
+    
     companyListDOM.insertAdjacentHTML('afterbegin',`
     <div class="d-block d-md-flex listing-horizontal">
     <a href="#" class="img d-block" style="background-image: url('../images/companies/${parsedTitleNoSpace}.png')">
     </a>
     <div class="lh-content">
-      <h3><a class="company_names" href="companydetail.html?${parsedTitleNoSpace}">${parsedTitle}</a></h3>
+      <h3><a class="company_names" href="companydetail.html?${id}">${parsedTitle}</a></h3>
       <p>
         <span class="icon-star text-warning"></span>
         <span class="icon-star text-warning"></span>
@@ -37,7 +40,7 @@ async function companySearch () {
     </div>
     `);
     
-    })
+    });
 
 }
 

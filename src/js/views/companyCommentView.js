@@ -1,20 +1,20 @@
-import {getTime, companyCommentArr, commentList, companyPageEdit, new_comment, companyName} from '../models/companyCommentModel'
+import {getTime, companyCommentArr, commentList, companySearchDetailed, new_comment} from '../models/companyCommentModel'
 import {registeredSectionPage} from '../register'
 
 registeredSectionPage();
 getTime();
-companyPageEdit();
+companySearchDetailed();
 
 console.log(getTime());
 
-const companyPageEditx = () => {
+/* const companyPageEditx = () => {
   console.log(companyName);
   mainLogoDOM = `background-image: url("../images/companies/${companyName}.png"); background-size: contain; background-position: 50% -25px;` //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
   mainCompanyNameDOM = `${companyName}`;
   lowerMenuCompanyNameDOM = `${companyName} Şubeleri`
   lowerMenuDestinationsDOM = `Şube isimleri`
 }
-companyPageEditx();
+companyPageEditx(); */
 
 const template = (data) => {
 

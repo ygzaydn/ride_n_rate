@@ -1764,15 +1764,19 @@ var companyListDOM = document.querySelector('.company-names');
 async function companySearch() {
     var config = {
         method: 'post',
-        url: _register.url + '/api/companies/all'
+        url: _register.url + '/api/companies/all',
+        filters: {
+            query: { _id: '5e80e6fa74320026dac1fff3' }
+        }
     };
     var result = await axios(config);
     var resultData = result.data;
+
     resultData.forEach(function (el) {
         var title = el.title;
         var parsedTitle = title.substring(7);
         var parsedTitleNoSpace = parsedTitle.replace(/\s+/g, '').toLowerCase();
-        console.log(parsedTitleNoSpace);
+
         companyListDOM.insertAdjacentHTML('afterbegin', '\n    <div class="d-block d-md-flex listing-horizontal">\n    <a href="#" class="img d-block" style="background-image: url(\'../images/companies/' + parsedTitleNoSpace + '.png\')">\n    </a>\n    <div class="lh-content">\n      <h3><a class="company_names" href="companydetail.html?' + parsedTitleNoSpace + '">' + parsedTitle + '</a></h3>\n      <p>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-half"></span>\n        <span class="icon-star text-secondary"></span>\n        <span>(46 De\u011Ferlendirme)</span>\n      </p>\n      <span>(42 Yorum)</span>\n    </div>\n    </div>\n    ');
     });
 }
