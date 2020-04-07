@@ -1745,7 +1745,7 @@ process.umask = function() { return 0; };
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.search_variables = exports.companySearch = exports.placesArr = exports.threeSeatSupportArr = exports.petValuesArr = exports.pointsArr = exports.searchVariables = exports.companiesScreenArr = exports.companiesScreen = undefined;
+exports.search_variables = exports.companyPointFilter = exports.companySearch = exports.placesArr = exports.threeSeatSupportArr = exports.petValuesArr = exports.pointsArr = exports.searchVariables = exports.companiesScreenArr = exports.companiesScreen = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1782,11 +1782,22 @@ async function companySearch() {
     return points;
 }
 
-async function componentDidMount() {
-    var points = await companySearch();
-    console.log(points);
+async function companyPointFilter() {
+    var pointsArr = await companySearch();
+    console.log(pointsArr);
+
+    var point = document.getElementById('star_slide').value;
+    var companies = document.querySelectorAll('.company_names');
+    var elements = document.querySelectorAll('.lh-content');
+
+    for (var i = 0; i < companies.length; i++) {
+        if (pointsArr[i] >= point) {
+            elements[i].style.display = "";
+        } else {
+            elements[i].style.display = "none";
+        }
+    }
 }
-componentDidMount();
 
 var searchVariables = {
     companyName: companiesScreenArr[0].getElementsByClassName("form-control")[0], //value
@@ -1848,6 +1859,7 @@ exports.petValuesArr = petValuesArr;
 exports.threeSeatSupportArr = threeSeatSupportArr;
 exports.placesArr = placesArr;
 exports.companySearch = companySearch;
+exports.companyPointFilter = companyPointFilter;
 
 var search_variables = exports.search_variables = function () {
     function search_variables(companyName, departure, destination, minimumPoint, pet, threeSeat) {
@@ -1972,18 +1984,7 @@ document.getElementById("reset_button").addEventListener("click", function () {
 });
 
 window.pointFilter = function () {
-
-    var point = document.getElementById('star_slide').value;
-    var companies = document.querySelectorAll('.company_names');
-    var elements = document.querySelectorAll('.lh-content');
-
-    for (var i = 0; i < companies.length; i++) {
-        if (_companiesModel.pointsArr[i] >= point) {
-            elements[i].style.display = "";
-        } else {
-            elements[i].style.display = "none";
-        }
-    }
+    (0, _companiesModel.companyPointFilter)();
 };
 
 function companyNameFilter() {

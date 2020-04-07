@@ -47,12 +47,22 @@ async function companySearch () {
     
 }
 
-async function componentDidMount () {
-    let points = await companySearch();
-    console.log(points);
-  }
-componentDidMount();
+async function companyPointFilter () {
+    const pointsArr = await companySearch();
+    console.log(pointsArr);
+    
+    let point = document.getElementById('star_slide').value;
+    let companies = document.querySelectorAll('.company_names');
+    let elements = document.querySelectorAll('.lh-content');
 
+    for (let i=0; i<companies.length; i++){
+        if(pointsArr[i] >= point) {
+            elements[i].style.display = ""
+        } else {
+            elements[i].style.display = "none";
+        }
+    }
+}
 
 let searchVariables = {
     companyName : companiesScreenArr[0].getElementsByClassName("form-control")[0], //value
@@ -106,7 +116,7 @@ const places = {
  
 const placesArr = Array.from(Object.values(places));
 
-export {companiesScreen, companiesScreenArr, searchVariables, pointsArr, petValuesArr, threeSeatSupportArr, placesArr, companySearch};
+export {companiesScreen, companiesScreenArr, searchVariables, pointsArr, petValuesArr, threeSeatSupportArr, placesArr, companySearch, companyPointFilter};
 export class search_variables {
 
     constructor (companyName, departure, destination, minimumPoint, pet, threeSeat) {

@@ -1,4 +1,4 @@
-import {searchVariables, pointsArr, petValuesArr, threeSeatSupportArr, placesArr, search_variables, companySearch} from '../models/companiesModel'
+import {searchVariables, petValuesArr, threeSeatSupportArr, placesArr, search_variables, companySearch, companyPointFilter} from '../models/companiesModel'
 
 import {registeredSectionPage} from '../register'
 
@@ -60,18 +60,7 @@ document.getElementById("reset_button").addEventListener("click", () =>{
 })
 
 window.pointFilter = function() {
-
-    let point = document.getElementById('star_slide').value;
-    let companies = document.querySelectorAll('.company_names');
-    let elements = document.querySelectorAll('.lh-content');
-
-    for (let i=0; i<companies.length; i++){
-        if(pointsArr[i] >= point) {
-            elements[i].style.display = ""
-        } else {
-            elements[i].style.display = "none";
-        }
-    }
+    companyPointFilter();
 }
 
 function companyNameFilter() {
