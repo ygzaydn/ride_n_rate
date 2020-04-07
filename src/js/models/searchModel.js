@@ -11,8 +11,9 @@ async function travelFilter () {
                 query: {
                     fromHour: 13,
                     fromCity: "Ankara",
-                    toCity: "Mersin"
-                }
+                    toCity: "Mersin",
+                },
+                pagination:{pageNumber:1}
             }
         }
     }

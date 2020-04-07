@@ -1767,7 +1767,8 @@ async function travelFilter() {
                     fromHour: 13,
                     fromCity: "Ankara",
                     toCity: "Mersin"
-                }
+                },
+                pagination: { pageNumber: 1 }
             }
         }
     };
