@@ -1904,8 +1904,9 @@ var _register = require('../register');
  */
 window.urlParser = function () {
 
-    var departure = location.href.split('?')[1].split('_')[1].split(':')[1];
-    var destination = location.href.split('?')[1].split('_')[2].split(':')[1];
+    var departure = location.href.split('?')[1].split('%22')[1];
+
+    var destination = location.href.split('?')[1].split('%22')[3];
 
     document.getElementById('results_urlparser').textContent = '\n    Kalk\u0131\u015F yeri : ' + departure + ',    \u0130ni\u015F yeri: ' + destination + ' olan araman\u0131n sonu\xE7lar\u0131 a\u015Fa\u011F\u0131da listelenmi\u015Ftir.\n    ';
 };

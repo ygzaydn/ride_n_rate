@@ -22,8 +22,10 @@ travelFilter();
  */
 window.urlParser = () => {
 
-    const departure = location.href.split('?')[1].split('_')[1].split(':')[1];
-    const destination = location.href.split('?')[1].split('_')[2].split(':')[1];
+    const departure = location.href.split('?')[1].split('%22')[1];
+
+    const destination = location.href.split('?')[1].split('%22')[3];
+
 
     document.getElementById('results_urlparser').textContent = `
     Kalkış yeri : ${departure},\
