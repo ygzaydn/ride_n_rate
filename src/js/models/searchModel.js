@@ -2,6 +2,7 @@ const axios = require('axios').default;
 axios.defaults.withCredentials = true;
 import {url} from '../register';
 
+
 async function travelFilter () {
     const config = {
         method: 'post',
@@ -10,7 +11,7 @@ async function travelFilter () {
             filters : {
                 query: {
                     fromHour: 13,
-                    fromCity: "Ankara",
+                    fromCity: `${location.href.split('?')[1].split('%22')[1]}`,
                     toCity: `${location.href.split('?')[1].split('%22')[3]}` //location.href.split('?')[1].split('%22')[3]
                 },
                 pagination:{pageNumber:1}
@@ -22,15 +23,16 @@ async function travelFilter () {
     let resArr = res.data;
     
     resArr.forEach(el => {
+        console.log(el);
         let companyNameWithoutSpace = el.title.split('-')[0].replace(/\s+/g, '').toLowerCase();
         const DOM = document.querySelector('.companies');
         DOM.insertAdjacentHTML('beforeend', `
         <div class="d-block d-md-flex listing-horizontal">
-        <a href="#" class="img d-block" style="background-image: url('src/images/companies/${companyNameWithoutSpace}.png'); object-fit: cover;">
+        <a href="search_result.html?${el.uuid}" class="img d-block" style="background-image: url('src/images/companies/${companyNameWithoutSpace}.png'); object-fit: cover;">
         </a>
         <div class="lh-content">
   
-    <h3><a class="company_names" href="search_result.html"${el.title.split('-')[0]}</a></h3>
+    <h3><a class="company_names" href="search_result.html?${el.fromHour}_${el.fromCity}_${el.toCity}_${el.uuid}"${el.title.split('-')[0]}</a></h3>
     <!--  <p>
     <span class="icon-star text-warning"></span>
     <span class="icon-star text-warning"></span>

@@ -1745,6 +1745,44 @@ process.umask = function() { return 0; };
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.travelFilter = undefined;
+
+var _register = require('../register');
+
+var axios = require('axios').default;
+axios.defaults.withCredentials = true;
+
+
+async function travelFilter() {
+    var config = {
+        method: 'post',
+        url: _register.url + '/api/travelslots/all',
+        data: {
+            filters: {
+                query: {
+                    uuid: '' + location.href.split('?')[1].split('_')[3],
+                    fromCity: '' + location.href.split('?')[1].split('_')[1],
+                    toCity: '' + location.href.split('?')[1].split('_')[2],
+                    fromHour: '' + location.href.split('?')[1].split('_')[0]
+                },
+                pagination: { pageNumber: 1 }
+            }
+        }
+    };
+    var res = await axios(config);
+    var data = res.data[0];
+    console.log(res.data[0]);
+    document.querySelector('.evalution').innerHTML = '"Firma: ' + data.title.split('-')[0] + ' Kalk\u0131\u015F Yeri : ' + data.fromCity + ' - \u0130ni\u015F Yeri : ' + data.toCity + ' - Sefer Saati : ' + data.fromHour + ':' + data.fromMinute + ' olan sefer hakk\u0131nda detayl\u0131 bilgiyi a\u015Fa\u011F\u0131da bulabilirsin."';
+}
+
+exports.travelFilter = travelFilter;
+
+},{"../register":29,"axios":1}],29:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var axios = require('axios').default;
 axios.defaults.withCredentials = true;
 
@@ -1778,11 +1816,14 @@ async function registeredSectionPage() {
 exports.registeredSectionPage = registeredSectionPage;
 exports.url = url;
 
-},{"axios":1}],29:[function(require,module,exports){
+},{"axios":1}],30:[function(require,module,exports){
 'use strict';
 
 var _register = require('../register');
 
-(0, _register.registeredSectionPage)();
+var _searchResultModel = require('../models/searchResultModel');
 
-},{"../register":28}]},{},[29]);
+(0, _register.registeredSectionPage)();
+(0, _searchResultModel.travelFilter)();
+
+},{"../models/searchResultModel":28,"../register":29}]},{},[30]);
