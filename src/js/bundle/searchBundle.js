@@ -1764,11 +1764,11 @@ async function travelFilter() {
         data: {
             filters: {
                 query: {
-                    fromHour: 13,
+                    fromHour: parseInt(13, 10),
                     fromCity: "Ankara",
                     toCity: "Mersin"
                 },
-                pagination: { pageNumber: 1 }
+                pagination: { pageNumber: parseInt(1, 10) }
             }
         }
     };
