@@ -12,7 +12,7 @@ document.getElementById("search_button").addEventListener("click",() => {
     searchParameters.summarize();
 
     if (searchParameters.departure !== "" && searchParameters.destination !== ""){
-    window.open(`search.html?filters=departure:${searchParameters.departure};destination:${searchParameters.destination};day:${searchParameters.day};month:${searchParameters.month}`);
+    window.open(`search.html?filters=_fromCity:"${searchParameters.departure}"_toCity:"${searchParameters.destination}"_fromHour:${searchParameters.day}_fromMinute:${searchParameters.month}`);
     }
     else {
         alert(`Lütfen girdiğiniz bilgileri kontrol edin`);

@@ -1,3 +1,28 @@
+const axios = require('axios').default;
+axios.defaults.withCredentials = true;
+import {url} from '../register';
+
+async function travelFilter () {
+    const config = {
+        method: 'post',
+        url: `${url}/api/travelslots/all`,
+        data: {
+            filters : {
+                query: {
+                    fromHour: 13,
+                    fromCity: "Ankara",
+                    toCity: "Mersin"
+                }
+            }
+        }
+    }
+    try {
+    let res = await axios(config);
+    console.log(res);
+    } catch(err) {console.log(err);
+    }
+}
+
 const companiesScreen = document.querySelectorAll('.form-group');
 const companiesScreenArr = Array.from(companiesScreen);
 
@@ -7,39 +32,7 @@ let searchVariables = {
     threeSeat : companiesScreen[3].getElementsByClassName("box2")[0]  //checked
 }
 
-const points = {
-    kamilkoc : 2,
-    pamukkale : 2.3,
-    efetur : 0.5,
-    nilufer : 4,
-    metro : 4.2,
-    ulusoy : 3.2
-}
-const pointsArr = Array.from(Object.values(points));
-
-const petValues = {
-    kamilkoc : true,
-    pamukkale : false,
-    efetur : true,
-    nilufer : false,
-    metro : false,
-    ulusoy : true
-}
-
-const petValuesArr = Array.from(Object.values(petValues));
-
-const threeSeatSupport = {
-    kamilkoc : true,
-    pamukkale : false,
-    efetur : false,
-    nilufer : true,
-    metro : false,
-    ulusoy : false
-}
-
-const threeSeatSupportArr = Array.from(Object.values(threeSeatSupport));
-
-export {threeSeatSupportArr, petValuesArr, pointsArr, searchVariables, companiesScreenArr, companiesScreen}
+export {searchVariables, companiesScreenArr, companiesScreen, travelFilter}
 export class search_variables {
 
     constructor (minimumPoint, pet, threeSeat) {
@@ -55,3 +48,27 @@ export class search_variables {
     }
 }
 
+/*
+
+<ul id = companies>
+<div class="d-block d-md-flex listing-horizontal">
+<a href="#" class="img d-block" style="background-image: url('src/images/companies/kamilkoc.png'); object-fit: cover;">
+  <!-- <span class="category">Restaurants</span> -->
+</a>
+<div class="lh-content">
+  <!-- <a href="#" class="bookmark"><span class="icon-heart"></span></a> -->
+  <h3><a class="company_names" href="search_result.html">Kamil Koç Turizm</a></h3>
+  <!-- <p>Don St, Brooklyn, New York</p> -->
+  <p>
+    <span class="icon-star text-warning"></span>
+    <span class="icon-star text-warning"></span>
+    <span class="icon-star text-warning"></span>
+    <span class="icon-star text-warning"></span>
+    <span class="icon-star text-secondary"></span>
+    <span>(492 Değerlendirme)</span>
+  </p>
+  <span>(4 Yorum)<br></span>
+  <span>Kalkış: 19:30</span>
+</div>
+</div>
+*/

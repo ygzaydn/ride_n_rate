@@ -1,10 +1,11 @@
-import {threeSeatSupportArr, petValuesArr, pointsArr, searchVariables, companiesScreenArr, companiesScreen, search_variables} from '../models/searchModel'
+import {searchVariables, companiesScreenArr, companiesScreen, search_variables, travelFilter} from '../models/searchModel'
 
 import {registeredSectionPage} from '../register'
 
 registeredSectionPage();
+travelFilter();
 
-pointFilter = () => {
+/* pointFilter = () => {
 
     let point = document.getElementById('star_slide').value;
     let companies = document.querySelectorAll('.company_names');
@@ -18,8 +19,8 @@ pointFilter = () => {
         }
     }
 }
-
-urlParser = () => {
+ */
+/* urlParser = () => {
 
     const url = window.location.href.split("=")[1];
     const departure = url.split(";")[0].split(":")[1];
@@ -29,9 +30,9 @@ urlParser = () => {
     Kalkış yeri : ${departure},\
     İniş yeri: ${destination}\ olan aramanın sonuçları aşağıda listelenmiştir.
     `
-}
+} */
 
-document.getElementById("pet_checkbox").addEventListener("click", () => {
+/* document.getElementById("pet_checkbox").addEventListener("click", () => {
 
     let filter = document.getElementById("pet_checkbox").checked;
     let companies = document.querySelectorAll('.company_names');
@@ -44,9 +45,9 @@ document.getElementById("pet_checkbox").addEventListener("click", () => {
             elements[i].style.display = "none";
         }
     }
-})
+}) */
 
-document.getElementById("3seat_bus").addEventListener("click", () => {
+/* document.getElementById("3seat_bus").addEventListener("click", () => {
     
     let filter = document.getElementById("3seat_bus").checked;
     let companies = document.querySelectorAll('.company_names');
@@ -59,7 +60,7 @@ document.getElementById("3seat_bus").addEventListener("click", () => {
             elements[i].style.display = "none";
         }
     }
-})
+}) */
 
 document.getElementById("reset_button").addEventListener("click", () =>{
 
