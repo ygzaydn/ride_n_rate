@@ -1778,9 +1778,16 @@ async function travelFilter() {
 
         resArr.forEach(function (el) {
             console.log(el);
+            var starBuilder = function starBuilder() {
+                var output = '';
+                for (var i = 0; i < el.fromHour; i++) {
+                    output += '<span class="icon-star text-warning"></span>';
+                }
+                return output;
+            };
             var companyNameWithoutSpace = el.title.split('-')[0].replace(/\s+/g, '').toLowerCase();
             var DOM = document.querySelector('.companies');
-            DOM.insertAdjacentHTML('beforeend', '\n        <div class="d-block d-md-flex listing-horizontal">\n        <a href="search_result.html?' + el.uuid + '" class="img d-block" style="background-image: url(\'src/images/companies/' + companyNameWithoutSpace + '.png\'); object-fit: cover;">\n        </a>\n        <div class="lh-content">\n  \n    <h3><a class="company_names" href="search_result.html?' + el.fromHour + '_' + el.fromCity + '_' + el.toCity + '_' + el.uuid + '"' + el.title.split('-')[0] + '</a></h3>\n    <!--  <p>\n    <span class="icon-star text-warning"></span>\n    <span class="icon-star text-warning"></span>\n    <span class="icon-star text-warning"></span>\n    <span class="icon-star text-warning"></span>\n    <span class="icon-star text-secondary"></span>\n    <span>(492 De\u011Ferlendirme)</span>\n    </p> -->\n    <h3>' + el.fromCity + ' - ' + el.toCity + '<br></h3>\n    <span>(4 Yorum) - (123213 De\u011Ferlendirme)<br></span>\n  \n  <span>Kalk\u0131\u015F: ' + el.fromHour + ':' + el.fromMinute + '</span>\n    </div>\n    </div>');
+            DOM.insertAdjacentHTML('beforeend', '\n        <div class="d-block d-md-flex listing-horizontal">\n        <a href="search_result.html?' + el.uuid + '" class="img d-block" style="background-image: url(\'src/images/companies/' + companyNameWithoutSpace + '.png\'); object-fit: cover;">\n        </a>\n        <div class="lh-content">\n  \n    <h3><a class="company_names" href="search_result.html?' + el.fromHour + '_' + el.fromCity + '_' + el.toCity + '_' + el.uuid + '"' + el.title.split('-')[0] + '</a></h3>\n    <!--  <p>\n    <span class="icon-star text-warning"></span>\n    <span class="icon-star text-warning"></span>\n    <span class="icon-star text-warning"></span>\n    <span class="icon-star text-warning"></span>\n    <span class="icon-star text-secondary"></span>\n    <span>(492 De\u011Ferlendirme)</span>\n    </p> -->\n    <h3>' + el.fromCity + ' - ' + el.toCity + '<br></h3>\n    <span>(123213 De\u011Ferlendirme)<br></span>\n  \n    <span>Kalk\u0131\u015F: ' + el.fromHour + ':' + el.fromMinute + '</span>\n    <p>\n    <span class="icon-star text-warning"></span>\n        ' + starBuilder() + '\n    </p>\n    </div>\n    </div>');
         });
     } catch (err) {
         console.log(err);

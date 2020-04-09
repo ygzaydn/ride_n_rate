@@ -18,6 +18,14 @@ async function companySearch () {
     console.log(resultData);
 
     resultData.forEach( el => {
+     
+    const starBuilder = () => {
+        let output = ``
+            for(let i=0;i<el.calculatedAverageRating;i++){
+                output+=`<span class="icon-star text-warning"></span>`
+            }
+        return output;
+    }    
     let title = el.title;
     let parsedTitle = title.substring(7);
     let parsedTitleNoSpace = parsedTitle.replace(/\s+/g, '').toLowerCase();
@@ -30,14 +38,9 @@ async function companySearch () {
     <div class="lh-content">
       <h3><a class="company_names" href="companydetail.html?${el.uuid}">${parsedTitle}</a></h3>
       <p>
-        <span class="icon-star text-warning"></span>
-        <span class="icon-star text-warning"></span>
-        <span class="icon-star text-warning"></span>
-        <span class="icon-star text-half"></span>
-        <span class="icon-star text-secondary"></span>
-        <span>(${el.reviewCount} Değerlendirme)</span>
+        ${starBuilder()}
       </p>
-      <span>(${el.reviewCount} Yorum)</span>
+      <span>(${el.reviewCount} Değerlendirme)</span>
     </div>
     </div>
     `);

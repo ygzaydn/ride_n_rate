@@ -24,6 +24,13 @@ async function travelFilter () {
     
     resArr.forEach(el => {
         console.log(el);
+        const starBuilder = () => {
+        let output = ``
+            for(let i=0;i<el.fromHour;i++){
+                output+=`<span class="icon-star text-warning"></span>`
+            }
+        return output;
+        }
         let companyNameWithoutSpace = el.title.split('-')[0].replace(/\s+/g, '').toLowerCase();
         const DOM = document.querySelector('.companies');
         DOM.insertAdjacentHTML('beforeend', `
@@ -42,9 +49,13 @@ async function travelFilter () {
     <span>(492 Değerlendirme)</span>
     </p> -->
     <h3>${el.fromCity} - ${el.toCity}<br></h3>
-    <span>(4 Yorum) - (123213 Değerlendirme)<br></span>
+    <span>(123213 Değerlendirme)<br></span>
   
-  <span>Kalkış: ${el.fromHour}:${el.fromMinute}</span>
+    <span>Kalkış: ${el.fromHour}:${el.fromMinute}</span>
+    <p>
+    <span class="icon-star text-warning"></span>
+        ${starBuilder()}
+    </p>
     </div>
     </div>`)
     })
