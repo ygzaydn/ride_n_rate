@@ -1775,7 +1775,7 @@ async function companySearch() {
 
         var starBuilder = function starBuilder() {
             var output = '';
-            for (var i = 0; i < el.calculatedAverageRating; i++) {
+            for (var i = 0; i < el.averateRating; i++) {
                 output += '<span class="icon-star text-warning"></span>';
             }
             return output;
@@ -1783,7 +1783,7 @@ async function companySearch() {
         var title = el.title;
         var parsedTitle = title.substring(7);
         var parsedTitleNoSpace = parsedTitle.replace(/\s+/g, '').toLowerCase();
-        points.push(el.calculatedAverageRating);
+        points.push(el.averateRating);
 
         companyListDOM.insertAdjacentHTML('afterbegin', '\n    <div class="d-block d-md-flex listing-horizontal">\n    <a href="#" class="img d-block" style="background-image: url(\'src/images/companies/' + parsedTitleNoSpace + '.png\')">\n    </a>\n    <div class="lh-content">\n      <h3><a class="company_names" href="companydetail.html?' + el.uuid + '">' + parsedTitle + '</a></h3>\n      <p>\n        ' + starBuilder() + '\n      </p>\n      <span>(' + el.reviewCount + ' De\u011Ferlendirme)</span>\n    </div>\n    </div>\n    ');
     });

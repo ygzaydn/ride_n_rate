@@ -3,25 +3,35 @@ axios.defaults.withCredentials = true;
 import {url} from '../register';
 
 async function travelFilter(){
+    const travelSlotUUID = location.href.split('?')[1];
+    const companyUUID = location.href.split('?')[2];
     const config = {
-        method: 'post',
-        url: `${url}/api/travelslots/all`,
-        data: {
-            filters : {
-                query: {
-                    uuid: `${location.href.split('?')[1].split('_')[3]}`,
-                    fromCity: `${location.href.split('?')[1].split('_')[1]}`,
-                    toCity: `${location.href.split('?')[1].split('_')[2]}`,
-                    fromHour: `${location.href.split('?')[1].split('_')[0]}`,
-                },
-                pagination:{pageNumber:1}
-            }
-        }
+        method: 'get',
+        url: `${url}/api/travelslots/${travelSlotUUID}`,
     }
     let res = await axios(config);
-    const data = res.data[0];
-    console.log(res.data[0]);
-    document.querySelector('.evalution').innerHTML = `"Firma: ${data.title.split('-')[0]} Kalkış Yeri : ${data.fromCity} - İniş Yeri : ${data.toCity} - Sefer Saati : ${data.fromHour}:${data.fromMinute} olan sefer hakkında detaylı bilgiyi aşağıda bulabilirsin."`
+    const data = res.data;
+    console.log(data);
+    /* const fromCity = data.fromCity;
+    const toCity = data.toCity;
+    const fromHour = data.fromHour;
+    const fromMinute = data.fromMinute; */
+
+    async function companyFilter(){
+        const configComp = {
+            method: 'get',
+            url: `${url}/api/companies/${companyUUID}`
+        }
+    let resCompany = await axios(configComp);
+    const dataComp = resCompany.data;
+    console.log(dataComp);
+    const compNameNoSpace = dataComp.name.replace(/\s+/g, '').toLowerCase();
+    console.log(compNameNoSpace)
+
+    document.querySelector('.evalution').innerHTML = `"Firma: ${dataComp.name} Kalkış Yeri : ${data.fromCity} - İniş Yeri : ${data.toCity} - Sefer Saati : ${data.fromHour}:${data.fromMinute} olan sefer hakkında detaylı bilgiyi aşağıda bulabilirsin."`
+    document.querySelector('.logo-place').attributes[1].nodeValue = `background-image: url("src/images/companies/${compNameNoSpace}.png"); background-size: contain; background-position: 50% -25px;`
+    }
+    companyFilter();
 }
 
 

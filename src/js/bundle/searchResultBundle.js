@@ -1754,25 +1754,35 @@ axios.defaults.withCredentials = true;
 
 
 async function travelFilter() {
+    var travelSlotUUID = location.href.split('?')[1];
+    var companyUUID = location.href.split('?')[2];
     var config = {
-        method: 'post',
-        url: _register.url + '/api/travelslots/all',
-        data: {
-            filters: {
-                query: {
-                    uuid: '' + location.href.split('?')[1].split('_')[3],
-                    fromCity: '' + location.href.split('?')[1].split('_')[1],
-                    toCity: '' + location.href.split('?')[1].split('_')[2],
-                    fromHour: '' + location.href.split('?')[1].split('_')[0]
-                },
-                pagination: { pageNumber: 1 }
-            }
-        }
+        method: 'get',
+        url: _register.url + '/api/travelslots/' + travelSlotUUID
     };
     var res = await axios(config);
-    var data = res.data[0];
-    console.log(res.data[0]);
-    document.querySelector('.evalution').innerHTML = '"Firma: ' + data.title.split('-')[0] + ' Kalk\u0131\u015F Yeri : ' + data.fromCity + ' - \u0130ni\u015F Yeri : ' + data.toCity + ' - Sefer Saati : ' + data.fromHour + ':' + data.fromMinute + ' olan sefer hakk\u0131nda detayl\u0131 bilgiyi a\u015Fa\u011F\u0131da bulabilirsin."';
+    var data = res.data;
+    console.log(data);
+    /* const fromCity = data.fromCity;
+    const toCity = data.toCity;
+    const fromHour = data.fromHour;
+    const fromMinute = data.fromMinute; */
+
+    async function companyFilter() {
+        var configComp = {
+            method: 'get',
+            url: _register.url + '/api/companies/' + companyUUID
+        };
+        var resCompany = await axios(configComp);
+        var dataComp = resCompany.data;
+        console.log(dataComp);
+        var compNameNoSpace = dataComp.name.replace(/\s+/g, '').toLowerCase();
+        console.log(compNameNoSpace);
+
+        document.querySelector('.evalution').innerHTML = '"Firma: ' + dataComp.name + ' Kalk\u0131\u015F Yeri : ' + data.fromCity + ' - \u0130ni\u015F Yeri : ' + data.toCity + ' - Sefer Saati : ' + data.fromHour + ':' + data.fromMinute + ' olan sefer hakk\u0131nda detayl\u0131 bilgiyi a\u015Fa\u011F\u0131da bulabilirsin."';
+        document.querySelector('.logo-place').attributes[1].nodeValue = 'background-image: url("src/images/companies/' + compNameNoSpace + '.png"); background-size: contain; background-position: 50% -25px;';
+    }
+    companyFilter();
 }
 
 exports.travelFilter = travelFilter;

@@ -10,7 +10,7 @@ async function travelFilter () {
         data: {
             filters : {
                 query: {
-                    fromHour: 13,
+                    fromHour: `${location.href.split('?')[1].split('%22')[5]}`,
                     fromCity: `${location.href.split('?')[1].split('%22')[1]}`,
                     toCity: `${location.href.split('?')[1].split('%22')[3]}` //location.href.split('?')[1].split('%22')[3]
                 },
@@ -26,42 +26,42 @@ async function travelFilter () {
         console.log(el);
         const starBuilder = () => {
         let output = ``
-            for(let i=0;i<el.fromHour;i++){
+            for(let i=0;i<el.travelslot.fromHour;i++){
                 output+=`<span class="icon-star text-warning"></span>`
             }
         return output;
         }
-        let companyNameWithoutSpace = el.title.split('-')[0].replace(/\s+/g, '').toLowerCase();
+        let companyNameWithoutSpace = el.company.title.split(':')[1].replace(/\s+/g, '').toLowerCase();
         const DOM = document.querySelector('.companies');
         DOM.insertAdjacentHTML('beforeend', `
         <div class="d-block d-md-flex listing-horizontal">
-        <a href="search_result.html?${el.uuid}" class="img d-block" style="background-image: url('src/images/companies/${companyNameWithoutSpace}.png'); object-fit: cover;">
+        <a href="search_result.html?${el.travelslot.uuid}?${el.company.uuid}" class="img d-block" style="background-image: url('src/images/companies/${companyNameWithoutSpace}.png'); object-fit: cover;">
         </a>
         <div class="lh-content">
   
-    <h3><a class="company_names" href="search_result.html?${el.fromHour}_${el.fromCity}_${el.toCity}_${el.uuid}"${el.title.split('-')[0]}</a></h3>
-    <!--  <p>
-    <span class="icon-star text-warning"></span>
-    <span class="icon-star text-warning"></span>
-    <span class="icon-star text-warning"></span>
-    <span class="icon-star text-warning"></span>
-    <span class="icon-star text-secondary"></span>
-    <span>(492 Değerlendirme)</span>
-    </p> -->
-    <h3>${el.fromCity} - ${el.toCity}<br></h3>
-    <span>(123213 Değerlendirme)<br></span>
-  
-    <span>Kalkış: ${el.fromHour}:${el.fromMinute}</span>
-    <p>
-    <span class="icon-star text-warning"></span>
-        ${starBuilder()}
-    </p>
-    </div>
-    </div>`)
-    })
+        <h3><a class="company_names" href="search_result.html?${el.travelslot.uuid}?${el.company.uuid}"</a></h3>
+        <!--  <p>
+        <span class="icon-star text-warning"></span>
+        <span class="icon-star text-warning"></span>
+        <span class="icon-star text-warning"></span>
+        <span class="icon-star text-warning"></span>
+        <span class="icon-star text-secondary"></span>
+        <span>(492 Değerlendirme)</span>
+        </p> -->
+        <h3>${el.travelslot.fromCity} - ${el.travelslot.toCity}<br></h3>
+        <span>(123213 Değerlendirme)<br></span>
+    
+        <span>Kalkış: ${el.travelslot.travelTime}</span>
+        <p>
+        <span class="icon-star text-warning"></span>
+            ${starBuilder()}
+        </p>
+        </div>
+        </div>`)
+        })
 
-    } catch(err) {console.log(err);
-    }
+        } catch(err) {console.log(err);
+        }
 }
 
 const companiesScreen = document.querySelectorAll('.form-group');

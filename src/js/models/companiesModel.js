@@ -21,7 +21,7 @@ async function companySearch () {
      
     const starBuilder = () => {
         let output = ``
-            for(let i=0;i<el.calculatedAverageRating;i++){
+            for(let i=0;i<el.averateRating;i++){
                 output+=`<span class="icon-star text-warning"></span>`
             }
         return output;
@@ -29,7 +29,7 @@ async function companySearch () {
     let title = el.title;
     let parsedTitle = title.substring(7);
     let parsedTitleNoSpace = parsedTitle.replace(/\s+/g, '').toLowerCase();
-    points.push(el.calculatedAverageRating);
+    points.push(el.averateRating);
     
     companyListDOM.insertAdjacentHTML('afterbegin',`
     <div class="d-block d-md-flex listing-horizontal">
