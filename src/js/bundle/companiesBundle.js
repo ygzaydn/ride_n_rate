@@ -1745,7 +1745,7 @@ process.umask = function() { return 0; };
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.search_variables = exports.companyPointFilter = exports.companySearch = exports.placesArr = exports.threeSeatSupportArr = exports.petValuesArr = exports.pointsArr = exports.searchVariables = exports.companiesScreenArr = exports.companiesScreen = undefined;
+exports.search_variables = exports.companyThreeSeatFilter = exports.companyPetFilter = exports.companyPointFilter = exports.companySearch = exports.placesArr = exports.threeSeatSupportArr = exports.pointsArr = exports.searchVariables = exports.companiesScreenArr = exports.companiesScreen = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1767,9 +1767,10 @@ async function companySearch() {
         url: _register.url + '/api/companies/all'
     };
     var points = [];
+    var threeSeatSupport = [];
+    var petSupport = [];
     var result = await axios(config);
     var resultData = result.data;
-    console.log(resultData);
 
     resultData.forEach(function (el) {
 
@@ -1784,14 +1785,16 @@ async function companySearch() {
         var parsedTitle = title.substring(7);
         var parsedTitleNoSpace = parsedTitle.replace(/\s+/g, '').toLowerCase();
         points.push(el.averateRating);
+        threeSeatSupport.push(el.information.is3seater);
+        petSupport.push(el.information.petAllowed);
 
         companyListDOM.insertAdjacentHTML('afterbegin', '\n    <div class="d-block d-md-flex listing-horizontal">\n    <a href="#" class="img d-block" style="background-image: url(\'src/images/companies/' + parsedTitleNoSpace + '.png\')">\n    </a>\n    <div class="lh-content">\n      <h3><a class="company_names" href="companydetail.html?' + el.uuid + '">' + parsedTitle + '</a></h3>\n      <p>\n        ' + starBuilder() + '\n      </p>\n      <span>(' + el.reviewCount + ' De\u011Ferlendirme)</span>\n    </div>\n    </div>\n    ');
     });
-    return points;
+    return { points: points, threeSeatSupport: threeSeatSupport, petSupport: petSupport };
 }
 
 async function companyPointFilter() {
-    var pointsArr = await companySearch();
+    var pointsArr = await (await companySearch()).points;
     console.log(pointsArr);
 
     var point = document.getElementById('star_slide').value;
@@ -1800,6 +1803,38 @@ async function companyPointFilter() {
 
     for (var i = 0; i < companies.length; i++) {
         if (pointsArr[i] >= point) {
+            elements[i].style.display = "";
+        } else {
+            elements[i].style.display = "none";
+        }
+    }
+}
+
+async function companyPetFilter() {
+    var petValuesArr = await (await companySearch()).petSupport;
+
+    var filter = document.getElementById("pet_checkbox").checked;
+    var companies = document.querySelectorAll('.company_names');
+    var elements = document.querySelectorAll('.lh-content');
+
+    for (var i = 0; i < companies.length; i++) {
+        if (filter === petValuesArr[i]) {
+            elements[i].style.display = "";
+        } else {
+            elements[i].style.display = "none";
+        }
+    }
+}
+
+async function companyThreeSeatFilter() {
+    var threeSeatSupportArr = await (await companySearch()).petSupport;
+
+    var filter = document.getElementById("3seat_bus").checked;
+    var companies = document.querySelectorAll('.company_names');
+    var elements = document.querySelectorAll('.lh-content');
+
+    for (var i = 0; i < companies.length; i++) {
+        if (filter === threeSeatSupportArr[i]) {
             elements[i].style.display = "";
         } else {
             elements[i].style.display = "none";
@@ -1825,17 +1860,6 @@ var points = {
     ulusoy: 3.2
 };
 var pointsArr = Array.from(Object.values(points));
-
-var petValues = {
-    kamilkoc: true,
-    pamukkale: false,
-    efetur: true,
-    nilufer: false,
-    metro: false,
-    ulusoy: true
-};
-
-var petValuesArr = Array.from(Object.values(petValues));
 
 var threeSeatSupport = {
     kamilkoc: true,
@@ -1863,11 +1887,12 @@ exports.companiesScreen = companiesScreen;
 exports.companiesScreenArr = companiesScreenArr;
 exports.searchVariables = searchVariables;
 exports.pointsArr = pointsArr;
-exports.petValuesArr = petValuesArr;
 exports.threeSeatSupportArr = threeSeatSupportArr;
 exports.placesArr = placesArr;
 exports.companySearch = companySearch;
 exports.companyPointFilter = companyPointFilter;
+exports.companyPetFilter = companyPetFilter;
+exports.companyThreeSeatFilter = companyThreeSeatFilter;
 
 var search_variables = exports.search_variables = function () {
     function search_variables(companyName, departure, destination, minimumPoint, pet, threeSeat) {
@@ -1949,32 +1974,12 @@ document.getElementById("list_button").addEventListener("click", function () {
 
 document.getElementById("pet_checkbox").addEventListener("click", function () {
 
-    var filter = document.getElementById("pet_checkbox").checked;
-    var companies = document.querySelectorAll('.company_names');
-    var elements = document.querySelectorAll('.lh-content');
-
-    for (var i = 0; i < companies.length; i++) {
-        if (filter === _companiesModel.petValuesArr[i]) {
-            elements[i].style.display = "";
-        } else {
-            elements[i].style.display = "none";
-        }
-    }
+    (0, _companiesModel.companyPetFilter)();
 });
 
 document.getElementById("3seat_bus").addEventListener("click", function () {
 
-    var filter = document.getElementById("3seat_bus").checked;
-    var companies = document.querySelectorAll('.company_names');
-    var elements = document.querySelectorAll('.lh-content');
-
-    for (var i = 0; i < companies.length; i++) {
-        if (filter === _companiesModel.threeSeatSupportArr[i]) {
-            elements[i].style.display = "";
-        } else {
-            elements[i].style.display = "none";
-        }
-    }
+    (0, _companiesModel.companyThreeSeatFilter)();
 });
 
 document.getElementById("reset_button").addEventListener("click", function () {

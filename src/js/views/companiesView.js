@@ -1,4 +1,4 @@
-import {searchVariables, petValuesArr, threeSeatSupportArr, placesArr, search_variables, companySearch, companyPointFilter} from '../models/companiesModel'
+import {searchVariables, threeSeatSupportArr, placesArr, search_variables, companySearch, companyPointFilter, companyPetFilter, companyThreeSeatFilter} from '../models/companiesModel'
 
 import {registeredSectionPage} from '../register'
 
@@ -17,32 +17,12 @@ document.getElementById("list_button").addEventListener("click", () => {
 
 document.getElementById("pet_checkbox").addEventListener("click", () => {
 
-    let filter = document.getElementById("pet_checkbox").checked;
-    let companies = document.querySelectorAll('.company_names');
-    let elements = document.querySelectorAll('.lh-content');
-
-    for (let i=0; i<companies.length; i++){
-        if(filter === petValuesArr[i]){
-            elements[i].style.display = "";
-        } else {
-            elements[i].style.display = "none";
-        }
-    }
+    companyPetFilter();
 })
 
 document.getElementById("3seat_bus").addEventListener("click", () => {
     
-    let filter = document.getElementById("3seat_bus").checked;
-    let companies = document.querySelectorAll('.company_names');
-    let elements = document.querySelectorAll('.lh-content');
-
-    for (let i=0; i<companies.length; i++){
-        if(filter === threeSeatSupportArr[i]){
-            elements[i].style.display = "";
-        } else {
-            elements[i].style.display = "none";
-        }
-    }
+    companyThreeSeatFilter();
 })
 
 document.getElementById("reset_button").addEventListener("click", () =>{
