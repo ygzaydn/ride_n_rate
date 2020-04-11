@@ -1,10 +1,9 @@
-import {searchVariables, threeSeatSupportArr, placesArr, search_variables, companySearch, companyPointFilter, companyPetFilter, companyThreeSeatFilter} from '../models/companiesModel'
+import {searchVariables, placesArr, search_variables, companySearch, companyFilter} from '../models/companiesModel'
 
 import {registeredSectionPage} from '../register'
 
 registeredSectionPage();
 companySearch();
-
 
 document.getElementById("list_button").addEventListener("click", () => {
 
@@ -16,13 +15,11 @@ document.getElementById("list_button").addEventListener("click", () => {
 })
 
 document.getElementById("pet_checkbox").addEventListener("click", () => {
-
-    companyPetFilter();
+    companyFilter();
 })
 
 document.getElementById("3seat_bus").addEventListener("click", () => {
-    
-    companyThreeSeatFilter();
+    companyFilter();
 })
 
 document.getElementById("reset_button").addEventListener("click", () =>{
@@ -32,15 +29,13 @@ document.getElementById("reset_button").addEventListener("click", () =>{
     for (let i=0; i<companies.length; i++){
         elements[i].style.display = ""
     }
-    let destinationText = document.querySelector('#arrival_place_text').value = "";
-    let departureText = document.querySelector('#departure_place_text').value = "";
 
     document.getElementById('pet_checkbox').checked = false;
     document.getElementById('3seat_bus').checked = false;
 })
 
 window.pointFilter = function() {
-    companyPointFilter();
+    companyFilter();
 }
 
 function companyNameFilter() {

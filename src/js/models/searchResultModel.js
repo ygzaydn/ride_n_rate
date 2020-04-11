@@ -12,10 +12,6 @@ async function travelFilter(){
     let res = await axios(config);
     const data = res.data;
     console.log(data);
-    /* const fromCity = data.fromCity;
-    const toCity = data.toCity;
-    const fromHour = data.fromHour;
-    const fromMinute = data.fromMinute; */
 
     async function companyFilter(){
         const configComp = {

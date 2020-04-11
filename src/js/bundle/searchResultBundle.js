@@ -1763,10 +1763,6 @@ async function travelFilter() {
     var res = await axios(config);
     var data = res.data;
     console.log(data);
-    /* const fromCity = data.fromCity;
-    const toCity = data.toCity;
-    const fromHour = data.fromHour;
-    const fromMinute = data.fromMinute; */
 
     async function companyFilter() {
         var configComp = {
