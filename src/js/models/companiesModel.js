@@ -7,6 +7,17 @@ const companiesScreen = document.querySelectorAll('.form-group');
 const companiesScreenArr = Array.from(companiesScreen);
 const companyListDOM = document.querySelector('.company-names');
 
+const companyCitiesBuilder = async (uuid) => {
+    const config = {
+        method: 'get',
+        url: `${url}/api/companies/cities/${uuid}`
+    }
+    const result = await axios(config);
+    const resultDataFrom = result.data.from;
+    const resultDataTo = result.data.to;
+    return { resultDataFrom, resultDataTo }
+}
+
 async function companySearch () {
     const config = {
         method : 'post',
@@ -15,10 +26,14 @@ async function companySearch () {
 
     let result = await axios(config);
     let resultData = result.data;
+    console.log(resultData);
+    let data = {};
+    
+    
     //console.log(resultData);
 
     resultData.forEach( el => {
-     
+   
     const starBuilder = () => {
         let output = ``
             for(let i=0;i<el.averateRating;i++){
@@ -26,6 +41,7 @@ async function companySearch () {
             }
         return output;
     }    
+
     let title = el.title;
     let parsedTitle = title.substring(7);
     let parsedTitleNoSpace = parsedTitle.replace(/\s+/g, '').toLowerCase();
@@ -45,7 +61,6 @@ async function companySearch () {
     `);
     
     });
-    
 }
 
 async function filterBuilder () {
@@ -58,17 +73,18 @@ async function filterBuilder () {
     const petSupport = [];
     let result = await axios(config);
     let resultData = result.data;
-    //console.log(resultData);
 
     resultData.forEach( el => {
-     
+
     let title = el.title;
     let parsedTitle = title.substring(7);
     points.push(`${parsedTitle}-${el.averateRating}`);
     threeSeatSupport.push(`${parsedTitle}-${el.information.is3Seater}`);
     petSupport.push(`${parsedTitle}-${el.information.petAllowed}`);
     });
-    return {points,threeSeatSupport,petSupport};
+    
+
+    return {points,threeSeatSupport,petSupport, fromCities, toCities};
     
 }
 

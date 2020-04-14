@@ -1761,6 +1761,17 @@ var companiesScreen = document.querySelectorAll('.form-group');
 var companiesScreenArr = Array.from(companiesScreen);
 var companyListDOM = document.querySelector('.company-names');
 
+var companyCitiesBuilder = async function companyCitiesBuilder(uuid) {
+    var config = {
+        method: 'get',
+        url: _register.url + '/api/companies/cities/' + uuid
+    };
+    var result = await axios(config);
+    var resultDataFrom = result.data.from;
+    var resultDataTo = result.data.to;
+    return { resultDataFrom: resultDataFrom, resultDataTo: resultDataTo };
+};
+
 async function companySearch() {
     var config = {
         method: 'post',
@@ -1769,9 +1780,14 @@ async function companySearch() {
 
     var result = await axios(config);
     var resultData = result.data;
+    console.log(resultData);
+    var data = {};
+
     //console.log(resultData);
 
     resultData.forEach(function (el) {
+        data[el.uuid] = companyCitiesBuilder(el.uuid);
+        console.log(data[el.uuid]);
 
         var starBuilder = function starBuilder() {
             var output = '';
@@ -1780,11 +1796,12 @@ async function companySearch() {
             }
             return output;
         };
+
         var title = el.title;
         var parsedTitle = title.substring(7);
         var parsedTitleNoSpace = parsedTitle.replace(/\s+/g, '').toLowerCase();
 
-        companyListDOM.insertAdjacentHTML('beforeend', '\n    <div class="d-block d-md-flex listing-horizontal pet threeseat" >\n    <a href="#" class="img d-block" style="background-image: url(\'src/images/companies/' + parsedTitleNoSpace + '.png\')">\n    </a>\n    <div class="lh-content">\n      <h3><a class="company_names" href="companydetail.html?' + el.uuid + '">' + parsedTitle + '</a></h3>\n      <p>\n        ' + starBuilder() + '\n      </p>\n      <span>(' + el.reviewCount + ' De\u011Ferlendirme)</span>\n    </div>\n    </div>\n    ');
+        companyListDOM.insertAdjacentHTML('beforeend', '\n    <div class="d-block d-md-flex listing-horizontal pet threeseat" >\n    <a href="#" class="img d-block" style="background-image: url(\'src/images/companies/' + parsedTitleNoSpace + '.png\')">\n    </a>\n    <div class="lh-content">\n      <h3><a class="company_names" href="companydetail.html?' + el.uuid + '">' + parsedTitle + '</a></h3>\n      <p>\n        ' + starBuilder() + '\n      </p>\n      <span>(' + el.reviewCount + ' De\u011Ferlendirme)</span>\n      <p hidden >' + data + '</p> \n    </div>\n    </div>\n    ');
     });
 }
 
@@ -1798,7 +1815,6 @@ async function filterBuilder() {
     var petSupport = [];
     var result = await axios(config);
     var resultData = result.data;
-    //console.log(resultData);
 
     resultData.forEach(function (el) {
 
@@ -1808,6 +1824,7 @@ async function filterBuilder() {
         threeSeatSupport.push(parsedTitle + '-' + el.information.is3Seater);
         petSupport.push(parsedTitle + '-' + el.information.petAllowed);
     });
+
     return { points: points, threeSeatSupport: threeSeatSupport, petSupport: petSupport };
 }
 
@@ -2003,22 +2020,7 @@ function companyNameFilter() {
     }
 };
 
-function departureFilter() {
-
-    var searchText = document.querySelector('#departure_place_text');
-    var filter = searchText.value.toUpperCase();
-    var companies = document.querySelectorAll('.company_names');
-    var elements = document.querySelectorAll('.lh-content');
-
-    for (var i = 0; i < companies.length; i++) {
-        var txtValue = _companiesModel.placesArr[i].toString();
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            elements[i].style.display = "";
-        } else {
-            elements[i].style.display = "none";
-        }
-    }
-};
+function departureFilter() {};
 
 function destinationFilter() {
 

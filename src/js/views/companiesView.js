@@ -5,6 +5,7 @@ import {registeredSectionPage} from '../register'
 registeredSectionPage();
 companySearch();
 
+
 document.getElementById("list_button").addEventListener("click", () => {
 
     const userFilter = new search_variables(searchVariables.companyName.value, searchVariables.departure.value,
@@ -57,19 +58,6 @@ function companyNameFilter() {
 
 function departureFilter() {
 
-    let searchText = document.querySelector('#departure_place_text');
-    let filter = searchText.value.toUpperCase();
-    let companies = document.querySelectorAll('.company_names');
-    let elements = document.querySelectorAll('.lh-content');
-    
-    for (let i=0; i<companies.length; i++) {
-        let txtValue = placesArr[i].toString();
-        if (txtValue.toUpperCase().indexOf(filter) > -1){
-            elements[i].style.display = "";
-        } else {
-            elements[i].style.display = "none";
-        }
-    }
 };
 
 function destinationFilter() {
