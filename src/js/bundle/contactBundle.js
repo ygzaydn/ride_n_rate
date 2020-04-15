@@ -1743,48 +1743,76 @@ process.umask = function() { return 0; };
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
+exports.contact_variables = exports.submitAnonymousMessage = exports.contactVariables = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _register = require("../register");
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var axios = require("axios").default;
+axios.defaults.withCredentials = true;
+
 
 var contactScreen = document.querySelectorAll(".form-control");
 var contactScreenArr = Array.from(contactScreen);
 
 var contactVariables = {
-    username: contactScreenArr[0],
-    email: contactScreenArr[1],
-    topic: contactScreenArr[2],
-    message: contactScreenArr[3]
+  username: contactScreenArr[0],
+  email: contactScreenArr[1],
+  topic: contactScreenArr[2],
+  message: contactScreenArr[3]
 };
 
-exports.contactScreen = contactScreen;
-exports.contactScreenArr = contactScreenArr;
+var submitAnonymousMessage = async function submitAnonymousMessage(username, email, text) {
+  var config = {
+    method: 'post',
+    url: _register.url + "/support/contact",
+    data: {
+      contactUs: {
+        username: username,
+        email: email,
+        text: text
+      }
+    }
+  };
+  try {
+    var res = await axios(config);
+    console.log(res);
+    alert('Mesajını aldık, teşekkürler.');
+  } catch (err) {
+    alert('Bir hata oluştu, lütfen daha sonra tekrar deneyin.');
+    console.log(err);
+  }
+};
+
 exports.contactVariables = contactVariables;
+exports.submitAnonymousMessage = submitAnonymousMessage;
 
 var contact_variables = exports.contact_variables = function () {
-    function contact_variables(username, email, topic, message) {
-        _classCallCheck(this, contact_variables);
+  function contact_variables(username, email, topic, message) {
+    _classCallCheck(this, contact_variables);
 
-        this.username = username;
-        this.email = email;
-        this.topic = topic;
-        this.message = message;
+    this.username = username;
+    this.email = email;
+    this.topic = topic;
+    this.message = message;
+  }
+
+  _createClass(contact_variables, [{
+    key: "summarize",
+    value: function summarize() {
+      console.log("Username = " + this.username + "\n        Email = " + this.email + "\n        Topic = " + this.topic + "\n        Message = " + this.message);
     }
+  }]);
 
-    _createClass(contact_variables, [{
-        key: "summarize",
-        value: function summarize() {
-            console.log("Username = " + this.username + "\n        Email = " + this.email + "\n        Topic = " + this.topic + "\n        Message = " + this.message);
-        }
-    }]);
-
-    return contact_variables;
+  return contact_variables;
 }();
 
-},{}],29:[function(require,module,exports){
+},{"../register":29,"axios":1}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1824,18 +1852,19 @@ exports.registeredSectionPage = registeredSectionPage;
 exports.url = url;
 
 },{"axios":1}],30:[function(require,module,exports){
-'use strict';
+"use strict";
 
-var _contactModel = require('../models/contactModel');
+var _contactModel = require("../models/contactModel");
 
-var _register = require('../register');
+var _register = require("../register");
 
 (0, _register.registeredSectionPage)();
 
 document.getElementById("send_button").addEventListener("click", function () {
-    var newMessage = new _contactModel.contact_variables(_contactModel.contactVariables.username.value, _contactModel.contactVariables.email.value, _contactModel.contactVariables.topic.value, _contactModel.contactVariables.message.value);
+  var newMessage = new _contactModel.contact_variables(_contactModel.contactVariables.username.value, _contactModel.contactVariables.email.value, _contactModel.contactVariables.topic.value, _contactModel.contactVariables.message.value);
 
-    newMessage.summarize();
+  newMessage.summarize();
+  (0, _contactModel.submitAnonymousMessage)(newMessage.username, newMessage.email, newMessage.message.value);
 });
 
 },{"../models/contactModel":28,"../register":29}]},{},[30]);
