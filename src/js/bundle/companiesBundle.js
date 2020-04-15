@@ -1795,7 +1795,7 @@ async function companySearch() {
     var parsedTitle = title.substring(7);
     var parsedTitleNoSpace = parsedTitle.replace(/\s+/g, "").toLowerCase();
     companyCitiesBuilder(el.uuid).then(function (data) {
-      console.log(data);
+      //console.log(data);
 
       companyListDOM.insertAdjacentHTML("beforeend", "\n        <div class=\"d-block d-md-flex listing-horizontal pet threeseat\" >\n        <a href=\"#\" class=\"img d-block\" style=\"background-image: url('src/images/companies/" + parsedTitleNoSpace + ".png')\">\n        </a>\n        <div class=\"lh-content\">\n          <h3><a class=\"company_names\" href=\"companydetail.html?" + el.uuid + "\">" + parsedTitle + "</a></h3>\n          <p>\n            " + starBuilder() + "\n          </p>\n          <span>(" + el.reviewCount + " De\u011Ferlendirme)</span>\n          <div class=\"cities-from\" hidden>" + data.resultData.from + " </div>\n          <div class=\"cities-to\" hidden>" + data.resultData.to + " </div>\n        </div>\n        </div>\n        ");
     });
@@ -1959,103 +1959,98 @@ exports.registeredSectionPage = registeredSectionPage;
 exports.url = url;
 
 },{"axios":1}],30:[function(require,module,exports){
-'use strict';
+"use strict";
 
-var _companiesModel = require('../models/companiesModel');
+var _companiesModel = require("../models/companiesModel");
 
-var _register = require('../register');
+var _register = require("../register");
 
 (0, _register.registeredSectionPage)();
 (0, _companiesModel.companySearch)();
 
 document.getElementById("list_button").addEventListener("click", function () {
+  var userFilter = new _companiesModel.search_variables(_companiesModel.searchVariables.companyName.value, _companiesModel.searchVariables.departure.value, _companiesModel.searchVariables.destination.value, _companiesModel.searchVariables.minimumPoint.textContent.trim(), _companiesModel.searchVariables.pet.checked, _companiesModel.searchVariables.threeSeat.checked);
 
-    var userFilter = new _companiesModel.search_variables(_companiesModel.searchVariables.companyName.value, _companiesModel.searchVariables.departure.value, _companiesModel.searchVariables.destination.value, _companiesModel.searchVariables.minimumPoint.textContent.trim(), _companiesModel.searchVariables.pet.checked, _companiesModel.searchVariables.threeSeat.checked);
-
-    userFilter.summarize();
+  userFilter.summarize();
 });
 
 document.getElementById("pet_checkbox").addEventListener("click", function () {
-    (0, _companiesModel.companyFilter)();
+  (0, _companiesModel.companyFilter)();
 });
 
 document.getElementById("3seat_bus").addEventListener("click", function () {
-    (0, _companiesModel.companyFilter)();
+  (0, _companiesModel.companyFilter)();
 });
 
 document.getElementById("reset_button").addEventListener("click", function () {
+  var elements = document.querySelectorAll(".lh-content");
+  var companies = document.querySelectorAll(".company_names");
+  for (var i = 0; i < companies.length; i++) {
+    elements[i].style.display = "";
+  }
 
-    var elements = document.querySelectorAll('.lh-content');
-    var companies = document.querySelectorAll('.company_names');
-    for (var i = 0; i < companies.length; i++) {
-        elements[i].style.display = "";
-    }
-
-    document.getElementById('pet_checkbox').checked = false;
-    document.getElementById('3seat_bus').checked = false;
+  document.getElementById("pet_checkbox").checked = false;
+  document.getElementById("3seat_bus").checked = false;
 });
 
 window.pointFilter = function () {
-    (0, _companiesModel.companyFilter)();
+  (0, _companiesModel.companyFilter)();
 };
 
 function companyNameFilter() {
+  var searchText = document.querySelector("#company_name_text");
+  var filter = searchText.value.toUpperCase();
+  var companies = document.querySelectorAll(".company_names");
+  var elements = document.querySelectorAll(".lh-content");
 
-    var searchText = document.querySelector('#company_name_text');
-    var filter = searchText.value.toUpperCase();
-    var companies = document.querySelectorAll('.company_names');
-    var elements = document.querySelectorAll('.lh-content');
-
-    for (var i = 0; i < companies.length; i++) {
-        var txtValue = companies[i].innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            elements[i].style.display = "";
-        } else {
-            elements[i].style.display = "none";
-        }
+  for (var i = 0; i < companies.length; i++) {
+    var txtValue = companies[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      elements[i].style.display = "";
+    } else {
+      elements[i].style.display = "none";
     }
-};
+  }
+}
 
 function departureFilter() {
+  var searchText = document.querySelector("#departure_place_text");
+  var filter = searchText.value.toUpperCase();
+  var fromCities = document.querySelectorAll(".cities-from");
+  var companies = document.querySelectorAll(".company_names");
+  var elements = document.querySelectorAll(".lh-content");
 
-    var searchText = document.querySelector('#departure_place_text');
-    var filter = searchText.value.toUpperCase();
-    var fromCities = document.querySelectorAll('.cities-from');
-    var companies = document.querySelectorAll('.company_names');
-    var elements = document.querySelectorAll('.lh-content');
-
-    for (var i = 0; i < companies.length; i++) {
-        var txtValue = fromCities[i].innerText.toUpperCase();
-        if (txtValue.indexOf(filter) > -1) {
-            elements[i].style.display = "";
-        } else {
-            elements[i].style.display = "none";
-        }
+  for (var i = 0; i < companies.length; i++) {
+    var txtValue = fromCities[i].innerText.toUpperCase();
+    if (txtValue.indexOf(filter) > -1) {
+      elements[i].style.display = "";
+    } else {
+      elements[i].style.display = "none";
     }
-};
+  }
+}
 
 function destinationFilter() {
+  var searchText = document.querySelector("#arrival_place_text");
+  var filter = searchText.value.toUpperCase();
+  var toCities = document.querySelectorAll(".cities-to");
+  var companies = document.querySelectorAll(".company_names");
+  var elements = document.querySelectorAll(".lh-content");
 
-    var searchText = document.querySelector('#arrival_place_text');
-    var filter = searchText.value.toUpperCase();
-    var toCities = document.querySelectorAll('.cities-to');
-    var companies = document.querySelectorAll('.company_names');
-    var elements = document.querySelectorAll('.lh-content');
-
-    for (var i = 0; i < companies.length; i++) {
-        var txtValue = toCities[i].innerText.toUpperCase();
-        if (txtValue.indexOf(filter) > -1) {
-            elements[i].style.display = "";
-        } else {
-            elements[i].style.display = "none";
-        }
+  for (var i = 0; i < companies.length; i++) {
+    var txtValue = toCities[i].innerText.toUpperCase();
+    if (txtValue.indexOf(filter) > -1) {
+      elements[i].style.display = "";
+    } else {
+      elements[i].style.display = "none";
     }
-};
+  }
+}
 
-document.getElementById("company_name_text").addEventListener('keyup', companyNameFilter);
+document.getElementById("company_name_text").addEventListener("keyup", companyNameFilter);
 
-document.getElementById("arrival_place_text").addEventListener('keyup', destinationFilter);
+document.getElementById("arrival_place_text").addEventListener("keyup", destinationFilter);
 
-document.getElementById("departure_place_text").addEventListener('keyup', departureFilter);
+document.getElementById("departure_place_text").addEventListener("keyup", departureFilter);
 
 },{"../models/companiesModel":28,"../register":29}]},{},[30]);

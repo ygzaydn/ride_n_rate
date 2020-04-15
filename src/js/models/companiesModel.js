@@ -40,9 +40,9 @@ async function companySearch() {
     let parsedTitle = title.substring(7);
     let parsedTitleNoSpace = parsedTitle.replace(/\s+/g, "").toLowerCase();
     companyCitiesBuilder(el.uuid).then((data) => {
-        console.log(data);
-          
-        companyListDOM.insertAdjacentHTML(
+      //console.log(data);
+
+      companyListDOM.insertAdjacentHTML(
         "beforeend",
         `
         <div class="d-block d-md-flex listing-horizontal pet threeseat" >
