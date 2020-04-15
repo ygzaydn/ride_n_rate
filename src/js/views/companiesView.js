@@ -58,18 +58,34 @@ function companyNameFilter() {
 
 function departureFilter() {
 
+    const searchText = document.querySelector('#departure_place_text');
+    const filter = searchText.value.toUpperCase();
+    const fromCities = document.querySelectorAll('.cities-from');
+    let companies = document.querySelectorAll('.company_names');
+    let elements = document.querySelectorAll('.lh-content');
+
+    for (let i=0; i<companies.length; i++) {
+        let txtValue = fromCities[i].innerText.toUpperCase();
+        if (txtValue.indexOf(filter) > -1){
+            elements[i].style.display = "";
+        } else {
+            elements[i].style.display = "none";
+        }
+    }
+
 };
 
 function destinationFilter() {
 
-    let searchText = document.querySelector('#arrival_place_text');
-    let filter = searchText.value.toUpperCase();
+    const searchText = document.querySelector('#arrival_place_text');
+    const filter = searchText.value.toUpperCase();
+    const toCities = document.querySelectorAll('.cities-to');
     let companies = document.querySelectorAll('.company_names');
     let elements = document.querySelectorAll('.lh-content');
-    
+
     for (let i=0; i<companies.length; i++) {
-        let txtValue = placesArr[i].toString();
-        if (txtValue.toUpperCase().indexOf(filter) > -1){
+        let txtValue = toCities[i].innerText.toUpperCase();
+        if (txtValue.indexOf(filter) > -1){
             elements[i].style.display = "";
         } else {
             elements[i].style.display = "none";
@@ -78,20 +94,9 @@ function destinationFilter() {
 };
 
 document.getElementById("company_name_text").addEventListener('keyup', companyNameFilter);
-document.getElementById("arrival_place_text").addEventListener('keyup', destinationFilter);
-/* document.getElementById("star_slide_main").addEventListener('keyup', () => {
-    let point = document.getElementById('star_slide').value;
-    let companies = document.querySelectorAll('.company_names');
-    let elements = document.querySelectorAll('.lh-content');
 
-    for (let i=0; i<companies.length; i++){
-        if(pointsArr[i] >= point) {
-            elements[i].style.display = ""
-        } else {
-            elements[i].style.display = "none";
-        }
-    }
-}); */
+document.getElementById("arrival_place_text").addEventListener('keyup', destinationFilter);
+
 document.getElementById("departure_place_text").addEventListener('keyup', departureFilter);
 
 

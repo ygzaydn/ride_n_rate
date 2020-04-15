@@ -1740,156 +1740,152 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],28:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.search_variables = exports.companyFilter = exports.companySearch = exports.placesArr = exports.searchVariables = exports.companiesScreenArr = exports.companiesScreen = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _register = require('../register');
+var _register = require("../register");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var axios = require('axios').default;
+var axios = require("axios").default;
 axios.defaults.withCredentials = true;
 
 
-var companiesScreen = document.querySelectorAll('.form-group');
+var companiesScreen = document.querySelectorAll(".form-group");
 var companiesScreenArr = Array.from(companiesScreen);
-var companyListDOM = document.querySelector('.company-names');
+var companyListDOM = document.querySelector(".company-names");
 
 var companyCitiesBuilder = async function companyCitiesBuilder(uuid) {
-    var config = {
-        method: 'get',
-        url: _register.url + '/api/companies/cities/' + uuid
-    };
-    var result = await axios(config);
-    var resultDataFrom = result.data.from;
-    var resultDataTo = result.data.to;
-    return { resultDataFrom: resultDataFrom, resultDataTo: resultDataTo };
+  var config = {
+    method: "get",
+    url: _register.url + "/api/companies/cities/" + uuid
+  };
+  var result = await axios(config);
+  var resultData = result.data;
+  return { resultData: resultData };
 };
 
 async function companySearch() {
-    var config = {
-        method: 'post',
-        url: _register.url + '/api/companies/all'
+  var config = {
+    method: "post",
+    url: _register.url + "/api/companies/all"
+  };
+
+  var result = await axios(config);
+  var resultData = result.data;
+
+  //console.log(resultData);
+
+  resultData.forEach(function (el) {
+    var starBuilder = function starBuilder() {
+      var output = "";
+      for (var i = 0; i < el.averateRating; i++) {
+        output += "<span class=\"icon-star text-warning\"></span>";
+      }
+      return output;
     };
 
-    var result = await axios(config);
-    var resultData = result.data;
-    console.log(resultData);
-    var data = {};
+    var title = el.title;
+    var parsedTitle = title.substring(7);
+    var parsedTitleNoSpace = parsedTitle.replace(/\s+/g, "").toLowerCase();
+    companyCitiesBuilder(el.uuid).then(function (data) {
+      console.log(data);
 
-    //console.log(resultData);
-
-    resultData.forEach(function (el) {
-        data[el.uuid] = companyCitiesBuilder(el.uuid);
-        console.log(data[el.uuid]);
-
-        var starBuilder = function starBuilder() {
-            var output = '';
-            for (var i = 0; i < el.averateRating; i++) {
-                output += '<span class="icon-star text-warning"></span>';
-            }
-            return output;
-        };
-
-        var title = el.title;
-        var parsedTitle = title.substring(7);
-        var parsedTitleNoSpace = parsedTitle.replace(/\s+/g, '').toLowerCase();
-
-        companyListDOM.insertAdjacentHTML('beforeend', '\n    <div class="d-block d-md-flex listing-horizontal pet threeseat" >\n    <a href="#" class="img d-block" style="background-image: url(\'src/images/companies/' + parsedTitleNoSpace + '.png\')">\n    </a>\n    <div class="lh-content">\n      <h3><a class="company_names" href="companydetail.html?' + el.uuid + '">' + parsedTitle + '</a></h3>\n      <p>\n        ' + starBuilder() + '\n      </p>\n      <span>(' + el.reviewCount + ' De\u011Ferlendirme)</span>\n      <p hidden >' + data + '</p> \n    </div>\n    </div>\n    ');
+      companyListDOM.insertAdjacentHTML("beforeend", "\n        <div class=\"d-block d-md-flex listing-horizontal pet threeseat\" >\n        <a href=\"#\" class=\"img d-block\" style=\"background-image: url('src/images/companies/" + parsedTitleNoSpace + ".png')\">\n        </a>\n        <div class=\"lh-content\">\n          <h3><a class=\"company_names\" href=\"companydetail.html?" + el.uuid + "\">" + parsedTitle + "</a></h3>\n          <p>\n            " + starBuilder() + "\n          </p>\n          <span>(" + el.reviewCount + " De\u011Ferlendirme)</span>\n          <div class=\"cities-from\" hidden>" + data.resultData.from + " </div>\n          <div class=\"cities-to\" hidden>" + data.resultData.to + " </div>\n        </div>\n        </div>\n        ");
     });
+  });
 }
 
 async function filterBuilder() {
-    var config = {
-        method: 'post',
-        url: _register.url + '/api/companies/all'
-    };
-    var points = [];
-    var threeSeatSupport = [];
-    var petSupport = [];
-    var result = await axios(config);
-    var resultData = result.data;
+  var config = {
+    method: "post",
+    url: _register.url + "/api/companies/all"
+  };
+  var points = [];
+  var threeSeatSupport = [];
+  var petSupport = [];
+  var result = await axios(config);
+  var resultData = result.data;
 
-    resultData.forEach(function (el) {
+  resultData.forEach(function (el) {
+    var title = el.title;
+    var parsedTitle = title.substring(7);
+    points.push(parsedTitle + "-" + el.averateRating);
+    threeSeatSupport.push(parsedTitle + "-" + el.information.is3Seater);
+    petSupport.push(parsedTitle + "-" + el.information.petAllowed);
+  });
 
-        var title = el.title;
-        var parsedTitle = title.substring(7);
-        points.push(parsedTitle + '-' + el.averateRating);
-        threeSeatSupport.push(parsedTitle + '-' + el.information.is3Seater);
-        petSupport.push(parsedTitle + '-' + el.information.petAllowed);
-    });
-
-    return { points: points, threeSeatSupport: threeSeatSupport, petSupport: petSupport };
+  return { points: points, threeSeatSupport: threeSeatSupport, petSupport: petSupport, fromCities: fromCities, toCities: toCities };
 }
 
 async function companyFilter() {
-    var pointsArr = await (await filterBuilder()).points;
-    var petValuesArr = await (await filterBuilder()).petSupport;
-    var threeSeatSupportArr = await (await filterBuilder()).threeSeatSupport;
+  var pointsArr = await (await filterBuilder()).points;
+  var petValuesArr = await (await filterBuilder()).petSupport;
+  var threeSeatSupportArr = await (await filterBuilder()).threeSeatSupport;
 
-    var point = document.getElementById('star_slide').value;
-    var filterPet = document.getElementById("pet_checkbox").checked;
-    var filterThree = document.getElementById("3seat_bus").checked;
-    var length = document.querySelectorAll('.threeseat').length;
-    var elements = document.querySelectorAll('.lh-content');
-    filterPet = filterPet.toString();
-    filterThree = filterThree.toString();
+  var point = document.getElementById("star_slide").value;
+  var filterPet = document.getElementById("pet_checkbox").checked;
+  var filterThree = document.getElementById("3seat_bus").checked;
+  var length = document.querySelectorAll(".threeseat").length;
+  var elements = document.querySelectorAll(".lh-content");
+  filterPet = filterPet.toString();
+  filterThree = filterThree.toString();
 
-    var companies = [];
-    var companyPoint = [];
-    var valuePoint = [];
-    var companyPet = [];
-    var valuePet = [];
-    var companyThree = [];
-    var valueThree = [];
+  var companies = [];
+  var companyPoint = [];
+  var valuePoint = [];
+  var companyPet = [];
+  var valuePet = [];
+  var companyThree = [];
+  var valueThree = [];
 
-    for (var i = 0; i < length; i++) {
-        companies[i] = elements[i].innerHTML.split('">')[1].split('</')[0];
+  for (var i = 0; i < length; i++) {
+    companies[i] = elements[i].innerHTML.split('">')[1].split("</")[0];
+  }
+  for (var _i = 0; _i < petValuesArr.length; _i++) {
+    companyPet[_i] = petValuesArr[_i].split("-")[0];
+    valuePet[_i] = petValuesArr[_i].split("-")[1];
+    companyThree[_i] = threeSeatSupportArr[_i].split("-")[0];
+    valueThree[_i] = threeSeatSupportArr[_i].split("-")[1];
+    companyPoint[_i] = pointsArr[_i].split("-")[0];
+    valuePoint[_i] = pointsArr[_i].split("-")[1];
+  }
+
+  //console.log(companies);
+
+  for (var _i2 = 0; _i2 < length; _i2++) {
+    if (companies[_i2] === companyPet[_i2] && companies[_i2] === companyThree[_i2] && companies[_i2] === companyPoint[_i2]) {
+      if (filterPet === valuePet[_i2] && filterThree === valueThree[_i2] && valuePoint[_i2] >= point) {
+        elements[_i2].style.display = "";
+      } else {
+        elements[_i2].style.display = "none";
+      }
     }
-    for (var _i = 0; _i < petValuesArr.length; _i++) {
-        companyPet[_i] = petValuesArr[_i].split('-')[0];
-        valuePet[_i] = petValuesArr[_i].split('-')[1];
-        companyThree[_i] = threeSeatSupportArr[_i].split('-')[0];
-        valueThree[_i] = threeSeatSupportArr[_i].split('-')[1];
-        companyPoint[_i] = pointsArr[_i].split('-')[0];
-        valuePoint[_i] = pointsArr[_i].split('-')[1];
-    }
-
-    //console.log(companies);
-
-    for (var _i2 = 0; _i2 < length; _i2++) {
-        if (companies[_i2] === companyPet[_i2] && companies[_i2] === companyThree[_i2] && companies[_i2] === companyPoint[_i2]) {
-            if (filterPet === valuePet[_i2] && filterThree === valueThree[_i2] && valuePoint[_i2] >= point) {
-                elements[_i2].style.display = "";
-            } else {
-                elements[_i2].style.display = "none";
-            }
-        }
-    }
+  }
 }
 
 var searchVariables = {
-    companyName: companiesScreenArr[0].getElementsByClassName("form-control")[0], //value
-    departure: companiesScreenArr[1].getElementsByClassName("form-control")[0],
-    destination: companiesScreenArr[2].getElementsByClassName("form-control")[0],
-    minimumPoint: companiesScreenArr[4], //textcontent.trim()
-    pet: companiesScreen[6].getElementsByClassName("box1")[0], //checked
-    threeSeat: companiesScreen[6].getElementsByClassName("box2")[0] //checked
+  companyName: companiesScreenArr[0].getElementsByClassName("form-control")[0], //value
+  departure: companiesScreenArr[1].getElementsByClassName("form-control")[0],
+  destination: companiesScreenArr[2].getElementsByClassName("form-control")[0],
+  minimumPoint: companiesScreenArr[4], //textcontent.trim()
+  pet: companiesScreen[6].getElementsByClassName("box1")[0], //checked
+  threeSeat: companiesScreen[6].getElementsByClassName("box2")[0] //checked
 };
 
 var places = {
-    kamilkoc: ["İstanbul", "İzmir", "Ankara", "Antalya", "Samsun", "İzmit"],
-    pamukkale: ["İstanbul", "İzmir", "Antalya", "Samsun", "İzmit"],
-    ulusoy: ["İstanbul", "Ankara",, "Samsun", "İzmit"],
-    efetur: ["İstanbul", "İzmir", "Ankara", "Antalya", "İzmit"],
-    nilufer: ["İstanbul", "İzmir", "Ankara", "Antalya", "Samsun"],
-    metro: ["İzmir", "Ankara", "Antalya", "Samsun", "İzmit"]
+  kamilkoc: ["İstanbul", "İzmir", "Ankara", "Antalya", "Samsun", "İzmit"],
+  pamukkale: ["İstanbul", "İzmir", "Antalya", "Samsun", "İzmit"],
+  ulusoy: ["İstanbul", "Ankara",, "Samsun", "İzmit"],
+  efetur: ["İstanbul", "İzmir", "Ankara", "Antalya", "İzmit"],
+  nilufer: ["İstanbul", "İzmir", "Ankara", "Antalya", "Samsun"],
+  metro: ["İzmir", "Ankara", "Antalya", "Samsun", "İzmit"]
 };
 
 var placesArr = Array.from(Object.values(places));
@@ -1902,25 +1898,25 @@ exports.companySearch = companySearch;
 exports.companyFilter = companyFilter;
 
 var search_variables = exports.search_variables = function () {
-    function search_variables(companyName, departure, destination, minimumPoint, pet, threeSeat) {
-        _classCallCheck(this, search_variables);
+  function search_variables(companyName, departure, destination, minimumPoint, pet, threeSeat) {
+    _classCallCheck(this, search_variables);
 
-        this.companyName = companyName;
-        this.departure = departure;
-        this.destination = destination;
-        this.minimumPoint = minimumPoint;
-        this.pet = pet;
-        this.threeSeat = threeSeat;
+    this.companyName = companyName;
+    this.departure = departure;
+    this.destination = destination;
+    this.minimumPoint = minimumPoint;
+    this.pet = pet;
+    this.threeSeat = threeSeat;
+  }
+
+  _createClass(search_variables, [{
+    key: "summarize",
+    value: function summarize() {
+      console.log("Company Name = " + this.companyName + "\n        Departure = " + this.departure + "\n        Destination = " + this.destination + "\n        Minimum Point = " + this.minimumPoint + "\n        Pet = " + this.pet + "\n        Three Seat Bus = " + this.threeSeat);
     }
+  }]);
 
-    _createClass(search_variables, [{
-        key: 'summarize',
-        value: function summarize() {
-            console.log('Company Name = ' + this.companyName + '\n        Departure = ' + this.departure + '\n        Destination = ' + this.destination + '\n        Minimum Point = ' + this.minimumPoint + '\n        Pet = ' + this.pet + '\n        Three Seat Bus = ' + this.threeSeat);
-        }
-    }]);
-
-    return search_variables;
+  return search_variables;
 }();
 
 },{"../register":29,"axios":1}],29:[function(require,module,exports){
@@ -2020,18 +2016,35 @@ function companyNameFilter() {
     }
 };
 
-function departureFilter() {};
+function departureFilter() {
+
+    var searchText = document.querySelector('#departure_place_text');
+    var filter = searchText.value.toUpperCase();
+    var fromCities = document.querySelectorAll('.cities-from');
+    var companies = document.querySelectorAll('.company_names');
+    var elements = document.querySelectorAll('.lh-content');
+
+    for (var i = 0; i < companies.length; i++) {
+        var txtValue = fromCities[i].innerText.toUpperCase();
+        if (txtValue.indexOf(filter) > -1) {
+            elements[i].style.display = "";
+        } else {
+            elements[i].style.display = "none";
+        }
+    }
+};
 
 function destinationFilter() {
 
     var searchText = document.querySelector('#arrival_place_text');
     var filter = searchText.value.toUpperCase();
+    var toCities = document.querySelectorAll('.cities-to');
     var companies = document.querySelectorAll('.company_names');
     var elements = document.querySelectorAll('.lh-content');
 
     for (var i = 0; i < companies.length; i++) {
-        var txtValue = _companiesModel.placesArr[i].toString();
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        var txtValue = toCities[i].innerText.toUpperCase();
+        if (txtValue.indexOf(filter) > -1) {
             elements[i].style.display = "";
         } else {
             elements[i].style.display = "none";
@@ -2040,20 +2053,9 @@ function destinationFilter() {
 };
 
 document.getElementById("company_name_text").addEventListener('keyup', companyNameFilter);
-document.getElementById("arrival_place_text").addEventListener('keyup', destinationFilter);
-/* document.getElementById("star_slide_main").addEventListener('keyup', () => {
-    let point = document.getElementById('star_slide').value;
-    let companies = document.querySelectorAll('.company_names');
-    let elements = document.querySelectorAll('.lh-content');
 
-    for (let i=0; i<companies.length; i++){
-        if(pointsArr[i] >= point) {
-            elements[i].style.display = ""
-        } else {
-            elements[i].style.display = "none";
-        }
-    }
-}); */
+document.getElementById("arrival_place_text").addEventListener('keyup', destinationFilter);
+
 document.getElementById("departure_place_text").addEventListener('keyup', departureFilter);
 
 },{"../models/companiesModel":28,"../register":29}]},{},[30]);
