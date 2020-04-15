@@ -15,7 +15,7 @@ const contactVariables = {
 const submitAnonymousMessage = async (username, email, text) => {
   const config = {
     method: 'post',
-    url: `${url}/support/contact`,
+    url: `${url}/api/support/contact`,
     data: {
       contactUs: {
         username: username,

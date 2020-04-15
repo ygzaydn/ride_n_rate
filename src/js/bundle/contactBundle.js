@@ -1770,7 +1770,7 @@ var contactVariables = {
 var submitAnonymousMessage = async function submitAnonymousMessage(username, email, text) {
   var config = {
     method: 'post',
-    url: _register.url + "/support/contact",
+    url: _register.url + "/api/support/contact",
     data: {
       contactUs: {
         username: username,
@@ -1862,9 +1862,12 @@ var _register = require("../register");
 
 document.getElementById("send_button").addEventListener("click", function () {
   var newMessage = new _contactModel.contact_variables(_contactModel.contactVariables.username.value, _contactModel.contactVariables.email.value, _contactModel.contactVariables.topic.value, _contactModel.contactVariables.message.value);
-
-  newMessage.summarize();
-  (0, _contactModel.submitAnonymousMessage)(newMessage.username, newMessage.email, newMessage.message.value);
+  if (_contactModel.contactVariables.email.value.indexOf("@") > -1) {
+    newMessage.summarize();
+    (0, _contactModel.submitAnonymousMessage)(newMessage.username, newMessage.email, newMessage.message.value);
+  } else {
+    alert('Lütfen bilgileri doğru girdiğinden emin ol.');
+  }
 });
 
 },{"../models/contactModel":28,"../register":29}]},{},[30]);

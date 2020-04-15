@@ -15,11 +15,14 @@ document.getElementById("send_button").addEventListener("click", () => {
     contactVariables.topic.value,
     contactVariables.message.value
   );
-
-  newMessage.summarize();
-  submitAnonymousMessage(
-    newMessage.username,
-    newMessage.email,
-    newMessage.message.value
-  );
+  if (contactVariables.email.value.indexOf("@") > -1) {
+    newMessage.summarize();
+    submitAnonymousMessage(
+      newMessage.username,
+      newMessage.email,
+      newMessage.message.value
+    );
+  } else {
+      alert('Lütfen bilgileri doğru girdiğinden emin ol.')
+  }
 });
