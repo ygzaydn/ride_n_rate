@@ -1777,7 +1777,8 @@ async function travelFilter() {
         var resArr = res.data;
 
         resArr.forEach(function (el) {
-            console.log(el);
+            //console.log(el.travelslot.isPetAllowed);
+            //console.log(el.travelslot.is3Seater);
             var starBuilder = function starBuilder() {
                 var output = '';
                 for (var i = 0; i < el.travelslot.fromHour; i++) {
@@ -1787,7 +1788,7 @@ async function travelFilter() {
             };
             var companyNameWithoutSpace = el.company.title.split(':')[1].replace(/\s+/g, '').toLowerCase();
             var DOM = document.querySelector('.companies');
-            DOM.insertAdjacentHTML('beforeend', '\n        <div class="d-block d-md-flex listing-horizontal">\n        <a href="search_result.html?' + el.travelslot.uuid + '?' + el.company.uuid + '" class="img d-block" style="background-image: url(\'src/images/companies/' + companyNameWithoutSpace + '.png\'); object-fit: cover;">\n        </a>\n        <div class="lh-content">\n  \n        <h3><a class="company_names" href="search_result.html?' + el.travelslot.uuid + '?' + el.company.uuid + '"</a></h3>\n        <!--  <p>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-secondary"></span>\n        <span>(492 De\u011Ferlendirme)</span>\n        </p> -->\n        <h3>' + el.travelslot.fromCity + ' - ' + el.travelslot.toCity + '<br></h3>\n        <span>(123213 De\u011Ferlendirme)<br></span>\n    \n        <span>Kalk\u0131\u015F: ' + el.travelslot.travelTime + '</span>\n        <p>\n        <span class="icon-star text-warning"></span>\n            ' + starBuilder() + '\n        </p>\n        </div>\n        </div>');
+            DOM.insertAdjacentHTML('beforeend', '\n        <div class="d-block d-md-flex listing-horizontal">\n        <a href="search_result.html?' + el.travelslot.uuid + '?' + el.company.uuid + '" class="img d-block" style="background-image: url(\'src/images/companies/' + companyNameWithoutSpace + '.png\'); object-fit: cover;">\n        </a>\n        <div class="lh-content">\n  \n        <h3><a class="company_names" href="search_result.html?' + el.travelslot.uuid + '?' + el.company.uuid + '"</a></h3>\n        <!--  <p>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-secondary"></span>\n        <span>(492 De\u011Ferlendirme)</span>\n        </p> -->\n        <p hidden class="pet">' + el.travelslot.isPetAllowed + '</p>\n        <p hidden class="threeSeat">' + el.travelslot.is3Seater + '</p>\n        <h3>' + el.travelslot.fromCity + ' - ' + el.travelslot.toCity + '<br></h3>\n        <span>(123213 De\u011Ferlendirme)<br></span>\n    \n        <span>Kalk\u0131\u015F: ' + el.travelslot.travelTime + '</span>\n        <p>\n        <span class="icon-star text-warning"></span>\n            ' + starBuilder() + '\n        </p>\n        </div>\n        </div>');
         });
     } catch (err) {
         console.log(err);
@@ -1913,6 +1914,27 @@ var _register = require('../register');
 (0, _register.registeredSectionPage)();
 (0, _searchModel.travelFilter)();
 
+document.getElementById("pet_checkbox").addEventListener("click", function () {
+
+    var elements = document.querySelectorAll('.lh-content');
+    var petValue = document.querySelectorAll('.pet');
+    var threeSeatValue = document.querySelectorAll('.threeSeat');
+
+    var petFilter = document.getElementById("pet_checkbox").checked;
+    var threeSeatFilter = document.getElementById("3seat_bus").checked;
+
+    petFilter = petFilter.toString();
+    threeSeatFilter = threeSeatFilter.toString();
+
+    for (var i = 0; i < elements.length; i++) {
+        if (petFilter === petValue[i].innerText && threeSeatFilter === threeSeatValue[i].innerText) {
+            elements[i].style.display = "";
+        } else {
+            elements[i].style.display = "none";
+        }
+    }
+});
+
 /* pointFilter = () => {
 
     let point = document.getElementById('star_slide').value;
@@ -1938,35 +1960,26 @@ window.urlParser = function () {
     document.getElementById('results_urlparser').textContent = '\n    Kalk\u0131\u015F yeri : ' + departure + ',    \u0130ni\u015F yeri: ' + destination + ' Saat : ' + hour + ':' + minute + ' bilgilerine sahip seferler a\u015Fa\u011F\u0131da listelenmi\u015Ftir..\n    ';
 };
 
-/* document.getElementById("pet_checkbox").addEventListener("click", () => {
+document.getElementById("3seat_bus").addEventListener("click", function () {
 
-    let filter = document.getElementById("pet_checkbox").checked;
-    let companies = document.querySelectorAll('.company_names');
-    let elements = document.querySelectorAll('.lh-content');
+    var elements = document.querySelectorAll('.lh-content');
+    var petValue = document.querySelectorAll('.pet');
+    var threeSeatValue = document.querySelectorAll('.threeSeat');
 
-    for (i=0; i<companies.length; i++){
-        if(filter === petValuesArr[i]){
+    var petFilter = document.getElementById("pet_checkbox").checked;
+    var threeSeatFilter = document.getElementById("3seat_bus").checked;
+
+    petFilter = petFilter.toString();
+    threeSeatFilter = threeSeatFilter.toString();
+
+    for (var i = 0; i < elements.length; i++) {
+        if (petFilter === petValue[i].innerText && threeSeatFilter === threeSeatValue[i].innerText) {
             elements[i].style.display = "";
         } else {
             elements[i].style.display = "none";
         }
     }
-}) */
-
-/* document.getElementById("3seat_bus").addEventListener("click", () => {
-    
-    let filter = document.getElementById("3seat_bus").checked;
-    let companies = document.querySelectorAll('.company_names');
-    let elements = document.querySelectorAll('.lh-content');
-
-    for (i=0; i<companies.length; i++){
-        if(filter === modu.threeSeatSupportArr[i]){
-            elements[i].style.display = "";
-        } else {
-            elements[i].style.display = "none";
-        }
-    }
-}) */
+});
 
 document.getElementById("reset_button").addEventListener("click", function () {
 

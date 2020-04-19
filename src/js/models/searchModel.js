@@ -23,7 +23,8 @@ async function travelFilter () {
     let resArr = res.data;
     
     resArr.forEach(el => {
-        console.log(el);
+        //console.log(el.travelslot.isPetAllowed);
+        //console.log(el.travelslot.is3Seater);
         const starBuilder = () => {
         let output = ``
             for(let i=0;i<el.travelslot.fromHour;i++){
@@ -48,6 +49,8 @@ async function travelFilter () {
         <span class="icon-star text-secondary"></span>
         <span>(492 Değerlendirme)</span>
         </p> -->
+        <p hidden class="pet">${el.travelslot.isPetAllowed}</p>
+        <p hidden class="threeSeat">${el.travelslot.is3Seater}</p>
         <h3>${el.travelslot.fromCity} - ${el.travelslot.toCity}<br></h3>
         <span>(123213 Değerlendirme)<br></span>
     

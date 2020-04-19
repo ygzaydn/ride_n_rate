@@ -5,6 +5,30 @@ import {registeredSectionPage} from '../register'
 registeredSectionPage();
 travelFilter();
 
+
+document.getElementById("pet_checkbox").addEventListener("click", () => {
+
+    const elements = document.querySelectorAll('.lh-content');
+    const petValue = document.querySelectorAll('.pet');
+    const threeSeatValue = document.querySelectorAll('.threeSeat');
+
+    let petFilter = document.getElementById("pet_checkbox").checked;
+    let threeSeatFilter = document.getElementById("3seat_bus").checked;
+    
+
+    petFilter = petFilter.toString();
+    threeSeatFilter = threeSeatFilter.toString();
+
+    for (let i=0; i<elements.length; i++){
+        if(petFilter === petValue[i].innerText && threeSeatFilter === threeSeatValue[i].innerText){
+            elements[i].style.display = "";
+        } else {
+            elements[i].style.display = "none";
+        }
+    }
+})
+
+
 /* pointFilter = () => {
 
     let point = document.getElementById('star_slide').value;
@@ -34,35 +58,28 @@ window.urlParser = () => {
     `
 }
 
-/* document.getElementById("pet_checkbox").addEventListener("click", () => {
 
-    let filter = document.getElementById("pet_checkbox").checked;
-    let companies = document.querySelectorAll('.company_names');
-    let elements = document.querySelectorAll('.lh-content');
-
-    for (i=0; i<companies.length; i++){
-        if(filter === petValuesArr[i]){
-            elements[i].style.display = "";
-        } else {
-            elements[i].style.display = "none";
-        }
-    }
-}) */
-
-/* document.getElementById("3seat_bus").addEventListener("click", () => {
+document.getElementById("3seat_bus").addEventListener("click", () => {
     
-    let filter = document.getElementById("3seat_bus").checked;
-    let companies = document.querySelectorAll('.company_names');
-    let elements = document.querySelectorAll('.lh-content');
+    const elements = document.querySelectorAll('.lh-content');
+    const petValue = document.querySelectorAll('.pet');
+    const threeSeatValue = document.querySelectorAll('.threeSeat');
 
-    for (i=0; i<companies.length; i++){
-        if(filter === modu.threeSeatSupportArr[i]){
+    let petFilter = document.getElementById("pet_checkbox").checked;
+    let threeSeatFilter = document.getElementById("3seat_bus").checked;
+    
+
+    petFilter = petFilter.toString();
+    threeSeatFilter = threeSeatFilter.toString();
+
+    for (let i=0; i<elements.length; i++){
+        if(petFilter === petValue[i].innerText && threeSeatFilter === threeSeatValue[i].innerText){
             elements[i].style.display = "";
         } else {
             elements[i].style.display = "none";
         }
     }
-}) */
+}) 
 
 document.getElementById("reset_button").addEventListener("click", () =>{
 
