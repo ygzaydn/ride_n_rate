@@ -1762,7 +1762,7 @@ async function travelFilter() {
     };
     var res = await axios(config);
     var data = res.data;
-    console.log(data);
+    //console.log(data);
 
     async function companyFilter() {
         var configComp = {
@@ -1771,9 +1771,9 @@ async function travelFilter() {
         };
         var resCompany = await axios(configComp);
         var dataComp = resCompany.data;
-        console.log(dataComp);
+        //console.log(dataComp);
         var compNameNoSpace = dataComp.name.replace(/\s+/g, '').toLowerCase();
-        console.log(compNameNoSpace);
+        //console.log(compNameNoSpace)
 
         document.querySelector('.evalution').innerHTML = '"Firma: ' + dataComp.name + ' Kalk\u0131\u015F Yeri : ' + data.fromCity + ' - \u0130ni\u015F Yeri : ' + data.toCity + ' - Sefer Saati : ' + data.fromHour + ':' + data.fromMinute + ' olan sefer hakk\u0131nda detayl\u0131 bilgiyi a\u015Fa\u011F\u0131da bulabilirsin."';
         document.querySelector('.logo-place').attributes[1].nodeValue = 'background-image: url("src/images/companies/' + compNameNoSpace + '.png"); background-size: contain; background-position: 50% -25px;';
@@ -1784,50 +1784,62 @@ async function travelFilter() {
 exports.travelFilter = travelFilter;
 
 },{"../register":29,"axios":1}],29:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-var axios = require('axios').default;
+var axios = require("axios").default;
 axios.defaults.withCredentials = true;
 
-var url = 'https://guardianbe.herokuapp.com';
+var url = "https://guardianbe.herokuapp.com";
 
 async function registeredSectionPage() {
-    var config = {
-        method: 'get',
-        url: url + '/api/auth/session',
-        headers: { 'Authorization': 'Token ' + localStorage.getItem('token') }
-    };
-    try {
-        var res = await axios(config);
-        if (res.status === 200) {
-            var registerSection = document.getElementById('register-section');
-            registerSection.innerHTML = '';
+  var config = {
+    method: "get",
+    url: url + "/api/auth/session",
+    headers: { Authorization: "Token " + localStorage.getItem("token") }
+  };
+  try {
+    var res = await axios(config);
+    if (res.status === 200) {
+      var registerSection = document.getElementById("register-section");
+      var registerButtonNew = document.querySelector(".site-menu").children[2].children[0];
+      var registerButton = document.querySelector(".signupelement");
+      var evaluateTravel = document.querySelector(".seferi-degerlendir");
 
-            var registerButtonNew = document.querySelector('.site-menu').children[2].children[0];
-            registerButtonNew.href = "about.html";
-            registerButtonNew.innerText = "Bilgilerim";
+      if (registerSection) {
+        registerSection.innerHTML = "";
+      }
 
-            var registerButton = document.querySelector('.signupelement');
-            registerButton.href = "about.html";
-            registerButton.innerText = "Bilgilerim";
-        }
-    } catch (err) {
-        console.log(err);
+      if (registerButtonNew) {
+        registerButtonNew.href = "about.html";
+        registerButtonNew.innerText = "Bilgilerim";
+      }
+
+      if (registerButton) {
+        registerButton.href = "about.html";
+        registerButton.innerText = "Bilgilerim";
+      }
+
+      if (evaluateTravel) {
+        evaluateTravel.style.display = "";
+      }
     }
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 exports.registeredSectionPage = registeredSectionPage;
 exports.url = url;
 
 },{"axios":1}],30:[function(require,module,exports){
-'use strict';
+"use strict";
 
-var _register = require('../register');
+var _register = require("../register");
 
-var _searchResultModel = require('../models/searchResultModel');
+var _searchResultModel = require("../models/searchResultModel");
 
 (0, _register.registeredSectionPage)();
 (0, _searchResultModel.travelFilter)();

@@ -11,7 +11,7 @@ async function travelFilter(){
     }
     let res = await axios(config);
     const data = res.data;
-    console.log(data);
+    //console.log(data);
 
     async function companyFilter(){
         const configComp = {
@@ -20,9 +20,9 @@ async function travelFilter(){
         }
     let resCompany = await axios(configComp);
     const dataComp = resCompany.data;
-    console.log(dataComp);
+    //console.log(dataComp);
     const compNameNoSpace = dataComp.name.replace(/\s+/g, '').toLowerCase();
-    console.log(compNameNoSpace)
+    //console.log(compNameNoSpace)
 
     document.querySelector('.evalution').innerHTML = `"Firma: ${dataComp.name} Kalkış Yeri : ${data.fromCity} - İniş Yeri : ${data.toCity} - Sefer Saati : ${data.fromHour}:${data.fromMinute} olan sefer hakkında detaylı bilgiyi aşağıda bulabilirsin."`
     document.querySelector('.logo-place').attributes[1].nodeValue = `background-image: url("src/images/companies/${compNameNoSpace}.png"); background-size: contain; background-position: 50% -25px;`

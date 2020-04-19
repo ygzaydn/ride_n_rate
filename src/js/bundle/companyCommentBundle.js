@@ -1844,39 +1844,51 @@ var new_comment = exports.new_comment = function () {
 }();
 
 },{"../register":29,"axios":1}],29:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-var axios = require('axios').default;
+var axios = require("axios").default;
 axios.defaults.withCredentials = true;
 
-var url = 'https://guardianbe.herokuapp.com';
+var url = "https://guardianbe.herokuapp.com";
 
 async function registeredSectionPage() {
-    var config = {
-        method: 'get',
-        url: url + '/api/auth/session',
-        headers: { 'Authorization': 'Token ' + localStorage.getItem('token') }
-    };
-    try {
-        var res = await axios(config);
-        if (res.status === 200) {
-            var registerSection = document.getElementById('register-section');
-            registerSection.innerHTML = '';
+  var config = {
+    method: "get",
+    url: url + "/api/auth/session",
+    headers: { Authorization: "Token " + localStorage.getItem("token") }
+  };
+  try {
+    var res = await axios(config);
+    if (res.status === 200) {
+      var registerSection = document.getElementById("register-section");
+      var registerButtonNew = document.querySelector(".site-menu").children[2].children[0];
+      var registerButton = document.querySelector(".signupelement");
+      var evaluateTravel = document.querySelector(".seferi-degerlendir");
 
-            var registerButtonNew = document.querySelector('.site-menu').children[2].children[0];
-            registerButtonNew.href = "about.html";
-            registerButtonNew.innerText = "Bilgilerim";
+      if (registerSection) {
+        registerSection.innerHTML = "";
+      }
 
-            var registerButton = document.querySelector('.signupelement');
-            registerButton.href = "about.html";
-            registerButton.innerText = "Bilgilerim";
-        }
-    } catch (err) {
-        console.log(err);
+      if (registerButtonNew) {
+        registerButtonNew.href = "about.html";
+        registerButtonNew.innerText = "Bilgilerim";
+      }
+
+      if (registerButton) {
+        registerButton.href = "about.html";
+        registerButton.innerText = "Bilgilerim";
+      }
+
+      if (evaluateTravel) {
+        evaluateTravel.style.display = "";
+      }
     }
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 exports.registeredSectionPage = registeredSectionPage;
