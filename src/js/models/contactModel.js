@@ -8,19 +8,21 @@ const contactScreenArr = Array.from(contactScreen);
 const contactVariables = {
   username: contactScreenArr[0],
   email: contactScreenArr[1],
-  topic: contactScreenArr[2],
+  subject: contactScreenArr[2],
   message: contactScreenArr[3],
 };
 
-const submitAnonymousMessage = async (username, email, text) => {
+const submitAnonymousMessage = async (username, email, subject, text ) => {
   const config = {
     method: 'post',
     url: `${url}/api/support/contact`,
     data: {
       contactUs: {
-        username: username,
-        email: email,
-        text: text,
+        username : username,
+        email : email,
+        subject : subject,
+        text : text
+
       },
     },
   };
@@ -35,18 +37,19 @@ const submitAnonymousMessage = async (username, email, text) => {
 };
 
 export { contactVariables, submitAnonymousMessage };
+
 export class contact_variables {
-  constructor(username, email, topic, message) {
+  constructor(username, email, subject, message) {
     this.username = username;
     this.email = email;
-    this.topic = topic;
+    this.subject = subject;
     this.message = message;
   }
 
   summarize() {
     console.log(`Username = ${this.username}
         Email = ${this.email}
-        Topic = ${this.topic}
+        subject = ${this.subject}
         Message = ${this.message}`);
   }
 }

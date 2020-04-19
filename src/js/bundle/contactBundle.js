@@ -1763,11 +1763,11 @@ var contactScreenArr = Array.from(contactScreen);
 var contactVariables = {
   username: contactScreenArr[0],
   email: contactScreenArr[1],
-  topic: contactScreenArr[2],
+  subject: contactScreenArr[2],
   message: contactScreenArr[3]
 };
 
-var submitAnonymousMessage = async function submitAnonymousMessage(username, email, text) {
+var submitAnonymousMessage = async function submitAnonymousMessage(username, email, subject, text) {
   var config = {
     method: 'post',
     url: _register.url + "/api/support/contact",
@@ -1775,7 +1775,9 @@ var submitAnonymousMessage = async function submitAnonymousMessage(username, ema
       contactUs: {
         username: username,
         email: email,
+        subject: subject,
         text: text
+
       }
     }
   };
@@ -1793,19 +1795,19 @@ exports.contactVariables = contactVariables;
 exports.submitAnonymousMessage = submitAnonymousMessage;
 
 var contact_variables = exports.contact_variables = function () {
-  function contact_variables(username, email, topic, message) {
+  function contact_variables(username, email, subject, message) {
     _classCallCheck(this, contact_variables);
 
     this.username = username;
     this.email = email;
-    this.topic = topic;
+    this.subject = subject;
     this.message = message;
   }
 
   _createClass(contact_variables, [{
     key: "summarize",
     value: function summarize() {
-      console.log("Username = " + this.username + "\n        Email = " + this.email + "\n        Topic = " + this.topic + "\n        Message = " + this.message);
+      console.log("Username = " + this.username + "\n        Email = " + this.email + "\n        subject = " + this.subject + "\n        Message = " + this.message);
     }
   }]);
 
@@ -1873,10 +1875,12 @@ var _register = require("../register");
 (0, _register.registeredSectionPage)();
 
 document.getElementById("send_button").addEventListener("click", function () {
-  var newMessage = new _contactModel.contact_variables(_contactModel.contactVariables.username.value, _contactModel.contactVariables.email.value, _contactModel.contactVariables.topic.value, _contactModel.contactVariables.message.value);
+
+  var newMessage = new _contactModel.contact_variables(_contactModel.contactVariables.username.value, _contactModel.contactVariables.email.value, _contactModel.contactVariables.subject.value, _contactModel.contactVariables.message.value);
+
   if (_contactModel.contactVariables.email.value.indexOf("@") > -1) {
     newMessage.summarize();
-    (0, _contactModel.submitAnonymousMessage)(newMessage.username, newMessage.email, newMessage.message.value);
+    (0, _contactModel.submitAnonymousMessage)(newMessage.username, newMessage.email, newMessage.subject, newMessage.message);
   } else {
     alert('Lütfen bilgileri doğru girdiğinden emin ol.');
   }
