@@ -1745,7 +1745,7 @@ process.umask = function() { return 0; };
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.new_comment = exports.companySearchDetailed = exports.getTime = exports.commentInput = exports.commentList = exports.submit = exports.companyCommentArr = exports.companyComment = undefined;
+exports.new_comment = exports.cityFilterBuilder = exports.companySearchDetailed = exports.getTime = exports.commentInput = exports.commentList = exports.submit = exports.companyCommentArr = exports.companyComment = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1755,6 +1755,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var axios = require('axios').default;
 axios.defaults.withCredentials = true;
+
 
 var companyComment = document.querySelectorAll('.form-control');
 var companyCommentArr = Array.from(companyComment);
@@ -1808,6 +1809,21 @@ async function companySearchDetailed() {
     lowerMenuTextInfoThird.innerHTML = 'Firma Bilgileri -5';
 }
 
+var cityFilter = async function cityFilter(uuid) {
+    var config = {
+        method: "get",
+        url: _register.url + '/api/companies/cities/' + uuid
+    };
+    var result = await axios(config);
+    var resultData = result.data;
+    console.log(resultData);
+    lowerMenuDestinationsDOM.innerHTML = ' Kalk\u0131\u015F Yerleri : ' + resultData.from + ' <br> \u0130ni\u015F yerleri: ' + resultData.to + ' ';
+};
+
+var cityFilterBuilder = async function cityFilterBuilder() {
+    await cityFilter(companyID);
+};
+
 var getTime = function getTime() {
     var date = new Date();
     var fullDate = date.getHours() + ':' + date.getMinutes() + ' - ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
@@ -1822,6 +1838,7 @@ exports.commentList = commentList;
 exports.commentInput = commentInput;
 exports.getTime = getTime;
 exports.companySearchDetailed = companySearchDetailed;
+exports.cityFilterBuilder = cityFilterBuilder;
 
 var new_comment = exports.new_comment = function () {
     function new_comment(name, email, message, avatar) {
@@ -1904,6 +1921,7 @@ var _register = require('../register');
 (0, _register.registeredSectionPage)();
 (0, _companyCommentModel.getTime)();
 (0, _companyCommentModel.companySearchDetailed)();
+(0, _companyCommentModel.cityFilterBuilder)();
 
 var template = function template(data) {
 

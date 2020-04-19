@@ -1745,7 +1745,7 @@ process.umask = function() { return 0; };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.search_variables = exports.companyFilter = exports.companySearch = exports.placesArr = exports.searchVariables = exports.companiesScreenArr = exports.companiesScreen = undefined;
+exports.search_variables = exports.companyCitiesBuilder = exports.companyFilter = exports.companySearch = exports.searchVariables = exports.companiesScreenArr = exports.companiesScreen = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1879,23 +1879,12 @@ var searchVariables = {
   threeSeat: companiesScreen[6].getElementsByClassName("box2")[0] //checked
 };
 
-var places = {
-  kamilkoc: ["İstanbul", "İzmir", "Ankara", "Antalya", "Samsun", "İzmit"],
-  pamukkale: ["İstanbul", "İzmir", "Antalya", "Samsun", "İzmit"],
-  ulusoy: ["İstanbul", "Ankara",, "Samsun", "İzmit"],
-  efetur: ["İstanbul", "İzmir", "Ankara", "Antalya", "İzmit"],
-  nilufer: ["İstanbul", "İzmir", "Ankara", "Antalya", "Samsun"],
-  metro: ["İzmir", "Ankara", "Antalya", "Samsun", "İzmit"]
-};
-
-var placesArr = Array.from(Object.values(places));
-
 exports.companiesScreen = companiesScreen;
 exports.companiesScreenArr = companiesScreenArr;
 exports.searchVariables = searchVariables;
-exports.placesArr = placesArr;
 exports.companySearch = companySearch;
 exports.companyFilter = companyFilter;
+exports.companyCitiesBuilder = companyCitiesBuilder;
 
 var search_variables = exports.search_variables = function () {
   function search_variables(companyName, departure, destination, minimumPoint, pet, threeSeat) {

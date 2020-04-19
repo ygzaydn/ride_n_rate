@@ -1,6 +1,7 @@
 const axios = require('axios').default;
 axios.defaults.withCredentials = true;
 import {url} from '../register';
+import { companyCitiesBuilder } from '../models/companiesModel';
 
 async function travelFilter(){
     const travelSlotUUID = location.href.split('?')[1];
@@ -30,5 +31,10 @@ async function travelFilter(){
     companyFilter();
 }
 
+const cityFilter = async () => {
+    
+    const resultTwo = await companyCitiesBuilder('29a5d3f1-1da9-48ee-9ba0-4f4963768b09')
+    console.log(resultTwo.data)
+}
 
-export {travelFilter};
+export {travelFilter, cityFilter};

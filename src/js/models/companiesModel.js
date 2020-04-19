@@ -151,24 +151,12 @@ let searchVariables = {
   threeSeat: companiesScreen[6].getElementsByClassName("box2")[0], //checked
 };
 
-const places = {
-  kamilkoc: ["İstanbul", "İzmir", "Ankara", "Antalya", "Samsun", "İzmit"],
-  pamukkale: ["İstanbul", "İzmir", "Antalya", "Samsun", "İzmit"],
-  ulusoy: ["İstanbul", "Ankara", , "Samsun", "İzmit"],
-  efetur: ["İstanbul", "İzmir", "Ankara", "Antalya", "İzmit"],
-  nilufer: ["İstanbul", "İzmir", "Ankara", "Antalya", "Samsun"],
-  metro: ["İzmir", "Ankara", "Antalya", "Samsun", "İzmit"],
-};
-
-const placesArr = Array.from(Object.values(places));
-
 export {
   companiesScreen,
   companiesScreenArr,
   searchVariables,
-  placesArr,
   companySearch,
-  companyFilter,
+  companyFilter
 };
 export class search_variables {
   constructor(

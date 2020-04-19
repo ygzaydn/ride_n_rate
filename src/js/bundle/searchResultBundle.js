@@ -1740,14 +1740,185 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],28:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.search_variables = exports.companyCitiesBuilder = exports.companyFilter = exports.companySearch = exports.searchVariables = exports.companiesScreenArr = exports.companiesScreen = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _register = require("../register");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var axios = require("axios").default;
+axios.defaults.withCredentials = true;
+
+
+var companiesScreen = document.querySelectorAll(".form-group");
+var companiesScreenArr = Array.from(companiesScreen);
+var companyListDOM = document.querySelector(".company-names");
+
+var companyCitiesBuilder = async function companyCitiesBuilder(uuid) {
+  var config = {
+    method: "get",
+    url: _register.url + "/api/companies/cities/" + uuid
+  };
+  var result = await axios(config);
+  var resultData = result.data;
+  return { resultData: resultData };
+};
+
+async function companySearch() {
+  var config = {
+    method: "post",
+    url: _register.url + "/api/companies/all"
+  };
+
+  var result = await axios(config);
+  var resultData = result.data;
+
+  //console.log(resultData);
+
+  resultData.forEach(function (el) {
+    var starBuilder = function starBuilder() {
+      var output = "";
+      for (var i = 0; i < el.averateRating; i++) {
+        output += "<span class=\"icon-star text-warning\"></span>";
+      }
+      return output;
+    };
+
+    var title = el.title;
+    var parsedTitle = title.substring(7);
+    var parsedTitleNoSpace = parsedTitle.replace(/\s+/g, "").toLowerCase();
+    companyCitiesBuilder(el.uuid).then(function (data) {
+      //console.log(data);
+
+      companyListDOM.insertAdjacentHTML("beforeend", "\n        <div class=\"d-block d-md-flex listing-horizontal pet threeseat\" >\n        <a href=\"#\" class=\"img d-block\" style=\"background-image: url('src/images/companies/" + parsedTitleNoSpace + ".png')\">\n        </a>\n        <div class=\"lh-content\">\n          <h3><a class=\"company_names\" href=\"companydetail.html?" + el.uuid + "\">" + parsedTitle + "</a></h3>\n          <p>\n            " + starBuilder() + "\n          </p>\n          <span>(" + el.reviewCount + " De\u011Ferlendirme)</span>\n          <div class=\"cities-from\" hidden>" + data.resultData.from + " </div>\n          <div class=\"cities-to\" hidden>" + data.resultData.to + " </div>\n        </div>\n        </div>\n        ");
+    });
+  });
+}
+
+async function filterBuilder() {
+  var config = {
+    method: "post",
+    url: _register.url + "/api/companies/all"
+  };
+  var points = [];
+  var threeSeatSupport = [];
+  var petSupport = [];
+  var result = await axios(config);
+  var resultData = result.data;
+
+  resultData.forEach(function (el) {
+    var title = el.title;
+    var parsedTitle = title.substring(7);
+    points.push(parsedTitle + "-" + el.averateRating);
+    threeSeatSupport.push(parsedTitle + "-" + el.information.is3Seater);
+    petSupport.push(parsedTitle + "-" + el.information.petAllowed);
+  });
+
+  return { points: points, threeSeatSupport: threeSeatSupport, petSupport: petSupport, fromCities: fromCities, toCities: toCities };
+}
+
+async function companyFilter() {
+  var pointsArr = await (await filterBuilder()).points;
+  var petValuesArr = await (await filterBuilder()).petSupport;
+  var threeSeatSupportArr = await (await filterBuilder()).threeSeatSupport;
+
+  var point = document.getElementById("star_slide").value;
+  var filterPet = document.getElementById("pet_checkbox").checked;
+  var filterThree = document.getElementById("3seat_bus").checked;
+  var length = document.querySelectorAll(".threeseat").length;
+  var elements = document.querySelectorAll(".lh-content");
+  filterPet = filterPet.toString();
+  filterThree = filterThree.toString();
+
+  var companies = [];
+  var companyPoint = [];
+  var valuePoint = [];
+  var companyPet = [];
+  var valuePet = [];
+  var companyThree = [];
+  var valueThree = [];
+
+  for (var i = 0; i < length; i++) {
+    companies[i] = elements[i].innerHTML.split('">')[1].split("</")[0];
+  }
+  for (var _i = 0; _i < petValuesArr.length; _i++) {
+    companyPet[_i] = petValuesArr[_i].split("-")[0];
+    valuePet[_i] = petValuesArr[_i].split("-")[1];
+    companyThree[_i] = threeSeatSupportArr[_i].split("-")[0];
+    valueThree[_i] = threeSeatSupportArr[_i].split("-")[1];
+    companyPoint[_i] = pointsArr[_i].split("-")[0];
+    valuePoint[_i] = pointsArr[_i].split("-")[1];
+  }
+
+  //console.log(companies);
+
+  for (var _i2 = 0; _i2 < length; _i2++) {
+    if (companies[_i2] === companyPet[_i2] && companies[_i2] === companyThree[_i2] && companies[_i2] === companyPoint[_i2]) {
+      if (filterPet === valuePet[_i2] && filterThree === valueThree[_i2] && valuePoint[_i2] >= point) {
+        elements[_i2].style.display = "";
+      } else {
+        elements[_i2].style.display = "none";
+      }
+    }
+  }
+}
+
+var searchVariables = {
+  companyName: companiesScreenArr[0].getElementsByClassName("form-control")[0], //value
+  departure: companiesScreenArr[1].getElementsByClassName("form-control")[0],
+  destination: companiesScreenArr[2].getElementsByClassName("form-control")[0],
+  minimumPoint: companiesScreenArr[4], //textcontent.trim()
+  pet: companiesScreen[6].getElementsByClassName("box1")[0], //checked
+  threeSeat: companiesScreen[6].getElementsByClassName("box2")[0] //checked
+};
+
+exports.companiesScreen = companiesScreen;
+exports.companiesScreenArr = companiesScreenArr;
+exports.searchVariables = searchVariables;
+exports.companySearch = companySearch;
+exports.companyFilter = companyFilter;
+exports.companyCitiesBuilder = companyCitiesBuilder;
+
+var search_variables = exports.search_variables = function () {
+  function search_variables(companyName, departure, destination, minimumPoint, pet, threeSeat) {
+    _classCallCheck(this, search_variables);
+
+    this.companyName = companyName;
+    this.departure = departure;
+    this.destination = destination;
+    this.minimumPoint = minimumPoint;
+    this.pet = pet;
+    this.threeSeat = threeSeat;
+  }
+
+  _createClass(search_variables, [{
+    key: "summarize",
+    value: function summarize() {
+      console.log("Company Name = " + this.companyName + "\n        Departure = " + this.departure + "\n        Destination = " + this.destination + "\n        Minimum Point = " + this.minimumPoint + "\n        Pet = " + this.pet + "\n        Three Seat Bus = " + this.threeSeat);
+    }
+  }]);
+
+  return search_variables;
+}();
+
+},{"../register":30,"axios":1}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.travelFilter = undefined;
+exports.cityFilter = exports.travelFilter = undefined;
 
 var _register = require('../register');
+
+var _companiesModel = require('../models/companiesModel');
 
 var axios = require('axios').default;
 axios.defaults.withCredentials = true;
@@ -1781,9 +1952,17 @@ async function travelFilter() {
     companyFilter();
 }
 
-exports.travelFilter = travelFilter;
+var cityFilter = async function cityFilter() {
+    var result = await (0, _companiesModel.companyCitiesBuilder)();
+    //console.log(result.data);
+    var resultTwo = await (0, _companiesModel.companyCitiesBuilder)('29a5d3f1-1da9-48ee-9ba0-4f4963768b09');
+    console.log(resultTwo.data);
+};
 
-},{"../register":29,"axios":1}],29:[function(require,module,exports){
+exports.travelFilter = travelFilter;
+exports.cityFilter = cityFilter;
+
+},{"../models/companiesModel":28,"../register":30,"axios":1}],30:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1834,7 +2013,7 @@ async function registeredSectionPage() {
 exports.registeredSectionPage = registeredSectionPage;
 exports.url = url;
 
-},{"axios":1}],30:[function(require,module,exports){
+},{"axios":1}],31:[function(require,module,exports){
 "use strict";
 
 var _register = require("../register");
@@ -1843,5 +2022,6 @@ var _searchResultModel = require("../models/searchResultModel");
 
 (0, _register.registeredSectionPage)();
 (0, _searchResultModel.travelFilter)();
+(0, _searchResultModel.cityFilter)();
 
-},{"../models/searchResultModel":28,"../register":29}]},{},[30]);
+},{"../models/searchResultModel":29,"../register":30}]},{},[31]);

@@ -1,9 +1,10 @@
-import {getTime, companyCommentArr, commentList, companySearchDetailed, new_comment} from '../models/companyCommentModel'
+import {getTime, companyCommentArr, commentList, companySearchDetailed, new_comment, cityFilterBuilder} from '../models/companyCommentModel'
 import {registeredSectionPage} from '../register'
 
 registeredSectionPage();
 getTime();
 companySearchDetailed();
+cityFilterBuilder();
 
 const template = (data) => {
 

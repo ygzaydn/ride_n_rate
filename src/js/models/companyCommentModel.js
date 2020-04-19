@@ -1,6 +1,7 @@
 const axios = require('axios').default;
 axios.defaults.withCredentials = true;
 import {url} from '../register';
+
 const companyComment = document.querySelectorAll('.form-control');
 const companyCommentArr = Array.from(companyComment);
 
@@ -54,6 +55,22 @@ async function companySearchDetailed () {
         
 }
 
+const cityFilter = async (uuid) => {
+    const config = {
+      method: "get",
+      url: `${url}/api/companies/cities/${uuid}`,
+    };
+    const result = await axios(config);
+    const resultData = result.data;
+    console.log(resultData);
+    lowerMenuDestinationsDOM.innerHTML = ` Kalkış Yerleri : ${resultData.from} <br> İniş yerleri: ${resultData.to} ` 
+  };
+
+const cityFilterBuilder = async () => {
+    await cityFilter(companyID);
+    
+}
+
 
 const getTime = () => {
     let date = new Date();
@@ -63,7 +80,7 @@ const getTime = () => {
 }
 
 
-export {companyComment, companyCommentArr, submit, commentList, commentInput, getTime, companySearchDetailed}
+export {companyComment, companyCommentArr, submit, commentList, commentInput, getTime, companySearchDetailed, cityFilterBuilder}
 
 export class new_comment {
 

@@ -3,3 +3,4 @@ import { travelFilter } from "../models/searchResultModel";
 
 registeredSectionPage();
 travelFilter();
+

@@ -1,6 +1,5 @@
 import {
   searchVariables,
-  placesArr,
   search_variables,
   companySearch,
   companyFilter,
