@@ -1,8 +1,5 @@
 import {countNumber, userInfo, logOut} from '../models/aboutModel';
-import {registeredSectionPage} from '../register';
 
-
-registeredSectionPage();
 countNumber();
 userInfo();
 

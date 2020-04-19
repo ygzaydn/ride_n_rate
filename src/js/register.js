@@ -6,22 +6,16 @@ const url = 'https://guardianbe.herokuapp.com';
 async function registeredSectionPage() {
     const config = {
         method : 'get',
-        url : `${url}/api/auth/session`,
-        headers: {'Authorization': `Token ${localStorage.getItem('token')}`}
+        url : `${url}/api/auth/session`
     }
     try {
         let res = await axios(config);
         if(res.status === 200) {
             const registerSection = document.getElementById('register-section');
             registerSection.innerHTML = '';
-        
-            const registerButtonNew = document.querySelector('.site-menu').children[2].children[0];
-            registerButtonNew.href = "about.html"
-            registerButtonNew.innerText = "Bilgilerim";
-
-            const registerButton = document.querySelector('.signupelement');
+            const registerButton = document.querySelector('.site-menu').children[3].children[0];
             registerButton.href = "about.html"
-            registerButton.innerText = "Bilgilerim";
+            registerButton.innerHTML = "<span>Bilgilerim</span>";
         }
     } catch (err) {
         console.log(err);
@@ -29,4 +23,3 @@ async function registeredSectionPage() {
 }
 
 export {registeredSectionPage, url};
-

@@ -3,7 +3,7 @@ var gulp = require('gulp');
 var babelify = require('babelify');
 var source = require('vinyl-source-stream');
 
-var destFolder = './bundle/';
+var destFolder = './src/js/bundle/';
 
 
 

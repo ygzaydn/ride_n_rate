@@ -1,24 +1,20 @@
-import {getTime, companyCommentArr, commentList, companyPageEdit, new_comment, companyName} from '../models/companyCommentModel'
+
+import {companyComment, companyCommentArr, submit, commentList, commentInput, new_comment} from '../models/companyCommentModel'
+
 import {registeredSectionPage} from '../register'
 
 registeredSectionPage();
-getTime();
-companyPageEdit();
 
-console.log(getTime());
+getTime = () => {
+  let date = new Date();
 
-const companyPageEditx = () => {
-  console.log(companyName);
-  mainLogoDOM = `background-image: url("../images/companies/${companyName}.png"); background-size: contain; background-position: 50% -25px;` //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
-  mainCompanyNameDOM = `${companyName}`;
-  lowerMenuCompanyNameDOM = `${companyName} Şubeleri`
-  lowerMenuDestinationsDOM = `Şube isimleri`
+  return fullDate = `${date.getHours()}:${date.getMinutes()} - ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`
+  
 }
-companyPageEditx();
 
-const template = (data) => {
+template = (data) => {
 
-commentList.insertAdjacentHTML("afterbegin",`
+  commentList.insertAdjacentHTML("afterbegin",`
   <li class="comment">
     <div class="vcard bio">
       <img src="${data.avatar}" alt="Image placeholder">
