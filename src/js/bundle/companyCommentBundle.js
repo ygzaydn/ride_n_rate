@@ -1815,7 +1815,7 @@ var cityFilterBuilder = async function cityFilterBuilder(uuid) {
   };
   var result = await axios(config);
   var resultData = result.data;
-  console.log(resultData);
+  //console.log(resultData);
   lowerMenuDestinationsDOM.innerHTML = " Kalk\u0131\u015F Yerleri : " + resultData.from + " <br> \u0130ni\u015F yerleri: " + resultData.to + " ";
 };
 

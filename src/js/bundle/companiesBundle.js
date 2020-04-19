@@ -1745,7 +1745,7 @@ process.umask = function() { return 0; };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.search_variables = exports.companyCitiesBuilder = exports.companyFilter = exports.companySearch = exports.searchVariables = exports.companiesScreenArr = exports.companiesScreen = undefined;
+exports.search_variables = exports.companyFilter = exports.companySearch = exports.searchVariables = exports.companiesScreenArr = exports.companiesScreen = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1884,7 +1884,6 @@ exports.companiesScreenArr = companiesScreenArr;
 exports.searchVariables = searchVariables;
 exports.companySearch = companySearch;
 exports.companyFilter = companyFilter;
-exports.companyCitiesBuilder = companyCitiesBuilder;
 
 var search_variables = exports.search_variables = function () {
   function search_variables(companyName, departure, destination, minimumPoint, pet, threeSeat) {

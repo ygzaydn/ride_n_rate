@@ -1745,7 +1745,7 @@ process.umask = function() { return 0; };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.search_variables = exports.companyCitiesBuilder = exports.companyFilter = exports.companySearch = exports.searchVariables = exports.companiesScreenArr = exports.companiesScreen = undefined;
+exports.search_variables = exports.companyFilter = exports.companySearch = exports.searchVariables = exports.companiesScreenArr = exports.companiesScreen = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1884,7 +1884,6 @@ exports.companiesScreenArr = companiesScreenArr;
 exports.searchVariables = searchVariables;
 exports.companySearch = companySearch;
 exports.companyFilter = companyFilter;
-exports.companyCitiesBuilder = companyCitiesBuilder;
 
 var search_variables = exports.search_variables = function () {
   function search_variables(companyName, departure, destination, minimumPoint, pet, threeSeat) {
@@ -1953,8 +1952,7 @@ async function travelFilter() {
 }
 
 var cityFilter = async function cityFilter() {
-    var result = await (0, _companiesModel.companyCitiesBuilder)();
-    //console.log(result.data);
+
     var resultTwo = await (0, _companiesModel.companyCitiesBuilder)('29a5d3f1-1da9-48ee-9ba0-4f4963768b09');
     console.log(resultTwo.data);
 };
@@ -2022,6 +2020,5 @@ var _searchResultModel = require("../models/searchResultModel");
 
 (0, _register.registeredSectionPage)();
 (0, _searchResultModel.travelFilter)();
-(0, _searchResultModel.cityFilter)();
 
 },{"../models/searchResultModel":29,"../register":30}]},{},[31]);
