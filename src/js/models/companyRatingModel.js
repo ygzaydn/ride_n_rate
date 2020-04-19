@@ -1,7 +1,7 @@
 const companyRatingDOM = document.querySelectorAll('.rate');
 const companyRatingDOMArr = Array.from(companyRatingDOM);
 
-export {companyRatingDOM, companyRatingDOMArr};
+export {companyRatingDOMArr};
 export class company_rating {
     constructor (category1, category2, category3, category4, category5, category6, category7) {
         this.category1 = category1;
@@ -24,13 +24,3 @@ export class company_rating {
     }
 
 }
-
-/* fetch("http://127.0.0.1:9999/ping")
-.then ((res) => {
-    console.log(res);
-    return res.json();
-})
-.then((data)=> {
-    console.log(data);
-})
-.catch (err => console.log(err)) */

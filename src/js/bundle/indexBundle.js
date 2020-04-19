@@ -1745,13 +1745,9 @@ process.umask = function() { return 0; };
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.search_parameters = exports.pingRequest = exports.searchVariables = exports.indexScreenArr = exports.indexScreen = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+exports.cityLister = exports.pingRequest = exports.searchVariables = exports.indexScreenArr = exports.indexScreen = undefined;
 
 var _register = require('../register');
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var axios = require('axios').default;
 axios.defaults.withCredentials = true;
@@ -1760,11 +1756,30 @@ axios.defaults.withCredentials = true;
 var indexScreen = document.querySelectorAll('.form-control');
 var indexScreenArr = Array.from(indexScreen);
 
+async function cityLister() {
+    var config = {
+        method: 'get',
+        url: _register.url + '/api/travelslots/cities'
+    };
+    var res = await axios(config);
+    var fromArr = res.data.from;
+    var toArr = res.data.to;
+    fromArr.forEach(function (el) {
+        var fromDOM = document.querySelector('.from-city');
+        fromDOM.insertAdjacentHTML('beforeend', '\n        <option value="' + el + '">' + el + '</option>');
+    });
+    toArr.forEach(function (el) {
+        var toDOM = document.querySelector('.to-city');
+        toDOM.insertAdjacentHTML('beforeend', '\n        <option value="' + el + '">' + el + '</option>');
+    });
+    console.log(res);
+}
+
 var searchVariables = {
-    departure: indexScreenArr[0],
-    destination: indexScreenArr[1],
-    day: indexScreenArr[2].selectedIndex + 1,
-    month: indexScreenArr[3].selectedIndex + 1
+    departure: document.querySelector('.form-control').form[0].value,
+    destination: document.querySelector('.form-control').form[1].value,
+    hour: document.querySelector('.form-control').form[2].value,
+    minute: document.querySelector('.form-control').form[3].value
 };
 
 async function pingRequest() {
@@ -1782,61 +1797,71 @@ exports.indexScreen = indexScreen;
 exports.indexScreenArr = indexScreenArr;
 exports.searchVariables = searchVariables;
 exports.pingRequest = pingRequest;
-
-var search_parameters = exports.search_parameters = function () {
-    function search_parameters(departure, destination, day, month) {
-        _classCallCheck(this, search_parameters);
-
+exports.cityLister = cityLister;
+/* export class search_parameters {
+    
+    constructor( departure, destination, hour, minute){
         this.departure = departure;
         this.destination = destination;
-        this.day = day;
-        this.month = month;
+        this.hour = hour;
+        this.minute = minute;
     }
-
-    _createClass(search_parameters, [{
-        key: 'summarize',
-        value: function summarize() {
-            console.log('Departure = ' + this.departure + '\n        Destination = ' + this.destination + '\n        Day = ' + this.day + '\n        Month = ' + this.month);
-        }
-    }]);
-
-    return search_parameters;
-}();
+    
+    summarize() {
+        console.log(`Departure = ${this.departure}
+        Destination = ${this.destination}
+        Hour = ${this.hour}
+        Minute = ${this.minute}
+        ${JSON.stringify(searchVariables)}`)
+    }
+} */
 
 },{"../register":29,"axios":1}],29:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-var axios = require('axios').default;
+var axios = require("axios").default;
 axios.defaults.withCredentials = true;
 
-var url = 'https://guardianbe.herokuapp.com';
+var url = "https://guardianbe.herokuapp.com";
 
 async function registeredSectionPage() {
-    var config = {
-        method: 'get',
-        url: url + '/api/auth/session',
-        headers: { 'Authorization': 'Token ' + localStorage.getItem('token') }
-    };
-    try {
-        var res = await axios(config);
-        if (res.status === 200) {
-            var registerSection = document.getElementById('register-section');
-            registerSection.innerHTML = '';
+  var config = {
+    method: "get",
+    url: url + "/api/auth/session",
+    headers: { Authorization: "Token " + localStorage.getItem("token") }
+  };
+  try {
+    var res = await axios(config);
+    if (res.status === 200) {
+      var registerSection = document.getElementById("register-section");
+      var registerButtonNew = document.querySelector(".site-menu").children[2].children[0];
+      var registerButton = document.querySelector(".signupelement");
+      var evaluateTravel = document.querySelector(".seferi-degerlendir");
 
-            var registerButtonNew = document.querySelector('.site-menu').children[2].children[0];
-            registerButtonNew.href = "about.html";
-            registerButtonNew.innerText = "Bilgilerim";
+      if (registerSection) {
+        registerSection.innerHTML = "";
+      }
 
-            var registerButton = document.querySelector('.signupelement');
-            registerButton.href = "about.html";
-            registerButton.innerText = "Bilgilerim";
-        }
-    } catch (err) {
-        console.log(err);
+      if (registerButtonNew) {
+        registerButtonNew.href = "about.html";
+        registerButtonNew.innerText = "Bilgilerim";
+      }
+
+      if (registerButton) {
+        registerButton.href = "about.html";
+        registerButton.innerText = "Bilgilerim";
+      }
+
+      if (evaluateTravel) {
+        evaluateTravel.style.display = "";
+      }
     }
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 exports.registeredSectionPage = registeredSectionPage;
@@ -1845,21 +1870,53 @@ exports.url = url;
 },{"axios":1}],30:[function(require,module,exports){
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _indexModel = require('../models/indexModel');
 
 var _register = require('../register');
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 (0, _indexModel.pingRequest)();
 (0, _register.registeredSectionPage)();
+(0, _indexModel.cityLister)();
 
 document.getElementById("search_button").addEventListener("click", function () {
 
-    var searchParameters = new _indexModel.search_parameters(_indexModel.searchVariables.departure.value, _indexModel.searchVariables.destination.value, _indexModel.searchVariables.day, _indexModel.searchVariables.month);
+    var searchVariables = {
+        departure: document.querySelector('.form-control').form[0].value,
+        destination: document.querySelector('.form-control').form[1].value,
+        hour: document.querySelector('.form-control').form[2].value,
+        minute: document.querySelector('.form-control').form[3].value
+    };
+
+    var search_parameters = function () {
+        function search_parameters(departure, destination, hour, minute) {
+            _classCallCheck(this, search_parameters);
+
+            this.departure = departure;
+            this.destination = destination;
+            this.hour = hour;
+            this.minute = minute;
+        }
+
+        _createClass(search_parameters, [{
+            key: 'summarize',
+            value: function summarize() {
+                console.log('Departure = ' + this.departure + '\n            Destination = ' + this.destination + '\n            Hour = ' + this.hour + '\n            Minute = ' + this.minute + '\n            ' + JSON.stringify(searchVariables));
+            }
+        }]);
+
+        return search_parameters;
+    }();
+
+    var searchParameters = new search_parameters(searchVariables.departure, searchVariables.destination, searchVariables.hour, searchVariables.minute);
 
     searchParameters.summarize();
 
     if (searchParameters.departure !== "" && searchParameters.destination !== "") {
-        window.open('search.html?filters=departure:' + searchParameters.departure + ';destination:' + searchParameters.destination + ';day:' + searchParameters.day + ';month:' + searchParameters.month);
+        window.open('search.html?filters=_fromCity:"' + searchParameters.departure + '"_toCity:"' + searchParameters.destination + '"_fromHour:"' + searchParameters.hour + '"_fromMinute:"' + searchParameters.minute + '"');
     } else {
         alert('L\xFCtfen girdi\u011Finiz bilgileri kontrol edin');
     }

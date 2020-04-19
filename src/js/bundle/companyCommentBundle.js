@@ -1740,37 +1740,45 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],28:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
+exports.new_comment = exports.companyID = exports.cityFilterBuilder = exports.companySearchDetailed = exports.getTime = exports.commentInput = exports.commentList = exports.submit = exports.companyCommentArr = exports.companyComment = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _register = require("../register");
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var companyComment = document.querySelectorAll('.form-control');
+var axios = require("axios").default;
+axios.defaults.withCredentials = true;
+
+
+var companyComment = document.querySelectorAll(".form-control");
 var companyCommentArr = Array.from(companyComment);
 
-var submit = document.getElementById('post_comment');
-var commentList = document.querySelector('.comment-list');
-var commentInput = document.getElementById('message');
+var submit = document.getElementById("post_comment");
+var commentList = document.querySelector(".comment-list");
+var commentInput = document.getElementById("message");
 
-var mainLogoDOM = document.querySelector('.inner-page-cover').attributes.style; //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
+var companyID = window.location.href.split("?")[1];
 
-var mainCompanyNameDOM = document.querySelector('.company-name').children[0].firstChild; // Kamilkoç
+var mainLogoDOM = document.querySelector(".inner-page-cover").attributes.style; //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
 
-var lowerMenuCompanyNameDOM = document.querySelector('.offices').children[0].firstChild; // Kamilkoç Turizm Şubeleri
+var mainCompanyNameDOM = document.querySelector(".company-name").children[0].firstChild; // Kamilkoç
 
-var lowerMenuTextTitle = document.querySelector('.ek-baslik').childNodes[3]; // "Ek başlık"
+var lowerMenuCompanyNameDOM = document.querySelector(".offices").children[0].firstChild; // Kamilkoç Turizm Şubeleri
 
-var lowerMenuTextInfoFirst = document.querySelector('.ek-baslik').children[2]; // "Firma bilgileri -3"
-var lowerMenuTextInfoSecond = document.querySelector('.ek-baslik').children[3]; // "Firma bilgileri -4"
-var lowerMenuTextInfoThird = document.querySelector('.ek-baslik').children[4]; // "Firma bilgileri -4"
+var lowerMenuTextTitle = document.querySelector(".ek-baslik").childNodes[3]; // "Ek başlık"
 
+var lowerMenuTextInfoFirst = document.querySelector(".ek-baslik").children[2]; // "Firma bilgileri -3"
+var lowerMenuTextInfoSecond = document.querySelector(".ek-baslik").children[3]; // "Firma bilgileri -4"
+var lowerMenuTextInfoThird = document.querySelector(".ek-baslik").children[4]; // "Firma bilgileri -4"
 
-var lowerMenuDestinationsDOM = document.querySelector('.offices').children[2]; /* 
+var lowerMenuDestinationsDOM = document.querySelector(".offices").children[2]; /* 
                                                                                "İstanbul İzmir Ankara Antalya Samsun İzmit
                                                                                İstanbul İzmir Ankara Antalya Samsun İzmit
                                                                                İstanbul İzmir Ankara Antalya Samsun İzmit
@@ -1779,25 +1787,43 @@ var lowerMenuDestinationsDOM = document.querySelector('.offices').children[2]; /
                                                                                İstanbul İzmir Ankara Antalya Samsun İzmit
                                                                                İstanbul İzmir Ankara Antalya Samsun İzmit" */
 
-var companyName = window.location.href.split('?')[1];
-
-function companyPageEdit() {
-    console.log('Company name is = ' + companyName);
-    mainLogoDOM.nodeValue = 'background-image: url("../images/companies/' + companyName + '.png"); background-size: contain; background-position: 50% -25px;'; //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
-    mainCompanyNameDOM.data = '' + companyName;
-    lowerMenuCompanyNameDOM.data = companyName + ' \u015Eubeleri';
-    lowerMenuDestinationsDOM.innerText = '\u015Eube isimleri';
-    lowerMenuTextTitle.innerHTML = 'Ba\u015Fl\u0131k No-1';
-    lowerMenuTextInfoFirst.innerHTML = 'Firma Bilgileri -3';
-    lowerMenuTextInfoSecond.innerHTML = 'Firma Bilgileri -4';
-    lowerMenuTextInfoThird.innerHTML = 'Firma Bilgileri -5';
+async function companySearchDetailed() {
+  var config = {
+    method: "get",
+    url: _register.url + "/api/companies/" + companyID
+  };
+  var result = await axios(config);
+  var resultData = result.data;
+  var title = resultData.title;
+  var parsedTitle = title.substring(7);
+  var parsedTitleNoSpace = parsedTitle.replace(/\s+/g, "").toLowerCase();
+  console.log(resultData);
+  mainLogoDOM.nodeValue = "background-image: url(\"src/images/companies/" + parsedTitleNoSpace + ".png\"); background-size: contain; background-position: 50% -25px;"; //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
+  mainCompanyNameDOM.data = "" + result.data.name;
+  lowerMenuCompanyNameDOM.data = result.data.name + " \u015Eubeleri";
+  lowerMenuDestinationsDOM.innerText = "\u015Eube isimleri";
+  lowerMenuTextTitle.innerHTML = "Ba\u015Fl\u0131k No-1";
+  lowerMenuTextInfoFirst.innerHTML = "Firma Bilgileri -3";
+  lowerMenuTextInfoSecond.innerHTML = "Firma Bilgileri -4";
+  lowerMenuTextInfoThird.innerHTML = "Firma Bilgileri -5";
 }
 
-var getTime = function getTime() {
-    var date = new Date();
-    var fullDate = date.getHours() + ':' + date.getMinutes() + ' - ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+var cityFilterBuilder = async function cityFilterBuilder(uuid) {
+  var config = {
+    method: "get",
+    url: _register.url + "/api/companies/cities/" + uuid
+  };
+  var result = await axios(config);
+  var resultData = result.data;
+  //console.log(resultData);
+  lowerMenuDestinationsDOM.innerHTML = " Kalk\u0131\u015F Yerleri : " + resultData.from + " <br> \u0130ni\u015F yerleri: " + resultData.to + " ";
+};
 
-    return fullDate;
+var getTime = function getTime() {
+  var date = new Date();
+  var fullDate = date.getHours() + ":" + date.getMinutes() + " - " + date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+
+  return fullDate;
 };
 
 exports.companyComment = companyComment;
@@ -1806,63 +1832,76 @@ exports.submit = submit;
 exports.commentList = commentList;
 exports.commentInput = commentInput;
 exports.getTime = getTime;
-exports.companyPageEdit = companyPageEdit;
-exports.companyName = companyName;
+exports.companySearchDetailed = companySearchDetailed;
+exports.cityFilterBuilder = cityFilterBuilder;
+exports.companyID = companyID;
 
 var new_comment = exports.new_comment = function () {
-    function new_comment(name, email, message, avatar) {
-        _classCallCheck(this, new_comment);
+  function new_comment(name, email, message, avatar) {
+    _classCallCheck(this, new_comment);
 
-        this.name = name;
-        this.email = email;
-        this.message = message;
-        this.avatar = avatar;
+    this.name = name;
+    this.email = email;
+    this.message = message;
+    this.avatar = avatar;
+  }
+
+  _createClass(new_comment, [{
+    key: "summarize",
+    value: function summarize() {
+      console.log("Name : " + this.name + "\n        Email : " + this.email + "\n        Message : " + this.message);
     }
+  }]);
 
-    _createClass(new_comment, [{
-        key: 'summarize',
-        value: function summarize() {
-            console.log('Name : ' + this.name + '\n        Email : ' + this.email + '\n        Message : ' + this.message);
-        }
-    }]);
-
-    return new_comment;
+  return new_comment;
 }();
 
-},{}],29:[function(require,module,exports){
-'use strict';
+},{"../register":29,"axios":1}],29:[function(require,module,exports){
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-var axios = require('axios').default;
+var axios = require("axios").default;
 axios.defaults.withCredentials = true;
 
-var url = 'https://guardianbe.herokuapp.com';
+var url = "https://guardianbe.herokuapp.com";
 
 async function registeredSectionPage() {
-    var config = {
-        method: 'get',
-        url: url + '/api/auth/session',
-        headers: { 'Authorization': 'Token ' + localStorage.getItem('token') }
-    };
-    try {
-        var res = await axios(config);
-        if (res.status === 200) {
-            var registerSection = document.getElementById('register-section');
-            registerSection.innerHTML = '';
+  var config = {
+    method: "get",
+    url: url + "/api/auth/session",
+    headers: { Authorization: "Token " + localStorage.getItem("token") }
+  };
+  try {
+    var res = await axios(config);
+    if (res.status === 200) {
+      var registerSection = document.getElementById("register-section");
+      var registerButtonNew = document.querySelector(".site-menu").children[2].children[0];
+      var registerButton = document.querySelector(".signupelement");
+      var evaluateTravel = document.querySelector(".seferi-degerlendir");
 
-            var registerButtonNew = document.querySelector('.site-menu').children[2].children[0];
-            registerButtonNew.href = "about.html";
-            registerButtonNew.innerText = "Bilgilerim";
+      if (registerSection) {
+        registerSection.innerHTML = "";
+      }
 
-            var registerButton = document.querySelector('.signupelement');
-            registerButton.href = "about.html";
-            registerButton.innerText = "Bilgilerim";
-        }
-    } catch (err) {
-        console.log(err);
+      if (registerButtonNew) {
+        registerButtonNew.href = "about.html";
+        registerButtonNew.innerText = "Bilgilerim";
+      }
+
+      if (registerButton) {
+        registerButton.href = "about.html";
+        registerButton.innerText = "Bilgilerim";
+      }
+
+      if (evaluateTravel) {
+        evaluateTravel.style.display = "";
+      }
     }
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 exports.registeredSectionPage = registeredSectionPage;
@@ -1877,18 +1916,8 @@ var _register = require('../register');
 
 (0, _register.registeredSectionPage)();
 (0, _companyCommentModel.getTime)();
-(0, _companyCommentModel.companyPageEdit)();
-
-console.log((0, _companyCommentModel.getTime)());
-
-var companyPageEditx = function companyPageEditx() {
-  console.log(_companyCommentModel.companyName);
-  mainLogoDOM = 'background-image: url("../images/companies/' + _companyCommentModel.companyName + '.png"); background-size: contain; background-position: 50% -25px;'; //background-image: url("../images/companies/kamilkoc.png"); background-size: contain; background-position: 50% -25px;
-  mainCompanyNameDOM = '' + _companyCommentModel.companyName;
-  lowerMenuCompanyNameDOM = _companyCommentModel.companyName + ' \u015Eubeleri';
-  lowerMenuDestinationsDOM = '\u015Eube isimleri';
-};
-companyPageEditx();
+(0, _companyCommentModel.companySearchDetailed)();
+(0, _companyCommentModel.cityFilterBuilder)(_companyCommentModel.companyID);
 
 var template = function template(data) {
 

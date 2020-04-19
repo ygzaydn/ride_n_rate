@@ -1740,15 +1740,60 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],28:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.search_variables = exports.travelFilter = exports.companiesScreen = exports.companiesScreenArr = exports.searchVariables = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _register = require('../register');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var axios = require('axios').default;
+axios.defaults.withCredentials = true;
+
+
+async function travelFilter() {
+    var config = {
+        method: 'post',
+        url: _register.url + '/api/travelslots/all',
+        data: {
+            filters: {
+                query: {
+                    fromHour: '' + location.href.split('?')[1].split('%22')[5],
+                    fromCity: '' + location.href.split('?')[1].split('%22')[1],
+                    toCity: '' + location.href.split('?')[1].split('%22')[3] //location.href.split('?')[1].split('%22')[3]
+                },
+                pagination: { pageNumber: 1 }
+            }
+        }
+    };
+    try {
+        var res = await axios(config);
+        var resArr = res.data;
+
+        resArr.forEach(function (el) {
+            //console.log(el.travelslot.isPetAllowed);
+            //console.log(el.travelslot.is3Seater);
+            var starBuilder = function starBuilder() {
+                var output = '';
+                for (var i = 0; i < el.travelslot.fromHour; i++) {
+                    output += '<span class="icon-star text-warning"></span>';
+                }
+                return output;
+            };
+            var companyNameWithoutSpace = el.company.title.split(':')[1].replace(/\s+/g, '').toLowerCase();
+            var DOM = document.querySelector('.companies');
+            DOM.insertAdjacentHTML('beforeend', '\n        <div class="d-block d-md-flex listing-horizontal">\n        <a href="search_result.html?' + el.travelslot.uuid + '?' + el.company.uuid + '" class="img d-block" style="background-image: url(\'src/images/companies/' + companyNameWithoutSpace + '.png\'); object-fit: cover;">\n        </a>\n        <div class="lh-content">\n  \n        <h3><a class="company_names" href="search_result.html?' + el.travelslot.uuid + '?' + el.company.uuid + '"</a></h3>\n        <!--  <p>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-secondary"></span>\n        <span>(492 De\u011Ferlendirme)</span>\n        </p> -->\n        <p hidden class="pet">' + el.travelslot.isPetAllowed + '</p>\n        <p hidden class="threeSeat">' + el.travelslot.is3Seater + '</p>\n        <h3>' + el.travelslot.fromCity + ' - ' + el.travelslot.toCity + '<br></h3>\n        <span>(123213 De\u011Ferlendirme)<br></span>\n    \n        <span>Kalk\u0131\u015F: ' + el.travelslot.travelTime + '</span>\n        <p>\n        <span class="icon-star text-warning"></span>\n            ' + starBuilder() + '\n        </p>\n        </div>\n        </div>');
+        });
+    } catch (err) {
+        console.log(err);
+    }
+}
 
 var companiesScreen = document.querySelectorAll('.form-group');
 var companiesScreenArr = Array.from(companiesScreen);
@@ -1759,44 +1804,10 @@ var searchVariables = {
     threeSeat: companiesScreen[3].getElementsByClassName("box2")[0] //checked
 };
 
-var points = {
-    kamilkoc: 2,
-    pamukkale: 2.3,
-    efetur: 0.5,
-    nilufer: 4,
-    metro: 4.2,
-    ulusoy: 3.2
-};
-var pointsArr = Array.from(Object.values(points));
-
-var petValues = {
-    kamilkoc: true,
-    pamukkale: false,
-    efetur: true,
-    nilufer: false,
-    metro: false,
-    ulusoy: true
-};
-
-var petValuesArr = Array.from(Object.values(petValues));
-
-var threeSeatSupport = {
-    kamilkoc: true,
-    pamukkale: false,
-    efetur: false,
-    nilufer: true,
-    metro: false,
-    ulusoy: false
-};
-
-var threeSeatSupportArr = Array.from(Object.values(threeSeatSupport));
-
-exports.threeSeatSupportArr = threeSeatSupportArr;
-exports.petValuesArr = petValuesArr;
-exports.pointsArr = pointsArr;
 exports.searchVariables = searchVariables;
 exports.companiesScreenArr = companiesScreenArr;
 exports.companiesScreen = companiesScreen;
+exports.travelFilter = travelFilter;
 
 var search_variables = exports.search_variables = function () {
     function search_variables(minimumPoint, pet, threeSeat) {
@@ -1808,49 +1819,86 @@ var search_variables = exports.search_variables = function () {
     }
 
     _createClass(search_variables, [{
-        key: "summarize",
+        key: 'summarize',
         value: function summarize() {
-            console.log("Minimum Point = " + this.minimumPoint + "\n        Pet = " + this.pet + "\n        Three Seat Bus = " + this.threeSeat);
+            console.log('Minimum Point = ' + this.minimumPoint + '\n        Pet = ' + this.pet + '\n        Three Seat Bus = ' + this.threeSeat);
         }
     }]);
 
     return search_variables;
 }();
 
-},{}],29:[function(require,module,exports){
-'use strict';
+/*
+
+<ul id = companies>
+<div class="d-block d-md-flex listing-horizontal">
+<a href="#" class="img d-block" style="background-image: url('src/images/companies/kamilkoc.png'); object-fit: cover;">
+  <!-- <span class="category">Restaurants</span> -->
+</a>
+<div class="lh-content">
+  <!-- <a href="#" class="bookmark"><span class="icon-heart"></span></a> -->
+  <h3><a class="company_names" href="search_result.html">Kamil Koç Turizm</a></h3>
+  <!-- <p>Don St, Brooklyn, New York</p> -->
+  <p>
+    <span class="icon-star text-warning"></span>
+    <span class="icon-star text-warning"></span>
+    <span class="icon-star text-warning"></span>
+    <span class="icon-star text-warning"></span>
+    <span class="icon-star text-secondary"></span>
+    <span>(492 Değerlendirme)</span>
+  </p>
+  <span>(4 Yorum)<br></span>
+  <span>Kalkış: 19:30</span>
+</div>
+</div>
+*/
+
+},{"../register":29,"axios":1}],29:[function(require,module,exports){
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-var axios = require('axios').default;
+var axios = require("axios").default;
 axios.defaults.withCredentials = true;
 
-var url = 'https://guardianbe.herokuapp.com';
+var url = "https://guardianbe.herokuapp.com";
 
 async function registeredSectionPage() {
-    var config = {
-        method: 'get',
-        url: url + '/api/auth/session',
-        headers: { 'Authorization': 'Token ' + localStorage.getItem('token') }
-    };
-    try {
-        var res = await axios(config);
-        if (res.status === 200) {
-            var registerSection = document.getElementById('register-section');
-            registerSection.innerHTML = '';
+  var config = {
+    method: "get",
+    url: url + "/api/auth/session",
+    headers: { Authorization: "Token " + localStorage.getItem("token") }
+  };
+  try {
+    var res = await axios(config);
+    if (res.status === 200) {
+      var registerSection = document.getElementById("register-section");
+      var registerButtonNew = document.querySelector(".site-menu").children[2].children[0];
+      var registerButton = document.querySelector(".signupelement");
+      var evaluateTravel = document.querySelector(".seferi-degerlendir");
 
-            var registerButtonNew = document.querySelector('.site-menu').children[2].children[0];
-            registerButtonNew.href = "about.html";
-            registerButtonNew.innerText = "Bilgilerim";
+      if (registerSection) {
+        registerSection.innerHTML = "";
+      }
 
-            var registerButton = document.querySelector('.signupelement');
-            registerButton.href = "about.html";
-            registerButton.innerText = "Bilgilerim";
-        }
-    } catch (err) {
-        console.log(err);
+      if (registerButtonNew) {
+        registerButtonNew.href = "about.html";
+        registerButtonNew.innerText = "Bilgilerim";
+      }
+
+      if (registerButton) {
+        registerButton.href = "about.html";
+        registerButton.innerText = "Bilgilerim";
+      }
+
+      if (evaluateTravel) {
+        evaluateTravel.style.display = "";
+      }
     }
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 exports.registeredSectionPage = registeredSectionPage;
@@ -1864,39 +1912,22 @@ var _searchModel = require('../models/searchModel');
 var _register = require('../register');
 
 (0, _register.registeredSectionPage)();
-
-pointFilter = function pointFilter() {
-
-    var point = document.getElementById('star_slide').value;
-    var companies = document.querySelectorAll('.company_names');
-    var elements = document.querySelectorAll('.lh-content');
-
-    for (i = 0; i < companies.length; i++) {
-        if (_searchModel.pointsArr[i] >= point) {
-            elements[i].style.display = "";
-        } else {
-            elements[i].style.display = "none";
-        }
-    }
-};
-
-urlParser = function urlParser() {
-
-    var url = window.location.href.split("=")[1];
-    var departure = url.split(";")[0].split(":")[1];
-    var destination = url.split(";")[1].split(":")[1];
-
-    document.getElementById('results_urlparser').textContent = '\n    Kalk\u0131\u015F yeri : ' + departure + ',    \u0130ni\u015F yeri: ' + destination + ' olan araman\u0131n sonu\xE7lar\u0131 a\u015Fa\u011F\u0131da listelenmi\u015Ftir.\n    ';
-};
+(0, _searchModel.travelFilter)();
 
 document.getElementById("pet_checkbox").addEventListener("click", function () {
 
-    var filter = document.getElementById("pet_checkbox").checked;
-    var companies = document.querySelectorAll('.company_names');
     var elements = document.querySelectorAll('.lh-content');
+    var petValue = document.querySelectorAll('.pet');
+    var threeSeatValue = document.querySelectorAll('.threeSeat');
 
-    for (i = 0; i < companies.length; i++) {
-        if (filter === _searchModel.petValuesArr[i]) {
+    var petFilter = document.getElementById("pet_checkbox").checked;
+    var threeSeatFilter = document.getElementById("3seat_bus").checked;
+
+    petFilter = petFilter.toString();
+    threeSeatFilter = threeSeatFilter.toString();
+
+    for (var i = 0; i < elements.length; i++) {
+        if (petFilter === petValue[i].innerText && threeSeatFilter === threeSeatValue[i].innerText) {
             elements[i].style.display = "";
         } else {
             elements[i].style.display = "none";
@@ -1904,14 +1935,45 @@ document.getElementById("pet_checkbox").addEventListener("click", function () {
     }
 });
 
+/* pointFilter = () => {
+
+    let point = document.getElementById('star_slide').value;
+    let companies = document.querySelectorAll('.company_names');
+    let elements = document.querySelectorAll('.lh-content');
+
+    for (i=0; i<companies.length; i++){
+        if(pointsArr[i] >= point) {
+            elements[i].style.display = ""
+        } else {
+            elements[i].style.display = "none";
+        }
+    }
+}
+ */
+window.urlParser = function () {
+
+    var departure = location.href.split('?')[1].split('%22')[1];
+    var destination = location.href.split('?')[1].split('%22')[3];
+    var hour = location.href.split('?')[1].split('%22')[5];
+    var minute = location.href.split('?')[1].split('%22')[7];
+
+    document.getElementById('results_urlparser').textContent = '\n    Kalk\u0131\u015F yeri : ' + departure + ',    \u0130ni\u015F yeri: ' + destination + ' Saat : ' + hour + ':' + minute + ' bilgilerine sahip seferler a\u015Fa\u011F\u0131da listelenmi\u015Ftir..\n    ';
+};
+
 document.getElementById("3seat_bus").addEventListener("click", function () {
 
-    var filter = document.getElementById("3seat_bus").checked;
-    var companies = document.querySelectorAll('.company_names');
     var elements = document.querySelectorAll('.lh-content');
+    var petValue = document.querySelectorAll('.pet');
+    var threeSeatValue = document.querySelectorAll('.threeSeat');
 
-    for (i = 0; i < companies.length; i++) {
-        if (filter === modu.threeSeatSupportArr[i]) {
+    var petFilter = document.getElementById("pet_checkbox").checked;
+    var threeSeatFilter = document.getElementById("3seat_bus").checked;
+
+    petFilter = petFilter.toString();
+    threeSeatFilter = threeSeatFilter.toString();
+
+    for (var i = 0; i < elements.length; i++) {
+        if (petFilter === petValue[i].innerText && threeSeatFilter === threeSeatValue[i].innerText) {
             elements[i].style.display = "";
         } else {
             elements[i].style.display = "none";
@@ -1923,8 +1985,8 @@ document.getElementById("reset_button").addEventListener("click", function () {
 
     var elements = document.querySelectorAll('.lh-content');
     var companies = document.querySelectorAll('.company_names');
-    for (var _i = 0; _i < companies.length; _i++) {
-        elements[_i].style.display = "";
+    for (var i = 0; i < companies.length; i++) {
+        elements[i].style.display = "";
     }
 
     document.getElementById('pet_checkbox').checked = false;

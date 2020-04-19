@@ -1,20 +1,14 @@
-
-import {companyComment, companyCommentArr, submit, commentList, commentInput, new_comment} from '../models/companyCommentModel'
-
+import {getTime, companyCommentArr, commentList, companySearchDetailed, new_comment, cityFilterBuilder, companyID} from '../models/companyCommentModel'
 import {registeredSectionPage} from '../register'
 
 registeredSectionPage();
+getTime();
+companySearchDetailed();
+cityFilterBuilder(companyID);
 
-getTime = () => {
-  let date = new Date();
+const template = (data) => {
 
-  return fullDate = `${date.getHours()}:${date.getMinutes()} - ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`
-  
-}
-
-template = (data) => {
-
-  commentList.insertAdjacentHTML("afterbegin",`
+commentList.insertAdjacentHTML("afterbegin",`
   <li class="comment">
     <div class="vcard bio">
       <img src="${data.avatar}" alt="Image placeholder">

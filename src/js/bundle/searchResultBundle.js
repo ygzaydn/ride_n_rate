@@ -1745,44 +1745,103 @@ process.umask = function() { return 0; };
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.travelFilter = undefined;
+
+var _register = require('../register');
+
 var axios = require('axios').default;
 axios.defaults.withCredentials = true;
 
-var url = 'https://guardianbe.herokuapp.com';
 
-async function registeredSectionPage() {
+async function travelFilter() {
+    var travelSlotUUID = location.href.split('?')[1];
+    var companyUUID = location.href.split('?')[2];
     var config = {
         method: 'get',
-        url: url + '/api/auth/session',
-        headers: { 'Authorization': 'Token ' + localStorage.getItem('token') }
+        url: _register.url + '/api/travelslots/' + travelSlotUUID
     };
-    try {
-        var res = await axios(config);
-        if (res.status === 200) {
-            var registerSection = document.getElementById('register-section');
-            registerSection.innerHTML = '';
+    var res = await axios(config);
+    var data = res.data;
+    //console.log(data);
 
-            var registerButtonNew = document.querySelector('.site-menu').children[2].children[0];
-            registerButtonNew.href = "about.html";
-            registerButtonNew.innerText = "Bilgilerim";
+    async function companyFilter() {
+        var configComp = {
+            method: 'get',
+            url: _register.url + '/api/companies/' + companyUUID
+        };
+        var resCompany = await axios(configComp);
+        var dataComp = resCompany.data;
+        //console.log(dataComp);
+        var compNameNoSpace = dataComp.name.replace(/\s+/g, '').toLowerCase();
+        //console.log(compNameNoSpace)
 
-            var registerButton = document.querySelector('.signupelement');
-            registerButton.href = "about.html";
-            registerButton.innerText = "Bilgilerim";
-        }
-    } catch (err) {
-        console.log(err);
+        document.querySelector('.evalution').innerHTML = 'Firma: ' + dataComp.name + ' <br> Kalk\u0131\u015F Yeri : ' + data.fromCity + ' <br> \u0130ni\u015F Yeri : ' + data.toCity + ' <br> Sefer Saati : ' + data.fromHour + ':' + data.fromMinute + ' <br> bilgilerine sahip sefer hakk\u0131nda detayl\u0131 bilgiyi a\u015Fa\u011F\u0131da bulabilirsin.';
+        document.querySelector('.logo-place').attributes[1].nodeValue = 'background-image: url("src/images/companies/' + compNameNoSpace + '.png"); background-size: contain; background-position: 50% -25px;';
     }
+    companyFilter();
+}
+
+exports.travelFilter = travelFilter;
+
+},{"../register":29,"axios":1}],29:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var axios = require("axios").default;
+axios.defaults.withCredentials = true;
+
+var url = "https://guardianbe.herokuapp.com";
+
+async function registeredSectionPage() {
+  var config = {
+    method: "get",
+    url: url + "/api/auth/session",
+    headers: { Authorization: "Token " + localStorage.getItem("token") }
+  };
+  try {
+    var res = await axios(config);
+    if (res.status === 200) {
+      var registerSection = document.getElementById("register-section");
+      var registerButtonNew = document.querySelector(".site-menu").children[2].children[0];
+      var registerButton = document.querySelector(".signupelement");
+      var evaluateTravel = document.querySelector(".seferi-degerlendir");
+
+      if (registerSection) {
+        registerSection.innerHTML = "";
+      }
+
+      if (registerButtonNew) {
+        registerButtonNew.href = "about.html";
+        registerButtonNew.innerText = "Bilgilerim";
+      }
+
+      if (registerButton) {
+        registerButton.href = "about.html";
+        registerButton.innerText = "Bilgilerim";
+      }
+
+      if (evaluateTravel) {
+        evaluateTravel.style.display = "";
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 exports.registeredSectionPage = registeredSectionPage;
 exports.url = url;
 
-},{"axios":1}],29:[function(require,module,exports){
-'use strict';
+},{"axios":1}],30:[function(require,module,exports){
+"use strict";
 
-var _register = require('../register');
+var _register = require("../register");
+
+var _searchResultModel = require("../models/searchResultModel");
 
 (0, _register.registeredSectionPage)();
+(0, _searchResultModel.travelFilter)();
 
-},{"../register":28}]},{},[29]);
+},{"../models/searchResultModel":28,"../register":29}]},{},[30]);
