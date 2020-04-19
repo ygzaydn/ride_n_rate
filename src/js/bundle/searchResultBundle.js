@@ -1775,7 +1775,7 @@ async function travelFilter() {
         var compNameNoSpace = dataComp.name.replace(/\s+/g, '').toLowerCase();
         //console.log(compNameNoSpace)
 
-        document.querySelector('.evalution').innerHTML = '"Firma: ' + dataComp.name + ' Kalk\u0131\u015F Yeri : ' + data.fromCity + ' - \u0130ni\u015F Yeri : ' + data.toCity + ' - Sefer Saati : ' + data.fromHour + ':' + data.fromMinute + ' olan sefer hakk\u0131nda detayl\u0131 bilgiyi a\u015Fa\u011F\u0131da bulabilirsin."';
+        document.querySelector('.evalution').innerHTML = 'Firma: ' + dataComp.name + ' <br> Kalk\u0131\u015F Yeri : ' + data.fromCity + ' <br> \u0130ni\u015F Yeri : ' + data.toCity + ' <br> Sefer Saati : ' + data.fromHour + ':' + data.fromMinute + ' <br> bilgilerine sahip sefer hakk\u0131nda detayl\u0131 bilgiyi a\u015Fa\u011F\u0131da bulabilirsin.';
         document.querySelector('.logo-place').attributes[1].nodeValue = 'background-image: url("src/images/companies/' + compNameNoSpace + '.png"); background-size: contain; background-position: 50% -25px;';
     }
     companyFilter();

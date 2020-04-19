@@ -24,7 +24,7 @@ async function travelFilter(){
     const compNameNoSpace = dataComp.name.replace(/\s+/g, '').toLowerCase();
     //console.log(compNameNoSpace)
 
-    document.querySelector('.evalution').innerHTML = `"Firma: ${dataComp.name} Kalkış Yeri : ${data.fromCity} - İniş Yeri : ${data.toCity} - Sefer Saati : ${data.fromHour}:${data.fromMinute} olan sefer hakkında detaylı bilgiyi aşağıda bulabilirsin."`
+    document.querySelector('.evalution').innerHTML = `Firma: ${dataComp.name} <br> Kalkış Yeri : ${data.fromCity} <br> İniş Yeri : ${data.toCity} <br> Sefer Saati : ${data.fromHour}:${data.fromMinute} <br> bilgilerine sahip sefer hakkında detaylı bilgiyi aşağıda bulabilirsin.`
     document.querySelector('.logo-place').attributes[1].nodeValue = `background-image: url("src/images/companies/${compNameNoSpace}.png"); background-size: contain; background-position: 50% -25px;`
     }
     companyFilter();
