@@ -1956,6 +1956,7 @@ var _searchResultModel = require("../models/searchResultModel");
 var travelSlotUUID = location.href.split("?")[1];
 var companyUUID = location.href.split("?")[2];
 var sendButton = document.querySelector(".send-review");
+var checkReview = document.querySelector('.check-review');
 
 (0, _register.registeredSectionPage)();
 (0, _searchResultModel.travelFilter)();
@@ -1963,6 +1964,10 @@ var sendButton = document.querySelector(".send-review");
 
 sendButton.addEventListener("click", function () {
   (0, _searchResultModel.createComment)(companyUUID, travelSlotUUID);
+});
+
+checkReview.addEventListener('click', function () {
+  document.querySelector('.driver-comment-list').innerHTML = "";
 });
 
 },{"../models/searchResultModel":28,"../register":29}]},{},[30]);
