@@ -1834,6 +1834,7 @@ async function registeredSectionPage() {
   try {
     var res = await axios(config);
     if (res.status === 200) {
+
       var registerSection = document.getElementById("register-section");
       var registerButtonNew = document.querySelector(".site-menu").children[2].children[0];
       var registerButton = document.querySelector(".signupelement");

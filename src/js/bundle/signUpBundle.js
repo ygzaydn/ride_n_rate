@@ -1779,7 +1779,9 @@ async function loginRequest(email, password) {
     try {
         var res = await axios(config);
         console.log(res.data.jwt);
+        console.log(res.data.user.username);
         localStorage.setItem('token', res.data.jwt);
+        localStorage.setItem('username', res.data.user.username);
         /* console.log(res.data.user);
         console.log(res.status); */
     } catch (e) {
@@ -1902,6 +1904,7 @@ async function registeredSectionPage() {
   try {
     var res = await axios(config);
     if (res.status === 200) {
+
       var registerSection = document.getElementById("register-section");
       var registerButtonNew = document.querySelector(".site-menu").children[2].children[0];
       var registerButton = document.querySelector(".signupelement");
