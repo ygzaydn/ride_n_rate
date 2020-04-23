@@ -1800,7 +1800,6 @@ var travelFilter = async function travelFilter() {
 };
 
 var createComment = async function createComment(cUUID, tsUUID) {
-
   var driverP = pointExtractor(driverPoint);
   var hostessP = pointExtractor(hostessPoint);
   var breakP = pointExtractor(breakPoint);
@@ -1821,39 +1820,40 @@ var createComment = async function createComment(cUUID, tsUUID) {
     data: {
       review: {
         companyUUID: cUUID,
-        travelslotUUID: tsUUID
-      },
-      driver: {
-        comment: driverCommentBox.value,
-        review: driverP
-      },
-      hostess: {
-        comment: hostessCommentBox.value,
-        review: hostessP
-      },
-      breaks: {
-        comment: breakCommentBox.value,
-        review: breakP
-      },
-      travel: {
-        comment: travelCommentBox.value,
-        review: travelP
-      },
-      baggage: {
-        comment: baggageCommentBox.value,
-        review: baggageP
-      },
-      pet: {
-        comment: petCommentBox.value,
-        review: petP
-      },
-      comfort: {
-        comment: comfortCommentBox.value,
-        review: comfortP
-      },
-      vehicle: {
-        comment: vehicleCommentBox.value,
-        review: vehicleP
+        travelslotUUID: tsUUID,
+        driver: {
+          comment: driverCommentBox.value,
+          rating: driverP
+        },
+        hostess: {
+          comment: hostessCommentBox.value,
+          rating: hostessP
+        },
+        breaks: {
+          comment: breakCommentBox.value,
+          rating: breakP
+        },
+        travel: {
+          comment: travelCommentBox.value,
+          rating: travelP
+        },
+        baggage: {
+          comment: baggageCommentBox.value,
+          rating: baggageP
+        },
+        pet: {
+          petAllowed: true,
+          comment: petCommentBox.value,
+          rating: petP
+        },
+        comfort: {
+          comment: comfortCommentBox.value,
+          rating: comfortP
+        },
+        vehicle: {
+          comment: vehicleCommentBox.value,
+          rating: vehicleP
+        }
       }
     }
   };

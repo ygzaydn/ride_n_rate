@@ -53,7 +53,6 @@ const travelFilter = async () => {
 };
 
 const createComment = async (cUUID, tsUUID) => {
-
   const driverP = pointExtractor(driverPoint);
   const hostessP = pointExtractor(hostessPoint);
   const breakP = pointExtractor(breakPoint);
@@ -64,7 +63,7 @@ const createComment = async (cUUID, tsUUID) => {
   const petP = pointExtractor(petPoint);
 
   const token = localStorage.getItem("token");
-  
+
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -75,38 +74,39 @@ const createComment = async (cUUID, tsUUID) => {
       review: {
         companyUUID: cUUID,
         travelslotUUID: tsUUID,
-      },
-      driver: {
-        comment: driverCommentBox.value,
-        review: driverP,
-      },
-      hostess: {
-        comment: hostessCommentBox.value,
-        review: hostessP,
-      },
-      breaks: {
-        comment: breakCommentBox.value,
-        review: breakP,
-      },
-      travel: {
-        comment: travelCommentBox.value,
-        review: travelP,
-      },
-      baggage: {
-        comment: baggageCommentBox.value,
-        review: baggageP,
-      },
-      pet: {
-        comment: petCommentBox.value,
-        review: petP,
-      },
-      comfort: {
-        comment: comfortCommentBox.value,
-        review: comfortP,
-      },
-      vehicle: {
-        comment: vehicleCommentBox.value,
-        review: vehicleP,
+        driver: {
+          comment: driverCommentBox.value,
+          rating: driverP,
+        },
+        hostess: {
+          comment: hostessCommentBox.value,
+          rating: hostessP,
+        },
+        breaks: {
+          comment: breakCommentBox.value,
+          rating: breakP,
+        },
+        travel: {
+          comment: travelCommentBox.value,
+          rating: travelP,
+        },
+        baggage: {
+          comment: baggageCommentBox.value,
+          rating: baggageP,
+        },
+        pet: {
+        petAllowed: true,
+          comment: petCommentBox.value,
+          rating: petP,
+        },
+        comfort: {
+          comment: comfortCommentBox.value,
+          rating: comfortP,
+        },
+        vehicle: {
+          comment: vehicleCommentBox.value,
+          rating: vehicleP,
+        },
       },
     },
   };
