@@ -95,7 +95,7 @@ const createComment = async (cUUID, tsUUID) => {
           rating: baggageP,
         },
         pet: {
-        petAllowed: true,
+          petAllowed: true,
           comment: petCommentBox.value,
           rating: petP,
         },
@@ -145,7 +145,421 @@ const getComments = async () => {
     },
   };
   const result = await axios(config);
-  console.log(result);
+  const resData = result.data;
+  console.log(resData);
+
+  let counterData = {
+    driver: {
+      count: 0,
+      averagePoint: 0,
+    },
+    hostess: {
+      count: 0,
+      averagePoint: 0,
+    },
+    break: {
+      count: 0,
+      averagePoint: 0,
+    },
+    baggage: {
+      count: 0,
+      averagePoint: 0,
+    },
+    comfort: {
+      count: 0,
+      averagePoint: 0,
+    },
+    pet: {
+      count: 0,
+      averagePoint: 0,
+    },
+    travel: {
+      count: 0,
+      averagePoint: 0,
+    },
+    vehicle: {
+      count: 0,
+      averagePoint: 0,
+    },
+
+  };
+
+  if (resData.length != 0) {
+    resData.forEach((el) => {
+
+      const driverCommentSection = document.querySelector(
+        ".driver-comment-list"
+      );
+      if (el.driver.content.rating != 0) {
+        counterData.driver.count++;
+        counterData.driver.averagePoint += el.driver.content.rating;
+      }
+      if (el.driver.content.comment) {
+        driverCommentSection.insertAdjacentHTML(
+          "beforeend",
+          `
+      <li class="comment">
+        <div class="vcard bio">
+          <img src="src/images/comment_vcard.jpg" alt="Image">
+        </div>
+        <div class="comment-body">
+          <h3>${el.user.userName}</h3>
+          <div class="meta">${el.createdAt.split("T")[0]}</div>
+          <p style="overflow-wrap: break-word;">${el.driver.content.comment}</p>
+          <p><a href="#" class="edit" style="padding-right: 10px;">Edit</a> <a href="#"
+              class="delete">Delete</a> </p>
+          <p></p>
+        </div>
+      </li>
+      
+      `
+        );
+      }
+
+      const hostessCommentSection = document.querySelector(
+        ".hostess-comment-list"
+      );
+      if (el.hostess.content.rating != 0) {
+        counterData.hostess.count++;
+        counterData.hostess.averagePoint += el.hostess.content.rating;
+      }
+      if (el.hostess.content.comment) {
+        hostessCommentSection.insertAdjacentHTML(
+          "beforeend",
+          `
+      <li class="comment">
+        <div class="vcard bio">
+          <img src="src/images/comment_vcard.jpg" alt="Image">
+        </div>
+        <div class="comment-body">
+          <h3>${el.user.userName}</h3>
+          <div class="meta">${el.createdAt.split("T")[0]}</div>
+          <p style="overflow-wrap: break-word;">${
+            el.hostess.content.comment
+          }</p>
+          <p><a href="#" class="edit" style="padding-right: 10px;">Edit</a> <a href="#"
+              class="delete">Delete</a> </p>
+          <p></p>
+        </div>
+      </li>
+      
+      `
+        );
+      }
+
+      const breakCommentSection = document.querySelector(
+        ".break-comment-list"
+      );
+      if (el.breaks.content.rating != 0) {
+        counterData.break.count++;
+        counterData.break.averagePoint += el.breaks.content.rating;
+      }
+      if (el.breaks.content.comment) {
+        breakCommentSection.insertAdjacentHTML(
+          "beforeend",
+          `
+      <li class="comment">
+        <div class="vcard bio">
+          <img src="src/images/comment_vcard.jpg" alt="Image">
+        </div>
+        <div class="comment-body">
+          <h3>${el.user.userName}</h3>
+          <div class="meta">${el.createdAt.split("T")[0]}</div>
+          <p style="overflow-wrap: break-word;">${
+            el.breaks.content.comment
+          }</p>
+          <p><a href="#" class="edit" style="padding-right: 10px;">Edit</a> <a href="#"
+              class="delete">Delete</a> </p>
+          <p></p>
+        </div>
+      </li>
+      `
+        );
+      }
+
+      const baggageCommentSection = document.querySelector(
+        ".baggage-comment-list"
+      );
+      if (el.baggage.content.rating != 0) {
+        counterData.baggage.count++;
+        counterData.baggage.averagePoint += el.baggage.content.rating;
+      }
+      if (el.baggage.content.comment) {
+        baggageCommentSection.insertAdjacentHTML(
+          "beforeend",
+          `
+      <li class="comment">
+        <div class="vcard bio">
+          <img src="src/images/comment_vcard.jpg" alt="Image">
+        </div>
+        <div class="comment-body">
+          <h3>${el.user.userName}</h3>
+          <div class="meta">${el.createdAt.split("T")[0]}</div>
+          <p style="overflow-wrap: break-word;">${
+            el.baggage.content.comment
+          }</p>
+          <p><a href="#" class="edit" style="padding-right: 10px;">Edit</a> <a href="#"
+              class="delete">Delete</a> </p>
+          <p></p>
+        </div>
+      </li>
+      `
+        );
+      }
+
+      const comfortCommentSection = document.querySelector(
+        ".comfort-comment-list"
+      );
+      if (el.comfort.content.rating != 0) {
+        counterData.comfort.count++;
+        counterData.comfort.averagePoint += el.comfort.content.rating;
+      }
+      if (el.comfort.content.comment) {
+        comfortCommentSection.insertAdjacentHTML(
+          "beforeend",
+          `
+      <li class="comment">
+        <div class="vcard bio">
+          <img src="src/images/comment_vcard.jpg" alt="Image">
+        </div>
+        <div class="comment-body">
+          <h3>${el.user.userName}</h3>
+          <div class="meta">${el.createdAt.split("T")[0]}</div>
+          <p style="overflow-wrap: break-word;">${
+            el.comfort.content.comment
+          }</p>
+          <p><a href="#" class="edit" style="padding-right: 10px;">Edit</a> <a href="#"
+              class="delete">Delete</a> </p>
+          <p></p>
+        </div>
+      </li>
+      `
+        );
+      }
+
+      const petCommentSection = document.querySelector(
+        ".pet-comment-list"
+      );
+      if (el.pet.content.rating != 0) {
+        counterData.pet.count++;
+        counterData.pet.averagePoint += el.pet.content.rating;
+      }
+      if (el.pet.content.comment) {
+        petCommentSection.insertAdjacentHTML(
+          "beforeend",
+          `
+      <li class="comment">
+        <div class="vcard bio">
+          <img src="src/images/comment_vcard.jpg" alt="Image">
+        </div>
+        <div class="comment-body">
+          <h3>${el.user.userName}</h3>
+          <div class="meta">${el.createdAt.split("T")[0]}</div>
+          <p style="overflow-wrap: break-word;">${
+            el.pet.content.comment
+          }</p>
+          <p><a href="#" class="edit" style="padding-right: 10px;">Edit</a> <a href="#"
+              class="delete">Delete</a> </p>
+          <p></p>
+        </div>
+      </li>
+      `
+        );
+      }
+
+      const travelCommentSection = document.querySelector(
+        ".travel-comment-list"
+      );
+      if (el.travel.content.rating != 0) {
+        counterData.travel.count++;
+        counterData.travel.averagePoint += el.travel.content.rating;
+      }
+      if (el.travel.content.comment) {
+        travelCommentSection.insertAdjacentHTML(
+          "beforeend",
+          `
+      <li class="comment">
+        <div class="vcard bio">
+          <img src="src/images/comment_vcard.jpg" alt="Image">
+        </div>
+        <div class="comment-body">
+          <h3>${el.user.userName}</h3>
+          <div class="meta">${el.createdAt.split("T")[0]}</div>
+          <p style="overflow-wrap: break-word;">${
+            el.travel.content.comment
+          }</p>
+          <p><a href="#" class="edit" style="padding-right: 10px;">Edit</a> <a href="#"
+              class="delete">Delete</a> </p>
+          <p></p>
+        </div>
+      </li>
+      `
+        );
+      }
+
+      const vehicleCommentSection = document.querySelector(
+        ".vehicle-comment-list"
+      );
+      if (el.vehicle.content.rating != 0) {
+        counterData.vehicle.count++;
+        counterData.vehicle.averagePoint += el.vehicle.content.rating;
+      }
+      if (el.vehicle.content.comment) {
+        vehicleCommentSection.insertAdjacentHTML(
+          "beforeend",
+          `
+      <li class="comment">
+        <div class="vcard bio">
+          <img src="src/images/comment_vcard.jpg" alt="Image">
+        </div>
+        <div class="comment-body">
+          <h3>${el.user.userName}</h3>
+          <div class="meta">${el.createdAt.split("T")[0]}</div>
+          <p style="overflow-wrap: break-word;">${
+            el.vehicle.content.comment
+          }</p>
+          <p><a href="#" class="edit" style="padding-right: 10px;">Edit</a> <a href="#"
+              class="delete">Delete</a> </p>
+          <p></p>
+        </div>
+      </li>
+      `
+        );
+      }
+
+    });
+  }
+
+  document.querySelector(
+    ".number-of-review-driver"
+  ).innerHTML = `(${counterData.driver.count} Değerlendirme)`;
+
+  document.querySelector(
+    ".number-of-review-hostess"
+  ).innerHTML = `(${counterData.hostess.count} Değerlendirme)`;
+
+  document.querySelector(
+    ".number-of-review-break"
+  ).innerHTML = `(${counterData.break.count} Değerlendirme)`;
+
+  document.querySelector(
+    ".number-of-review-baggage"
+  ).innerHTML = `(${counterData.baggage.count} Değerlendirme)`;
+
+  document.querySelector(
+    ".number-of-review-comfort"
+  ).innerHTML = `(${counterData.comfort.count} Değerlendirme)`;
+
+  document.querySelector(
+    ".number-of-review-pet"
+  ).innerHTML = `(${counterData.pet.count} Değerlendirme)`;
+
+  document.querySelector(
+    ".number-of-review-travel"
+  ).innerHTML = `(${counterData.travel.count} Değerlendirme)`;
+
+  document.querySelector(
+    ".number-of-review-vehicle"
+  ).innerHTML = `(${counterData.vehicle.count} Değerlendirme)`;
+
+  counterData.vehicle.averagePoint = Math.floor(
+    counterData.vehicle.averagePoint / counterData.vehicle.count
+  );
+  for (let i = 0; i < counterData.vehicle.averagePoint; i++) {
+    document.querySelector(".vehicle-comment-star").insertAdjacentHTML(
+      "afterbegin",
+      `
+    <span class="icon-star text-warning"></span>
+    `
+    );
+  }
+
+  counterData.travel.averagePoint = Math.floor(
+    counterData.travel.averagePoint / counterData.travel.count
+  );
+  for (let i = 0; i < counterData.travel.averagePoint; i++) {
+    document.querySelector(".travel-comment-star").insertAdjacentHTML(
+      "afterbegin",
+      `
+    <span class="icon-star text-warning"></span>
+    `
+    );
+  }
+
+  counterData.pet.averagePoint = Math.floor(
+    counterData.pet.averagePoint / counterData.pet.count
+  );
+  for (let i = 0; i < counterData.pet.averagePoint; i++) {
+    document.querySelector(".pet-comment-star").insertAdjacentHTML(
+      "afterbegin",
+      `
+    <span class="icon-star text-warning"></span>
+    `
+    );
+  }
+
+  counterData.comfort.averagePoint = Math.floor(
+    counterData.comfort.averagePoint / counterData.comfort.count
+  );
+  for (let i = 0; i < counterData.comfort.averagePoint; i++) {
+    document.querySelector(".comfort-comment-star").insertAdjacentHTML(
+      "afterbegin",
+      `
+    <span class="icon-star text-warning"></span>
+    `
+    );
+  }
+
+  counterData.baggage.averagePoint = Math.floor(
+    counterData.baggage.averagePoint / counterData.baggage.count
+  );
+  for (let i = 0; i < counterData.baggage.averagePoint; i++) {
+    document.querySelector(".baggage-comment-star").insertAdjacentHTML(
+      "afterbegin",
+      `
+    <span class="icon-star text-warning"></span>
+    `
+    );
+  }
+
+  counterData.break.averagePoint = Math.floor(
+    counterData.break.averagePoint / counterData.break.count
+  );
+  for (let i = 0; i < counterData.break.averagePoint; i++) {
+    document.querySelector(".break-comment-star").insertAdjacentHTML(
+      "afterbegin",
+      `
+    <span class="icon-star text-warning"></span>
+    `
+    );
+  }
+
+  counterData.driver.averagePoint = Math.floor(
+    counterData.driver.averagePoint / counterData.driver.count
+  );
+  for (let i = 0; i < counterData.driver.averagePoint; i++) {
+    document.querySelector(".driver-comment-star").insertAdjacentHTML(
+      "afterbegin",
+      `
+    <span class="icon-star text-warning"></span>
+    `
+    );
+  }
+
+  counterData.hostess.averagePoint = Math.floor(
+    counterData.hostess.averagePoint / counterData.hostess.count
+  );
+  for (let i = 0; i < counterData.hostess.averagePoint; i++) {
+    document.querySelector(".hostess-comment-star").insertAdjacentHTML(
+      "afterbegin",
+      `
+    <span class="icon-star text-warning"></span>
+    `
+    );
+  }
+
+  // <span class="icon-star text-warning"></span>
+  // <span class="icon-star text-secondary"></span>
 };
 
 export { travelFilter, createComment, getComments };

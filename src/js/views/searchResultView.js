@@ -13,7 +13,7 @@ const checkReview = document.querySelector('.check-review');
 
 registeredSectionPage();
 travelFilter();
-getComments();
+
 
 sendButton.addEventListener("click", () => {
   createComment(companyUUID, travelSlotUUID);
@@ -21,4 +21,12 @@ sendButton.addEventListener("click", () => {
 
 checkReview.addEventListener('click', () => {
     document.querySelector('.driver-comment-list').innerHTML = "";
+    document.querySelector('.hostess-comment-list').innerHTML = "";
+    document.querySelector('.break-comment-list').innerHTML = "";
+    document.querySelector('.travel-comment-list').innerHTML = "";
+    document.querySelector('.baggage-comment-list').innerHTML = "";
+    document.querySelector('.comfort-comment-list').innerHTML = "";
+    document.querySelector('.vehicle-comment-list').innerHTML = "";
+    document.querySelector('.pet-comment-list').innerHTML = "";
+    getComments();
 })

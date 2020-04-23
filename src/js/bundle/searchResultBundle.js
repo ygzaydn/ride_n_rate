@@ -1888,7 +1888,180 @@ var getComments = async function getComments() {
     }
   };
   var result = await axios(config);
-  console.log(result);
+  var resData = result.data;
+  console.log(resData);
+
+  var counterData = {
+    driver: {
+      count: 0,
+      averagePoint: 0
+    },
+    hostess: {
+      count: 0,
+      averagePoint: 0
+    },
+    break: {
+      count: 0,
+      averagePoint: 0
+    },
+    baggage: {
+      count: 0,
+      averagePoint: 0
+    },
+    comfort: {
+      count: 0,
+      averagePoint: 0
+    },
+    pet: {
+      count: 0,
+      averagePoint: 0
+    },
+    travel: {
+      count: 0,
+      averagePoint: 0
+    },
+    vehicle: {
+      count: 0,
+      averagePoint: 0
+    }
+
+  };
+
+  if (resData.length != 0) {
+    resData.forEach(function (el) {
+
+      var driverCommentSection = document.querySelector(".driver-comment-list");
+      if (el.driver.content.rating != 0) {
+        counterData.driver.count++;
+        counterData.driver.averagePoint += el.driver.content.rating;
+      }
+      if (el.driver.content.comment) {
+        driverCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.driver.content.comment + "</p>\n          <p><a href=\"#\" class=\"edit\" style=\"padding-right: 10px;\">Edit</a> <a href=\"#\"\n              class=\"delete\">Delete</a> </p>\n          <p></p>\n        </div>\n      </li>\n      \n      ");
+      }
+
+      var hostessCommentSection = document.querySelector(".hostess-comment-list");
+      if (el.hostess.content.rating != 0) {
+        counterData.hostess.count++;
+        counterData.hostess.averagePoint += el.hostess.content.rating;
+      }
+      if (el.hostess.content.comment) {
+        hostessCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.hostess.content.comment + "</p>\n          <p><a href=\"#\" class=\"edit\" style=\"padding-right: 10px;\">Edit</a> <a href=\"#\"\n              class=\"delete\">Delete</a> </p>\n          <p></p>\n        </div>\n      </li>\n      \n      ");
+      }
+
+      var breakCommentSection = document.querySelector(".break-comment-list");
+      if (el.breaks.content.rating != 0) {
+        counterData.break.count++;
+        counterData.break.averagePoint += el.breaks.content.rating;
+      }
+      if (el.breaks.content.comment) {
+        breakCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.breaks.content.comment + "</p>\n          <p><a href=\"#\" class=\"edit\" style=\"padding-right: 10px;\">Edit</a> <a href=\"#\"\n              class=\"delete\">Delete</a> </p>\n          <p></p>\n        </div>\n      </li>\n      ");
+      }
+
+      var baggageCommentSection = document.querySelector(".baggage-comment-list");
+      if (el.baggage.content.rating != 0) {
+        counterData.baggage.count++;
+        counterData.baggage.averagePoint += el.baggage.content.rating;
+      }
+      if (el.baggage.content.comment) {
+        baggageCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.baggage.content.comment + "</p>\n          <p><a href=\"#\" class=\"edit\" style=\"padding-right: 10px;\">Edit</a> <a href=\"#\"\n              class=\"delete\">Delete</a> </p>\n          <p></p>\n        </div>\n      </li>\n      ");
+      }
+
+      var comfortCommentSection = document.querySelector(".comfort-comment-list");
+      if (el.comfort.content.rating != 0) {
+        counterData.comfort.count++;
+        counterData.comfort.averagePoint += el.comfort.content.rating;
+      }
+      if (el.comfort.content.comment) {
+        comfortCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.comfort.content.comment + "</p>\n          <p><a href=\"#\" class=\"edit\" style=\"padding-right: 10px;\">Edit</a> <a href=\"#\"\n              class=\"delete\">Delete</a> </p>\n          <p></p>\n        </div>\n      </li>\n      ");
+      }
+
+      var petCommentSection = document.querySelector(".pet-comment-list");
+      if (el.pet.content.rating != 0) {
+        counterData.pet.count++;
+        counterData.pet.averagePoint += el.pet.content.rating;
+      }
+      if (el.pet.content.comment) {
+        petCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.pet.content.comment + "</p>\n          <p><a href=\"#\" class=\"edit\" style=\"padding-right: 10px;\">Edit</a> <a href=\"#\"\n              class=\"delete\">Delete</a> </p>\n          <p></p>\n        </div>\n      </li>\n      ");
+      }
+
+      var travelCommentSection = document.querySelector(".travel-comment-list");
+      if (el.travel.content.rating != 0) {
+        counterData.travel.count++;
+        counterData.travel.averagePoint += el.travel.content.rating;
+      }
+      if (el.travel.content.comment) {
+        travelCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.travel.content.comment + "</p>\n          <p><a href=\"#\" class=\"edit\" style=\"padding-right: 10px;\">Edit</a> <a href=\"#\"\n              class=\"delete\">Delete</a> </p>\n          <p></p>\n        </div>\n      </li>\n      ");
+      }
+
+      var vehicleCommentSection = document.querySelector(".vehicle-comment-list");
+      if (el.vehicle.content.rating != 0) {
+        counterData.vehicle.count++;
+        counterData.vehicle.averagePoint += el.vehicle.content.rating;
+      }
+      if (el.vehicle.content.comment) {
+        vehicleCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.vehicle.content.comment + "</p>\n          <p><a href=\"#\" class=\"edit\" style=\"padding-right: 10px;\">Edit</a> <a href=\"#\"\n              class=\"delete\">Delete</a> </p>\n          <p></p>\n        </div>\n      </li>\n      ");
+      }
+    });
+  }
+
+  document.querySelector(".number-of-review-driver").innerHTML = "(" + counterData.driver.count + " De\u011Ferlendirme)";
+
+  document.querySelector(".number-of-review-hostess").innerHTML = "(" + counterData.hostess.count + " De\u011Ferlendirme)";
+
+  document.querySelector(".number-of-review-break").innerHTML = "(" + counterData.break.count + " De\u011Ferlendirme)";
+
+  document.querySelector(".number-of-review-baggage").innerHTML = "(" + counterData.baggage.count + " De\u011Ferlendirme)";
+
+  document.querySelector(".number-of-review-comfort").innerHTML = "(" + counterData.comfort.count + " De\u011Ferlendirme)";
+
+  document.querySelector(".number-of-review-pet").innerHTML = "(" + counterData.pet.count + " De\u011Ferlendirme)";
+
+  document.querySelector(".number-of-review-travel").innerHTML = "(" + counterData.travel.count + " De\u011Ferlendirme)";
+
+  document.querySelector(".number-of-review-vehicle").innerHTML = "(" + counterData.vehicle.count + " De\u011Ferlendirme)";
+
+  counterData.vehicle.averagePoint = Math.floor(counterData.vehicle.averagePoint / counterData.vehicle.count);
+  for (var i = 0; i < counterData.vehicle.averagePoint; i++) {
+    document.querySelector(".vehicle-comment-star").insertAdjacentHTML("afterbegin", "\n    <span class=\"icon-star text-warning\"></span>\n    ");
+  }
+
+  counterData.travel.averagePoint = Math.floor(counterData.travel.averagePoint / counterData.travel.count);
+  for (var _i = 0; _i < counterData.travel.averagePoint; _i++) {
+    document.querySelector(".travel-comment-star").insertAdjacentHTML("afterbegin", "\n    <span class=\"icon-star text-warning\"></span>\n    ");
+  }
+
+  counterData.pet.averagePoint = Math.floor(counterData.pet.averagePoint / counterData.pet.count);
+  for (var _i2 = 0; _i2 < counterData.pet.averagePoint; _i2++) {
+    document.querySelector(".pet-comment-star").insertAdjacentHTML("afterbegin", "\n    <span class=\"icon-star text-warning\"></span>\n    ");
+  }
+
+  counterData.comfort.averagePoint = Math.floor(counterData.comfort.averagePoint / counterData.comfort.count);
+  for (var _i3 = 0; _i3 < counterData.comfort.averagePoint; _i3++) {
+    document.querySelector(".comfort-comment-star").insertAdjacentHTML("afterbegin", "\n    <span class=\"icon-star text-warning\"></span>\n    ");
+  }
+
+  counterData.baggage.averagePoint = Math.floor(counterData.baggage.averagePoint / counterData.baggage.count);
+  for (var _i4 = 0; _i4 < counterData.baggage.averagePoint; _i4++) {
+    document.querySelector(".baggage-comment-star").insertAdjacentHTML("afterbegin", "\n    <span class=\"icon-star text-warning\"></span>\n    ");
+  }
+
+  counterData.break.averagePoint = Math.floor(counterData.break.averagePoint / counterData.break.count);
+  for (var _i5 = 0; _i5 < counterData.break.averagePoint; _i5++) {
+    document.querySelector(".break-comment-star").insertAdjacentHTML("afterbegin", "\n    <span class=\"icon-star text-warning\"></span>\n    ");
+  }
+
+  counterData.driver.averagePoint = Math.floor(counterData.driver.averagePoint / counterData.driver.count);
+  for (var _i6 = 0; _i6 < counterData.driver.averagePoint; _i6++) {
+    document.querySelector(".driver-comment-star").insertAdjacentHTML("afterbegin", "\n    <span class=\"icon-star text-warning\"></span>\n    ");
+  }
+
+  counterData.hostess.averagePoint = Math.floor(counterData.hostess.averagePoint / counterData.hostess.count);
+  for (var _i7 = 0; _i7 < counterData.hostess.averagePoint; _i7++) {
+    document.querySelector(".hostess-comment-star").insertAdjacentHTML("afterbegin", "\n    <span class=\"icon-star text-warning\"></span>\n    ");
+  }
+
+  // <span class="icon-star text-warning"></span>
+  // <span class="icon-star text-secondary"></span>
 };
 
 exports.travelFilter = travelFilter;
@@ -1960,7 +2133,6 @@ var checkReview = document.querySelector('.check-review');
 
 (0, _register.registeredSectionPage)();
 (0, _searchResultModel.travelFilter)();
-(0, _searchResultModel.getComments)();
 
 sendButton.addEventListener("click", function () {
   (0, _searchResultModel.createComment)(companyUUID, travelSlotUUID);
@@ -1968,6 +2140,14 @@ sendButton.addEventListener("click", function () {
 
 checkReview.addEventListener('click', function () {
   document.querySelector('.driver-comment-list').innerHTML = "";
+  document.querySelector('.hostess-comment-list').innerHTML = "";
+  document.querySelector('.break-comment-list').innerHTML = "";
+  document.querySelector('.travel-comment-list').innerHTML = "";
+  document.querySelector('.baggage-comment-list').innerHTML = "";
+  document.querySelector('.comfort-comment-list').innerHTML = "";
+  document.querySelector('.vehicle-comment-list').innerHTML = "";
+  document.querySelector('.pet-comment-list').innerHTML = "";
+  (0, _searchResultModel.getComments)();
 });
 
 },{"../models/searchResultModel":28,"../register":29}]},{},[30]);
