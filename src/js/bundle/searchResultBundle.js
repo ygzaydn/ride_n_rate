@@ -1740,48 +1740,120 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],28:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-exports.travelFilter = undefined;
+exports.pointExtractor = exports.createComment = exports.travelFilter = undefined;
 
-var _register = require('../register');
+var _register = require("../register");
 
-var axios = require('axios').default;
+var axios = require("axios").default;
 axios.defaults.withCredentials = true;
 
 
-async function travelFilter() {
-    var travelSlotUUID = location.href.split('?')[1];
-    var companyUUID = location.href.split('?')[2];
-    var config = {
-        method: 'get',
-        url: _register.url + '/api/travelslots/' + travelSlotUUID
+var driverCommentBox = document.getElementById("message_box_driver");
+var hostessCommentBox = document.getElementById("message_box_hostess");
+var breakCommentBox = document.getElementById("message_box_break");
+var travelCommentBox = document.getElementById("message_box_travel");
+var baggageCommentBox = document.getElementById("message_box_baggage");
+var comfortCommentBox = document.getElementById("message_box_comfort");
+var vehicleCommentBox = document.getElementById("message_box_vehicle");
+var petCommentBox = document.getElementById("message_box_pet");
+
+var travelFilter = async function travelFilter() {
+  var travelSlotUUID = location.href.split("?")[1];
+  var companyUUID = location.href.split("?")[2];
+  var config = {
+    method: "get",
+    url: _register.url + "/api/travelslots/" + travelSlotUUID
+  };
+  var res = await axios(config);
+  var data = res.data;
+  //console.log(data);
+
+  async function companyFilter() {
+    var configComp = {
+      method: "get",
+      url: _register.url + "/api/companies/" + companyUUID
     };
-    var res = await axios(config);
-    var data = res.data;
-    //console.log(data);
+    var resCompany = await axios(configComp);
+    var dataComp = resCompany.data;
+    //console.log(dataComp);
+    var compNameNoSpace = dataComp.name.replace(/\s+/g, "").toLowerCase();
+    //console.log(compNameNoSpace)
 
-    async function companyFilter() {
-        var configComp = {
-            method: 'get',
-            url: _register.url + '/api/companies/' + companyUUID
-        };
-        var resCompany = await axios(configComp);
-        var dataComp = resCompany.data;
-        //console.log(dataComp);
-        var compNameNoSpace = dataComp.name.replace(/\s+/g, '').toLowerCase();
-        //console.log(compNameNoSpace)
+    document.querySelector(".evalution").innerHTML = "Firma: " + dataComp.name + " <br> Kalk\u0131\u015F Yeri : " + data.fromCity + " <br> \u0130ni\u015F Yeri : " + data.toCity + " <br> Sefer Saati : " + data.fromHour + ":" + data.fromMinute + " <br> bilgilerine sahip sefer hakk\u0131nda detayl\u0131 bilgiyi a\u015Fa\u011F\u0131da bulabilirsin.";
+    document.querySelector(".logo-place").attributes[1].nodeValue = "background-image: url(\"src/images/companies/" + compNameNoSpace + ".png\"); background-size: contain; background-position: 50% -25px;";
+  }
+  companyFilter();
+};
 
-        document.querySelector('.evalution').innerHTML = 'Firma: ' + dataComp.name + ' <br> Kalk\u0131\u015F Yeri : ' + data.fromCity + ' <br> \u0130ni\u015F Yeri : ' + data.toCity + ' <br> Sefer Saati : ' + data.fromHour + ':' + data.fromMinute + ' <br> bilgilerine sahip sefer hakk\u0131nda detayl\u0131 bilgiyi a\u015Fa\u011F\u0131da bulabilirsin.';
-        document.querySelector('.logo-place').attributes[1].nodeValue = 'background-image: url("src/images/companies/' + compNameNoSpace + '.png"); background-size: contain; background-position: 50% -25px;';
+var createComment = async function createComment(cUUID, tsUUID, driverP, hostessP, breakP, travelP, baggageP, comfortP, vehicleP, petP) {
+  var config = {
+    method: "post",
+    url: _register.url + "/api/review/create",
+    data: {
+      review: {
+        companyUUID: cUUID,
+        travelslotUUID: tsUUID
+      },
+      driver: {
+        comment: driverCommentBox.value,
+        review: driverP
+      },
+      hostess: {
+        comment: hostessCommentBox.value,
+        review: hostessP
+      },
+      breaks: {
+        comment: breakCommentBox.value,
+        review: breakP
+      },
+      travel: {
+        comment: travelCommentBox.value,
+        review: travelP
+      },
+      baggage: {
+        comment: baggageCommentBox.value,
+        review: baggageP
+      },
+      pet: {
+        comment: petCommentBox.value,
+        review: petP
+      },
+      comfort: {
+        comment: comfortCommentBox.value,
+        review: comfortP
+      },
+      vehicle: {
+        comment: vehicleCommentBox.value,
+        review: vehicleP
+      }
     }
-    companyFilter();
-}
+  };
+  try {
+    var result = await axios(config);
+    console.log(result);
+    console.log("Comment send succesfully");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+var pointExtractor = function pointExtractor(queryElement) {
+  // pet , vehicle, comfort, baggage, traveltime, break, hostess, driver
+  // document.querySelectorAll('.hostess')
+  var point = 0;
+  if (queryElement[0].checked === true) point = 5;else if (queryElement[1].checked === true) point = 4;else if (queryElement[2].checked === true) point = 3;else if (queryElement[3].checked === true) point = 2;else if (queryElement[4].checked === true) point = 1;
+  console.log(point);
+  return point;
+};
 
 exports.travelFilter = travelFilter;
+exports.createComment = createComment;
+exports.pointExtractor = pointExtractor;
 
 },{"../register":29,"axios":1}],29:[function(require,module,exports){
 "use strict";
@@ -1841,7 +1913,34 @@ var _register = require("../register");
 
 var _searchResultModel = require("../models/searchResultModel");
 
+var travelSlotUUID = location.href.split("?")[1];
+var companyUUID = location.href.split("?")[2];
+var sendButton = document.querySelector(".send-review");
+
+var driverPoint = document.querySelectorAll(".driver");
+var hostessPoint = document.querySelectorAll(".hostess");
+var breakPoint = document.querySelectorAll(".break");
+var travelPoint = document.querySelectorAll(".traveltime");
+var baggagePoint = document.querySelectorAll(".baggage");
+var comfortPoint = document.querySelectorAll(".comfort");
+var vehiclePoint = document.querySelectorAll(".vehicle");
+var petPoint = document.querySelectorAll(".pet");
+
 (0, _register.registeredSectionPage)();
 (0, _searchResultModel.travelFilter)();
+
+sendButton.addEventListener("click", function () {
+
+  var driverP = (0, _searchResultModel.pointExtractor)(driverPoint);
+  var hostessP = (0, _searchResultModel.pointExtractor)(hostessPoint);
+  var breakP = (0, _searchResultModel.pointExtractor)(breakPoint);
+  var travelP = (0, _searchResultModel.pointExtractor)(travelPoint);
+  var baggageP = (0, _searchResultModel.pointExtractor)(baggagePoint);
+  var comfortP = (0, _searchResultModel.pointExtractor)(comfortPoint);
+  var vehicleP = (0, _searchResultModel.pointExtractor)(vehiclePoint);
+  var petP = (0, _searchResultModel.pointExtractor)(petPoint);
+
+  (0, _searchResultModel.createComment)(companyUUID, travelSlotUUID, driverP, hostessP, breakP, travelP, baggageP, comfortP, vehicleP, petP);
+});
 
 },{"../models/searchResultModel":28,"../register":29}]},{},[30]);
