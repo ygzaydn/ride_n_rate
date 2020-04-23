@@ -11,6 +11,15 @@ const comfortCommentBox = document.getElementById("message_box_comfort");
 const vehicleCommentBox = document.getElementById("message_box_vehicle");
 const petCommentBox = document.getElementById("message_box_pet");
 
+const driverPoint = document.querySelectorAll(".driver");
+const hostessPoint = document.querySelectorAll(".hostess");
+const breakPoint = document.querySelectorAll(".break");
+const travelPoint = document.querySelectorAll(".traveltime");
+const baggagePoint = document.querySelectorAll(".baggage");
+const comfortPoint = document.querySelectorAll(".comfort");
+const vehiclePoint = document.querySelectorAll(".vehicle");
+const petPoint = document.querySelectorAll(".pet");
+
 const travelFilter = async () => {
   const travelSlotUUID = location.href.split("?")[1];
   const companyUUID = location.href.split("?")[2];
@@ -43,21 +52,22 @@ const travelFilter = async () => {
   companyFilter();
 };
 
-const createComment = async (
-  cUUID,
-  tsUUID,
-  driverP,
-  hostessP,
-  breakP,
-  travelP,
-  baggageP,
-  comfortP,
-  vehicleP,
-  petP
-) => {
+const createComment = async (cUUID, tsUUID) => {
+
+  const driverP = pointExtractor(driverPoint);
+  const hostessP = pointExtractor(hostessPoint);
+  const breakP = pointExtractor(breakPoint);
+  const travelP = pointExtractor(travelPoint);
+  const baggageP = pointExtractor(baggagePoint);
+  const comfortP = pointExtractor(comfortPoint);
+  const vehicleP = pointExtractor(vehiclePoint);
+  const petP = pointExtractor(petPoint);
+
+  const token = localStorage.getItem("token");
+  
   const config = {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${token}`,
     },
     method: "post",
     url: `${url}/api/review/create`,
@@ -118,7 +128,6 @@ const pointExtractor = (queryElement) => {
   else if (queryElement[2].checked === true) point = 3;
   else if (queryElement[3].checked === true) point = 2;
   else if (queryElement[4].checked === true) point = 1;
-  console.log(point);
   return point;
 };
 
@@ -139,4 +148,4 @@ const getComments = async () => {
   console.log(result);
 };
 
-export { travelFilter, createComment, pointExtractor, getComments };
+export { travelFilter, createComment, getComments };

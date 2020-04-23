@@ -1745,7 +1745,7 @@ process.umask = function() { return 0; };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getComments = exports.pointExtractor = exports.createComment = exports.travelFilter = undefined;
+exports.getComments = exports.createComment = exports.travelFilter = undefined;
 
 var _register = require("../register");
 
@@ -1761,6 +1761,15 @@ var baggageCommentBox = document.getElementById("message_box_baggage");
 var comfortCommentBox = document.getElementById("message_box_comfort");
 var vehicleCommentBox = document.getElementById("message_box_vehicle");
 var petCommentBox = document.getElementById("message_box_pet");
+
+var driverPoint = document.querySelectorAll(".driver");
+var hostessPoint = document.querySelectorAll(".hostess");
+var breakPoint = document.querySelectorAll(".break");
+var travelPoint = document.querySelectorAll(".traveltime");
+var baggagePoint = document.querySelectorAll(".baggage");
+var comfortPoint = document.querySelectorAll(".comfort");
+var vehiclePoint = document.querySelectorAll(".vehicle");
+var petPoint = document.querySelectorAll(".pet");
 
 var travelFilter = async function travelFilter() {
   var travelSlotUUID = location.href.split("?")[1];
@@ -1790,10 +1799,22 @@ var travelFilter = async function travelFilter() {
   companyFilter();
 };
 
-var createComment = async function createComment(cUUID, tsUUID, driverP, hostessP, breakP, travelP, baggageP, comfortP, vehicleP, petP) {
+var createComment = async function createComment(cUUID, tsUUID) {
+
+  var driverP = pointExtractor(driverPoint);
+  var hostessP = pointExtractor(hostessPoint);
+  var breakP = pointExtractor(breakPoint);
+  var travelP = pointExtractor(travelPoint);
+  var baggageP = pointExtractor(baggagePoint);
+  var comfortP = pointExtractor(comfortPoint);
+  var vehicleP = pointExtractor(vehiclePoint);
+  var petP = pointExtractor(petPoint);
+
+  var token = localStorage.getItem("token");
+
   var config = {
     headers: {
-      Authorization: "Bearer " + localStorage.getItem("token")
+      Authorization: "Bearer " + token
     },
     method: "post",
     url: _register.url + "/api/review/create",
@@ -1850,7 +1871,6 @@ var pointExtractor = function pointExtractor(queryElement) {
   // document.querySelectorAll('.hostess')
   var point = 0;
   if (queryElement[0].checked === true) point = 5;else if (queryElement[1].checked === true) point = 4;else if (queryElement[2].checked === true) point = 3;else if (queryElement[3].checked === true) point = 2;else if (queryElement[4].checked === true) point = 1;
-  console.log(point);
   return point;
 };
 
@@ -1873,7 +1893,6 @@ var getComments = async function getComments() {
 
 exports.travelFilter = travelFilter;
 exports.createComment = createComment;
-exports.pointExtractor = pointExtractor;
 exports.getComments = getComments;
 
 },{"../register":29,"axios":1}],29:[function(require,module,exports){
@@ -1938,30 +1957,12 @@ var travelSlotUUID = location.href.split("?")[1];
 var companyUUID = location.href.split("?")[2];
 var sendButton = document.querySelector(".send-review");
 
-var driverPoint = document.querySelectorAll(".driver");
-var hostessPoint = document.querySelectorAll(".hostess");
-var breakPoint = document.querySelectorAll(".break");
-var travelPoint = document.querySelectorAll(".traveltime");
-var baggagePoint = document.querySelectorAll(".baggage");
-var comfortPoint = document.querySelectorAll(".comfort");
-var vehiclePoint = document.querySelectorAll(".vehicle");
-var petPoint = document.querySelectorAll(".pet");
-
 (0, _register.registeredSectionPage)();
 (0, _searchResultModel.travelFilter)();
 (0, _searchResultModel.getComments)();
 
 sendButton.addEventListener("click", function () {
-  var driverP = (0, _searchResultModel.pointExtractor)(driverPoint);
-  var hostessP = (0, _searchResultModel.pointExtractor)(hostessPoint);
-  var breakP = (0, _searchResultModel.pointExtractor)(breakPoint);
-  var travelP = (0, _searchResultModel.pointExtractor)(travelPoint);
-  var baggageP = (0, _searchResultModel.pointExtractor)(baggagePoint);
-  var comfortP = (0, _searchResultModel.pointExtractor)(comfortPoint);
-  var vehicleP = (0, _searchResultModel.pointExtractor)(vehiclePoint);
-  var petP = (0, _searchResultModel.pointExtractor)(petPoint);
-
-  (0, _searchResultModel.createComment)(companyUUID, travelSlotUUID, driverP, hostessP, breakP, travelP, baggageP, comfortP, vehicleP, petP);
+  (0, _searchResultModel.createComment)(companyUUID, travelSlotUUID);
 });
 
 },{"../models/searchResultModel":28,"../register":29}]},{},[30]);
