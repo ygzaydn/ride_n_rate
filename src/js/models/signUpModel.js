@@ -27,7 +27,7 @@ async function loginRequest (email, password) {
         console.log(res.data.jwt);
         console.log(res.data.user.username);
         localStorage.setItem('token',res.data.jwt);
-        localStorage.setItem('username',res.data.user.username)
+        localStorage.setItem('username',res.data.user.username);
         /* console.log(res.data.user);
         console.log(res.status); */
     } catch (e) {
