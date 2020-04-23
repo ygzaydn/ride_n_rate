@@ -43,8 +43,22 @@ const travelFilter = async () => {
   companyFilter();
 };
 
-const createComment = async (cUUID, tsUUID, driverP, hostessP, breakP, travelP, baggageP, comfortP, vehicleP, petP) => {
+const createComment = async (
+  cUUID,
+  tsUUID,
+  driverP,
+  hostessP,
+  breakP,
+  travelP,
+  baggageP,
+  comfortP,
+  vehicleP,
+  petP
+) => {
   const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
     method: "post",
     url: `${url}/api/review/create`,
     data: {
@@ -82,7 +96,7 @@ const createComment = async (cUUID, tsUUID, driverP, hostessP, breakP, travelP, 
       },
       vehicle: {
         comment: vehicleCommentBox.value,
-        review: vehicleP
+        review: vehicleP,
       },
     },
   };
@@ -108,4 +122,21 @@ const pointExtractor = (queryElement) => {
   return point;
 };
 
-export { travelFilter, createComment, pointExtractor };
+const getComments = async () => {
+  const travelSlotUUID = location.href.split("?")[1];
+  const companyUUID = location.href.split("?")[2];
+  const config = {
+    url: `${url}/api/review/all`,
+    method: "post",
+    data: {
+      review: {
+        companyUUID: companyUUID,
+        travelslotUUID: travelSlotUUID,
+      },
+    },
+  };
+  const result = await axios(config);
+  console.log(result);
+};
+
+export { travelFilter, createComment, pointExtractor, getComments };

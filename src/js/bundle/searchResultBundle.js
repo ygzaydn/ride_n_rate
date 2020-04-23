@@ -1745,7 +1745,7 @@ process.umask = function() { return 0; };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.pointExtractor = exports.createComment = exports.travelFilter = undefined;
+exports.getComments = exports.pointExtractor = exports.createComment = exports.travelFilter = undefined;
 
 var _register = require("../register");
 
@@ -1792,6 +1792,9 @@ var travelFilter = async function travelFilter() {
 
 var createComment = async function createComment(cUUID, tsUUID, driverP, hostessP, breakP, travelP, baggageP, comfortP, vehicleP, petP) {
   var config = {
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("token")
+    },
     method: "post",
     url: _register.url + "/api/review/create",
     data: {
@@ -1851,9 +1854,27 @@ var pointExtractor = function pointExtractor(queryElement) {
   return point;
 };
 
+var getComments = async function getComments() {
+  var travelSlotUUID = location.href.split("?")[1];
+  var companyUUID = location.href.split("?")[2];
+  var config = {
+    url: _register.url + "/api/review/all",
+    method: "post",
+    data: {
+      review: {
+        companyUUID: companyUUID,
+        travelslotUUID: travelSlotUUID
+      }
+    }
+  };
+  var result = await axios(config);
+  console.log(result);
+};
+
 exports.travelFilter = travelFilter;
 exports.createComment = createComment;
 exports.pointExtractor = pointExtractor;
+exports.getComments = getComments;
 
 },{"../register":29,"axios":1}],29:[function(require,module,exports){
 "use strict";
@@ -1928,9 +1949,9 @@ var petPoint = document.querySelectorAll(".pet");
 
 (0, _register.registeredSectionPage)();
 (0, _searchResultModel.travelFilter)();
+(0, _searchResultModel.getComments)();
 
 sendButton.addEventListener("click", function () {
-
   var driverP = (0, _searchResultModel.pointExtractor)(driverPoint);
   var hostessP = (0, _searchResultModel.pointExtractor)(hostessPoint);
   var breakP = (0, _searchResultModel.pointExtractor)(breakPoint);

@@ -1,5 +1,10 @@
 import { registeredSectionPage } from "../register";
-import { travelFilter, createComment, pointExtractor } from "../models/searchResultModel";
+import {
+  travelFilter,
+  createComment,
+  pointExtractor,
+  getComments,
+} from "../models/searchResultModel";
 
 const travelSlotUUID = location.href.split("?")[1];
 const companyUUID = location.href.split("?")[2];
@@ -16,17 +21,28 @@ const petPoint = document.querySelectorAll(".pet");
 
 registeredSectionPage();
 travelFilter();
+getComments();
 
 sendButton.addEventListener("click", () => {
+  const driverP = pointExtractor(driverPoint);
+  const hostessP = pointExtractor(hostessPoint);
+  const breakP = pointExtractor(breakPoint);
+  const travelP = pointExtractor(travelPoint);
+  const baggageP = pointExtractor(baggagePoint);
+  const comfortP = pointExtractor(comfortPoint);
+  const vehicleP = pointExtractor(vehiclePoint);
+  const petP = pointExtractor(petPoint);
 
-const driverP = pointExtractor(driverPoint);
-const hostessP = pointExtractor(hostessPoint);
-const breakP = pointExtractor(breakPoint);
-const travelP = pointExtractor(travelPoint);
-const baggageP = pointExtractor(baggagePoint);
-const comfortP = pointExtractor(comfortPoint);
-const vehicleP = pointExtractor(vehiclePoint);
-const petP = pointExtractor(petPoint);
-
-  createComment(companyUUID, travelSlotUUID, driverP, hostessP, breakP, travelP, baggageP, comfortP, vehicleP, petP);
+  createComment(
+    companyUUID,
+    travelSlotUUID,
+    driverP,
+    hostessP,
+    breakP,
+    travelP,
+    baggageP,
+    comfortP,
+    vehicleP,
+    petP
+  );
 });
