@@ -38,6 +38,7 @@
     "express": "^4.17.1",
     "gulp": "^4.0.2",
     "jquery": "^3.4.1",
-    "prettier": "^2.0.4"
+    "prettier": "^2.0.4",
+    "sweetalert2": "^9.10.12"
   }
 }

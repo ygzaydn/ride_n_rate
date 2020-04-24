@@ -4,6 +4,7 @@ import {
   createComment,
   getComments,
 } from "../models/searchResultModel";
+const Swal = require('sweetalert2');
 
 
 const travelSlotUUID = location.href.split("?")[1];
@@ -14,6 +15,24 @@ const checkReview = document.querySelector('.check-review');
 registeredSectionPage();
 travelFilter();
 
+window.editComment = async function(e) {
+
+  const parentElement = e.parentNode.parentElement;
+
+  const { value: text } = await Swal.fire({
+    input: 'textarea',
+    inputPlaceholder: 'Yorumunuzu buraya girin.',
+    inputAttributes: {
+      'aria-label': 'Yorumunuzu buraya girin.'
+    },
+    showCancelButton: true
+  })
+  
+  if (text) {
+    Swal.fire(text)
+    parentElement.children[2].innerText = text;
+  }
+}
 
 sendButton.addEventListener("click", () => {
   createComment(companyUUID, travelSlotUUID);

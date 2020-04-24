@@ -205,8 +205,8 @@ const getComments = async () => {
         <div class="comment-body">
           <h3>${el.user.userName}</h3>
           <div class="meta">${el.createdAt.split("T")[0]}</div>
-          <p style="overflow-wrap: break-word;">${el.driver.content.comment}</p>
-          <p><a href="#" class="edit" style="padding-right: 10px;">Edit</a> <a href="#"
+          <p id="comment" style="overflow-wrap: break-word;">${el.driver.content.comment}</p>
+          <p><a onclick="editComment(this)" class="edit" >Edit</a> <a
               class="delete">Delete</a> </p>
           <p></p>
         </div>
