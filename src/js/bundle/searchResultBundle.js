@@ -5244,7 +5244,6 @@ var checkReview = document.querySelector('.check-review');
 window.editComment = async function (e) {
 
   var parentElement = e.parentNode.parentElement;
-  console.log(parentElement);
 
   var _ref = await Swal.fire({
     input: 'textarea',
@@ -5263,11 +5262,9 @@ window.editComment = async function (e) {
 };
 
 window.deleteComment = function (e) {
+
   var parentElement = e.parentNode.parentNode.parentNode;
   var commentNode = parentElement.parentNode;
-  console.log(parentElement);
-  console.log(commentNode);
-  //commentNode.removeChild(parentElement);
 
   Swal.fire({
     title: 'Yorumu kaldırmak istediğinden emin misin',

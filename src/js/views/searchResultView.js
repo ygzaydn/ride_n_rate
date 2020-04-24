@@ -18,6 +18,7 @@ travelFilter();
 window.editComment = async function(e) {
 
   const parentElement = e.parentNode.parentElement;
+ 
 
   const { value: text } = await Swal.fire({
     input: 'textarea',
@@ -35,7 +36,10 @@ window.editComment = async function(e) {
 }
 
 window.deleteComment = function(e) {
-  
+
+  const parentElement = e.parentNode.parentNode.parentNode;
+  const commentNode = parentElement.parentNode;
+
   Swal.fire({
     title: 'Yorumu kaldırmak istediğinden emin misin',
     text: "Bu işlem geri alınamaz",
