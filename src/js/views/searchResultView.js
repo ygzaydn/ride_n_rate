@@ -18,6 +18,7 @@ travelFilter();
 window.editComment = async function(e) {
 
   const parentElement = e.parentNode.parentElement;
+  console.log(parentElement);
 
   const { value: text } = await Swal.fire({
     input: 'textarea',
@@ -32,6 +33,36 @@ window.editComment = async function(e) {
     Swal.fire(text)
     parentElement.children[2].innerText = text;
   }
+}
+
+window.deleteComment = function(e) {
+  const parentElement = e.parentNode.parentNode.parentNode;
+  const commentNode = parentElement.parentNode;
+  console.log(parentElement);
+  console.log(commentNode);
+  //commentNode.removeChild(parentElement);
+
+  Swal.fire({
+    title: 'Yorumu kaldırmak istediğinden emin misin',
+    text: "Bu işlem geri alınamaz",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Evet, yorumu kaldır'
+  }).then((result) => {
+    if (result.value) {
+      Swal.fire(
+        'Kaldırıldı',
+        'Yorumun başarılı bir şekilde kaldırıldı',
+        'success'
+      )
+      commentNode.removeChild(parentElement);
+    }
+  })
+
+
+
 }
 
 sendButton.addEventListener("click", () => {

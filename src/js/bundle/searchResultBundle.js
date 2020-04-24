@@ -5040,7 +5040,7 @@ var getComments = async function getComments() {
         counterData.driver.averagePoint += el.driver.content.rating;
       }
       if (el.driver.content.comment) {
-        driverCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p id=\"comment\" style=\"overflow-wrap: break-word;\">" + el.driver.content.comment + "</p>\n          <p><a onclick=\"editComment(this)\" class=\"edit\" >Edit</a> <a\n              class=\"delete\">Delete</a> </p>\n          <p></p>\n        </div>\n      </li>\n      \n      ");
+        driverCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p id=\"comment\" style=\"overflow-wrap: break-word;\">" + el.driver.content.comment + "</p>\n          <p><a onclick=\"editComment(this)\" class=\"edit\" >Edit</a> <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n          <p></p>\n        </div>\n      </li>\n      \n      ");
       }
 
       var hostessCommentSection = document.querySelector(".hostess-comment-list");
@@ -5244,6 +5244,7 @@ var checkReview = document.querySelector('.check-review');
 window.editComment = async function (e) {
 
   var parentElement = e.parentNode.parentElement;
+  console.log(parentElement);
 
   var _ref = await Swal.fire({
     input: 'textarea',
@@ -5259,6 +5260,29 @@ window.editComment = async function (e) {
     Swal.fire(text);
     parentElement.children[2].innerText = text;
   }
+};
+
+window.deleteComment = function (e) {
+  var parentElement = e.parentNode.parentNode.parentNode;
+  var commentNode = parentElement.parentNode;
+  console.log(parentElement);
+  console.log(commentNode);
+  //commentNode.removeChild(parentElement);
+
+  Swal.fire({
+    title: 'Yorumu kaldırmak istediğinden emin misin',
+    text: "Bu işlem geri alınamaz",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Evet, yorumu kaldır'
+  }).then(function (result) {
+    if (result.value) {
+      Swal.fire('Kaldırıldı', 'Yorumun başarılı bir şekilde kaldırıldı', 'success');
+      commentNode.removeChild(parentElement);
+    }
+  });
 };
 
 sendButton.addEventListener("click", function () {
