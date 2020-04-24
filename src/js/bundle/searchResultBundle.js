@@ -5273,7 +5273,8 @@ window.deleteComment = function (e) {
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Evet, yorumu kaldır'
+    confirmButtonText: 'Evet, yorumu kaldır',
+    cancelButtonText: 'İşlemi iptal et'
   }).then(function (result) {
     if (result.value) {
       Swal.fire('Kaldırıldı', 'Yorumun başarılı bir şekilde kaldırıldı', 'success');
