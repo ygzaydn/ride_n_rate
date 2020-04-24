@@ -5049,7 +5049,7 @@ var getComments = async function getComments() {
         counterData.hostess.averagePoint += el.hostess.content.rating;
       }
       if (el.hostess.content.comment) {
-        hostessCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.hostess.content.comment + "</p>\n          <p><a href=\"#\" class=\"edit\" style=\"padding-right: 10px;\">Edit</a> <a href=\"#\"\n              class=\"delete\">Delete</a> </p>\n          <p></p>\n        </div>\n      </li>\n      \n      ");
+        hostessCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.hostess.content.comment + "</p>\n          <p><a onclick=\"editComment(this)\" class=\"edit\" >Edit</a> <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n          <p></p>\n        </div>\n      </li>\n      \n      ");
       }
 
       var breakCommentSection = document.querySelector(".break-comment-list");
@@ -5058,7 +5058,7 @@ var getComments = async function getComments() {
         counterData.break.averagePoint += el.breaks.content.rating;
       }
       if (el.breaks.content.comment) {
-        breakCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.breaks.content.comment + "</p>\n          <p><a href=\"#\" class=\"edit\" style=\"padding-right: 10px;\">Edit</a> <a href=\"#\"\n              class=\"delete\">Delete</a> </p>\n          <p></p>\n        </div>\n      </li>\n      ");
+        breakCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.breaks.content.comment + "</p>\n          <p><a onclick=\"editComment(this)\" class=\"edit\" >Edit</a> <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n          <p></p>\n        </div>\n      </li>\n      ");
       }
 
       var baggageCommentSection = document.querySelector(".baggage-comment-list");
@@ -5067,7 +5067,7 @@ var getComments = async function getComments() {
         counterData.baggage.averagePoint += el.baggage.content.rating;
       }
       if (el.baggage.content.comment) {
-        baggageCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.baggage.content.comment + "</p>\n          <p><a href=\"#\" class=\"edit\" style=\"padding-right: 10px;\">Edit</a> <a href=\"#\"\n              class=\"delete\">Delete</a> </p>\n          <p></p>\n        </div>\n      </li>\n      ");
+        baggageCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.baggage.content.comment + "</p>\n          <p><a onclick=\"editComment(this)\" class=\"edit\" >Edit</a> <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n          <p></p>\n        </div>\n      </li>\n      ");
       }
 
       var comfortCommentSection = document.querySelector(".comfort-comment-list");
@@ -5076,7 +5076,7 @@ var getComments = async function getComments() {
         counterData.comfort.averagePoint += el.comfort.content.rating;
       }
       if (el.comfort.content.comment) {
-        comfortCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.comfort.content.comment + "</p>\n          <p><a href=\"#\" class=\"edit\" style=\"padding-right: 10px;\">Edit</a> <a href=\"#\"\n              class=\"delete\">Delete</a> </p>\n          <p></p>\n        </div>\n      </li>\n      ");
+        comfortCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.comfort.content.comment + "</p>\n          <p><a onclick=\"editComment(this)\" class=\"edit\" >Edit</a> <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n          <p></p>\n        </div>\n      </li>\n      ");
       }
 
       var petCommentSection = document.querySelector(".pet-comment-list");
@@ -5085,7 +5085,7 @@ var getComments = async function getComments() {
         counterData.pet.averagePoint += el.pet.content.rating;
       }
       if (el.pet.content.comment) {
-        petCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.pet.content.comment + "</p>\n          <p><a href=\"#\" class=\"edit\" style=\"padding-right: 10px;\">Edit</a> <a href=\"#\"\n              class=\"delete\">Delete</a> </p>\n          <p></p>\n        </div>\n      </li>\n      ");
+        petCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.pet.content.comment + "</p>\n          <p><a onclick=\"editComment(this)\" class=\"edit\" >Edit</a> <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n          <p></p>\n        </div>\n      </li>\n      ");
       }
 
       var travelCommentSection = document.querySelector(".travel-comment-list");
@@ -5094,7 +5094,7 @@ var getComments = async function getComments() {
         counterData.travel.averagePoint += el.travel.content.rating;
       }
       if (el.travel.content.comment) {
-        travelCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.travel.content.comment + "</p>\n          <p><a href=\"#\" class=\"edit\" style=\"padding-right: 10px;\">Edit</a> <a href=\"#\"\n              class=\"delete\">Delete</a> </p>\n          <p></p>\n        </div>\n      </li>\n      ");
+        travelCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.travel.content.comment + "</p>\n          <p><a onclick=\"editComment(this)\" class=\"edit\" >Edit</a> <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n          <p></p>\n        </div>\n      </li>\n      ");
       }
 
       var vehicleCommentSection = document.querySelector(".vehicle-comment-list");
@@ -5103,7 +5103,7 @@ var getComments = async function getComments() {
         counterData.vehicle.averagePoint += el.vehicle.content.rating;
       }
       if (el.vehicle.content.comment) {
-        vehicleCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.vehicle.content.comment + "</p>\n          <p><a href=\"#\" class=\"edit\" style=\"padding-right: 10px;\">Edit</a> <a href=\"#\"\n              class=\"delete\">Delete</a> </p>\n          <p></p>\n        </div>\n      </li>\n      ");
+        vehicleCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p style=\"overflow-wrap: break-word;\">" + el.vehicle.content.comment + "</p>\n          <p><a onclick=\"editComment(this)\" class=\"edit\" >Edit</a> <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n          <p></p>\n        </div>\n      </li>\n      ");
       }
     });
   }

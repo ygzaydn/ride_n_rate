@@ -236,8 +236,7 @@ const getComments = async () => {
           <p style="overflow-wrap: break-word;">${
             el.hostess.content.comment
           }</p>
-          <p><a href="#" class="edit" style="padding-right: 10px;">Edit</a> <a href="#"
-              class="delete">Delete</a> </p>
+          <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
           <p></p>
         </div>
       </li>
@@ -267,8 +266,7 @@ const getComments = async () => {
           <p style="overflow-wrap: break-word;">${
             el.breaks.content.comment
           }</p>
-          <p><a href="#" class="edit" style="padding-right: 10px;">Edit</a> <a href="#"
-              class="delete">Delete</a> </p>
+          <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
           <p></p>
         </div>
       </li>
@@ -297,8 +295,7 @@ const getComments = async () => {
           <p style="overflow-wrap: break-word;">${
             el.baggage.content.comment
           }</p>
-          <p><a href="#" class="edit" style="padding-right: 10px;">Edit</a> <a href="#"
-              class="delete">Delete</a> </p>
+          <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
           <p></p>
         </div>
       </li>
@@ -327,8 +324,7 @@ const getComments = async () => {
           <p style="overflow-wrap: break-word;">${
             el.comfort.content.comment
           }</p>
-          <p><a href="#" class="edit" style="padding-right: 10px;">Edit</a> <a href="#"
-              class="delete">Delete</a> </p>
+          <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
           <p></p>
         </div>
       </li>
@@ -357,8 +353,7 @@ const getComments = async () => {
           <p style="overflow-wrap: break-word;">${
             el.pet.content.comment
           }</p>
-          <p><a href="#" class="edit" style="padding-right: 10px;">Edit</a> <a href="#"
-              class="delete">Delete</a> </p>
+          <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
           <p></p>
         </div>
       </li>
@@ -387,8 +382,7 @@ const getComments = async () => {
           <p style="overflow-wrap: break-word;">${
             el.travel.content.comment
           }</p>
-          <p><a href="#" class="edit" style="padding-right: 10px;">Edit</a> <a href="#"
-              class="delete">Delete</a> </p>
+          <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
           <p></p>
         </div>
       </li>
@@ -417,8 +411,7 @@ const getComments = async () => {
           <p style="overflow-wrap: break-word;">${
             el.vehicle.content.comment
           }</p>
-          <p><a href="#" class="edit" style="padding-right: 10px;">Edit</a> <a href="#"
-              class="delete">Delete</a> </p>
+          <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
           <p></p>
         </div>
       </li>
