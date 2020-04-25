@@ -145,6 +145,7 @@ const getComments = async () => {
     },
   };
   const result = await axios(config);
+  console.log(result);
   const resData = result.data;
   console.log(resData);
 
@@ -197,7 +198,7 @@ const getComments = async () => {
         let driverLikes = el.driver.content.likes;
         let driverDislikes = el.driver.content.dislikes;
 
-        window.increaseLike = () => { console.log('up'); };
+        window.increaseLike = () => { driverLikes++; console.log(driverLikes) };
         window.decreaseLike = () => { console.log('down'); };
 
         driverCommentSection.insertAdjacentHTML(

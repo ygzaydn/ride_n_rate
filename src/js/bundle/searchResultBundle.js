@@ -4992,6 +4992,7 @@ var getComments = async function getComments() {
     }
   };
   var result = await axios(config);
+  console.log(result);
   var resData = result.data;
   console.log(resData);
 
@@ -5043,7 +5044,7 @@ var getComments = async function getComments() {
         var driverDislikes = el.driver.content.dislikes;
 
         window.increaseLike = function () {
-          console.log('up');
+          driverLikes++;console.log(driverLikes);
         };
         window.decreaseLike = function () {
           console.log('down');
