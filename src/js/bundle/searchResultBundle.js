@@ -5028,19 +5028,28 @@ var getComments = async function getComments() {
       count: 0,
       averagePoint: 0
     }
-
   };
 
   if (resData.length != 0) {
     resData.forEach(function (el) {
-
       var driverCommentSection = document.querySelector(".driver-comment-list");
       if (el.driver.content.rating != 0) {
         counterData.driver.count++;
         counterData.driver.averagePoint += el.driver.content.rating;
       }
       if (el.driver.content.comment) {
-        driverCommentSection.insertAdjacentHTML("beforeend", "\n      <li class=\"comment\">\n        <div class=\"vcard bio\">\n          <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n          <p id=\"comment\" style=\"overflow-wrap: break-word;\">" + el.driver.content.comment + "</p>\n          <p><a onclick=\"editComment(this)\" class=\"edit\" >Edit</a> <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n          <p></p>\n        </div>\n      </li>\n      \n      ");
+
+        var driverLikes = el.driver.content.likes;
+        var driverDislikes = el.driver.content.dislikes;
+
+        window.increaseLike = function () {
+          console.log('up');
+        };
+        window.decreaseLike = function () {
+          console.log('down');
+        };
+
+        driverCommentSection.insertAdjacentHTML("beforeend", "\n        <li class=\"comment\">\n          <div class=\"vcard bio\">\n            <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n          </div>\n          <div class=\"comment-body\">\n            <h3>" + el.user.userName + "</h3>\n            <div class=\"meta\">" + el.createdAt.split("T")[0] + "</div>\n            <p id=\"comment\" style=\"overflow-wrap: break-word;\">" + el.driver.content.comment + "</p>\n\n            <p><a onclick=\"increaseLike(addLike(this))\" class=\"like\">Like</a> \n            <a onclick=\"decreaseLike(addDislike(this))\" class=\"dislike\">Dislike</a>\n            \n            <input class=\"qty\" name=\"qty\" type=\"text\" value=\"" + (driverLikes - driverDislikes) + "\" /></p>\n            \n            \n            <p><a onclick=\"editComment(this)\" class=\"edit\">Edit</a> \n            <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n\n          </div>\n        </li>\n        \n      ");
       }
 
       var hostessCommentSection = document.querySelector(".hostess-comment-list");
@@ -5281,6 +5290,20 @@ window.deleteComment = function (e) {
       commentNode.removeChild(parentElement);
     }
   });
+};
+
+window.addLike = function (e) {
+  var parentElement = e.parentNode;
+  var value = parseInt(parentElement.children[2].value);
+  value++;
+  parentElement.children[2].value = value;
+};
+
+window.addDislike = function (e) {
+  var parentElement = e.parentNode;
+  var value = parseInt(parentElement.children[2].value);
+  value--;
+  parentElement.children[2].value = value;
 };
 
 sendButton.addEventListener("click", function () {

@@ -33,7 +33,7 @@ window.editComment = async function(e) {
     Swal.fire(text)
     parentElement.children[2].innerText = text;
   }
-}
+};
 
 window.deleteComment = function(e) {
 
@@ -62,7 +62,21 @@ window.deleteComment = function(e) {
 
 
 
-}
+};
+
+window.addLike = (e) => {
+  const parentElement = e.parentNode;
+  let value = parseInt(parentElement.children[2].value);
+  value++;
+  parentElement.children[2].value = value;
+};
+
+window.addDislike = (e) => {
+  const parentElement = e.parentNode;
+  let value = parseInt(parentElement.children[2].value);
+  value--;
+  parentElement.children[2].value = value;
+};
 
 sendButton.addEventListener("click", () => {
   createComment(companyUUID, travelSlotUUID);

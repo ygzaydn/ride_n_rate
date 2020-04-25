@@ -181,12 +181,10 @@ const getComments = async () => {
       count: 0,
       averagePoint: 0,
     },
-
   };
 
   if (resData.length != 0) {
     resData.forEach((el) => {
-
       const driverCommentSection = document.querySelector(
         ".driver-comment-list"
       );
@@ -195,22 +193,41 @@ const getComments = async () => {
         counterData.driver.averagePoint += el.driver.content.rating;
       }
       if (el.driver.content.comment) {
+
+        let driverLikes = el.driver.content.likes;
+        let driverDislikes = el.driver.content.dislikes;
+
+        window.increaseLike = () => { console.log('up'); };
+        window.decreaseLike = () => { console.log('down'); };
+
         driverCommentSection.insertAdjacentHTML(
           "beforeend",
           `
-      <li class="comment">
-        <div class="vcard bio">
-          <img src="src/images/comment_vcard.jpg" alt="Image">
-        </div>
-        <div class="comment-body">
-          <h3>${el.user.userName}</h3>
-          <div class="meta">${el.createdAt.split("T")[0]}</div>
-          <p id="comment" style="overflow-wrap: break-word;">${el.driver.content.comment}</p>
-          <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
-          <p></p>
-        </div>
-      </li>
-      
+        <li class="comment">
+          <div class="vcard bio">
+            <img src="src/images/comment_vcard.jpg" alt="Image">
+          </div>
+          <div class="comment-body">
+            <h3>${el.user.userName}</h3>
+            <div class="meta">${el.createdAt.split("T")[0]}</div>
+            <p id="comment" style="overflow-wrap: break-word;">${
+              el.driver.content.comment
+            }</p>
+
+            <p><a onclick="increaseLike(addLike(this))" class="like">Like</a> 
+            <a onclick="decreaseLike(addDislike(this))" class="dislike">Dislike</a>
+            
+            <input class="qty" name="qty" type="text" value="${
+              driverLikes - driverDislikes
+            }" /></p>
+            
+            
+            <p><a onclick="editComment(this)" class="edit">Edit</a> 
+            <a onclick="deleteComment(this)" class="delete">Delete</a></p>
+
+          </div>
+        </li>
+        
       `
         );
       }
@@ -245,9 +262,7 @@ const getComments = async () => {
         );
       }
 
-      const breakCommentSection = document.querySelector(
-        ".break-comment-list"
-      );
+      const breakCommentSection = document.querySelector(".break-comment-list");
       if (el.breaks.content.rating != 0) {
         counterData.break.count++;
         counterData.break.averagePoint += el.breaks.content.rating;
@@ -263,9 +278,7 @@ const getComments = async () => {
         <div class="comment-body">
           <h3>${el.user.userName}</h3>
           <div class="meta">${el.createdAt.split("T")[0]}</div>
-          <p style="overflow-wrap: break-word;">${
-            el.breaks.content.comment
-          }</p>
+          <p style="overflow-wrap: break-word;">${el.breaks.content.comment}</p>
           <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
           <p></p>
         </div>
@@ -332,9 +345,7 @@ const getComments = async () => {
         );
       }
 
-      const petCommentSection = document.querySelector(
-        ".pet-comment-list"
-      );
+      const petCommentSection = document.querySelector(".pet-comment-list");
       if (el.pet.content.rating != 0) {
         counterData.pet.count++;
         counterData.pet.averagePoint += el.pet.content.rating;
@@ -350,9 +361,7 @@ const getComments = async () => {
         <div class="comment-body">
           <h3>${el.user.userName}</h3>
           <div class="meta">${el.createdAt.split("T")[0]}</div>
-          <p style="overflow-wrap: break-word;">${
-            el.pet.content.comment
-          }</p>
+          <p style="overflow-wrap: break-word;">${el.pet.content.comment}</p>
           <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
           <p></p>
         </div>
@@ -379,9 +388,7 @@ const getComments = async () => {
         <div class="comment-body">
           <h3>${el.user.userName}</h3>
           <div class="meta">${el.createdAt.split("T")[0]}</div>
-          <p style="overflow-wrap: break-word;">${
-            el.travel.content.comment
-          }</p>
+          <p style="overflow-wrap: break-word;">${el.travel.content.comment}</p>
           <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
           <p></p>
         </div>
@@ -418,7 +425,6 @@ const getComments = async () => {
       `
         );
       }
-
     });
   }
 
