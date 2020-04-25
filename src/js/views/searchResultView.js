@@ -3,6 +3,7 @@ import {
   travelFilter,
   createComment,
   getComments,
+  editComments
 } from "../models/searchResultModel";
 const Swal = require('sweetalert2');
 
@@ -18,8 +19,9 @@ travelFilter();
 window.editComment = async function(e) {
 
   const parentElement = e.parentNode.parentElement;
+  console.log(parentElement.children[5].innerText);
+  console.log(parentElement.children[6].innerText);
  
-
   const { value: text } = await Swal.fire({
     input: 'textarea',
     inputPlaceholder: 'Yorumunuzu buraya girin.',
@@ -30,9 +32,23 @@ window.editComment = async function(e) {
   })
   
   if (text) {
-    Swal.fire(text)
-    parentElement.children[2].innerText = text;
+    Swal.fire(text);
+    const uuid = parentElement.children[5].innerText;
+    const type = parentElement.children[6].innerText;
+    editComments(uuid, type, text);
+    document.querySelector('.driver-comment-list').innerHTML = "";
+    document.querySelector('.hostess-comment-list').innerHTML = "";
+    document.querySelector('.break-comment-list').innerHTML = "";
+    document.querySelector('.travel-comment-list').innerHTML = "";
+    document.querySelector('.baggage-comment-list').innerHTML = "";
+    document.querySelector('.comfort-comment-list').innerHTML = "";
+    document.querySelector('.vehicle-comment-list').innerHTML = "";
+    document.querySelector('.pet-comment-list').innerHTML = "";
+    getComments();
+
+    //parentElement.children[2].innerText = text;
   }
+
 };
 
 window.deleteComment = function(e) {
@@ -50,6 +66,7 @@ window.deleteComment = function(e) {
     confirmButtonText: 'Evet, yorumu kaldır',
     cancelButtonText: 'İşlemi iptal et'
   }).then((result) => {
+
     if (result.value) {
       Swal.fire(
         'Kaldırıldı',

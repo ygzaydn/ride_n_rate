@@ -145,7 +145,7 @@ const getComments = async () => {
     },
   };
   const result = await axios(config);
-  console.log(result);
+  //console.log(result);
   const resData = result.data;
   console.log(resData);
 
@@ -210,7 +210,7 @@ const getComments = async () => {
           </div>
           <div class="comment-body">
             <h3>${el.user.userName}</h3>
-            <div class="meta">${el.createdAt.split("T")[0]}</div>
+            <div class="meta">${el.review.createdAt.split("T")[0]}</div>
             <p id="comment" style="overflow-wrap: break-word;">${
               el.driver.content.comment
             }</p>
@@ -225,6 +225,9 @@ const getComments = async () => {
             
             <p><a onclick="editComment(this)" class="edit">Edit</a> 
             <a onclick="deleteComment(this)" class="delete">Delete</a></p>
+
+            <p hidden>${el.review.uuid}</p>
+            <p hidden>driver</p>
 
           </div>
         </li>
@@ -250,7 +253,7 @@ const getComments = async () => {
         </div>
         <div class="comment-body">
           <h3>${el.user.userName}</h3>
-          <div class="meta">${el.createdAt.split("T")[0]}</div>
+          <div class="meta">${el.review.createdAt.split("T")[0]}</div>
           <p style="overflow-wrap: break-word;">${
             el.hostess.content.comment
           }</p>
@@ -278,7 +281,7 @@ const getComments = async () => {
         </div>
         <div class="comment-body">
           <h3>${el.user.userName}</h3>
-          <div class="meta">${el.createdAt.split("T")[0]}</div>
+          <div class="meta">${el.review.createdAt.split("T")[0]}</div>
           <p style="overflow-wrap: break-word;">${el.breaks.content.comment}</p>
           <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
           <p></p>
@@ -305,7 +308,7 @@ const getComments = async () => {
         </div>
         <div class="comment-body">
           <h3>${el.user.userName}</h3>
-          <div class="meta">${el.createdAt.split("T")[0]}</div>
+          <div class="meta">${el.review.createdAt.split("T")[0]}</div>
           <p style="overflow-wrap: break-word;">${
             el.baggage.content.comment
           }</p>
@@ -334,7 +337,7 @@ const getComments = async () => {
         </div>
         <div class="comment-body">
           <h3>${el.user.userName}</h3>
-          <div class="meta">${el.createdAt.split("T")[0]}</div>
+          <div class="meta">${el.review.createdAt.split("T")[0]}</div>
           <p style="overflow-wrap: break-word;">${
             el.comfort.content.comment
           }</p>
@@ -361,7 +364,7 @@ const getComments = async () => {
         </div>
         <div class="comment-body">
           <h3>${el.user.userName}</h3>
-          <div class="meta">${el.createdAt.split("T")[0]}</div>
+          <div class="meta">${el.review.createdAt.split("T")[0]}</div>
           <p style="overflow-wrap: break-word;">${el.pet.content.comment}</p>
           <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
           <p></p>
@@ -388,7 +391,7 @@ const getComments = async () => {
         </div>
         <div class="comment-body">
           <h3>${el.user.userName}</h3>
-          <div class="meta">${el.createdAt.split("T")[0]}</div>
+          <div class="meta">${el.review.createdAt.split("T")[0]}</div>
           <p style="overflow-wrap: break-word;">${el.travel.content.comment}</p>
           <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
           <p></p>
@@ -415,7 +418,7 @@ const getComments = async () => {
         </div>
         <div class="comment-body">
           <h3>${el.user.userName}</h3>
-          <div class="meta">${el.createdAt.split("T")[0]}</div>
+          <div class="meta">${el.review.createdAt.split("T")[0]}</div>
           <p style="overflow-wrap: break-word;">${
             el.vehicle.content.comment
           }</p>
@@ -561,4 +564,21 @@ const getComments = async () => {
   // <span class="icon-star text-secondary"></span>
 };
 
-export { travelFilter, createComment, getComments };
+const editComments = async (uuid, type, text) => {
+  const newUrl = `${url}/api/review/${type}/update`
+  const config = {
+    method: "post",
+    url: newUrl,
+    data: {
+      review: {
+        uuid : uuid,
+        comment: text
+      }
+    }
+  };
+  const result = await axios(config);
+  console.log(result);
+  }
+
+
+export { travelFilter, createComment, getComments, editComments };
