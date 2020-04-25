@@ -186,24 +186,29 @@ const getComments = async () => {
 
   if (resData.length != 0) {
     resData.forEach((el) => {
-      const driverCommentSection = document.querySelector(
-        ".driver-comment-list"
-      );
-      if (el.driver.content.rating != 0) {
-        counterData.driver.count++;
-        counterData.driver.averagePoint += el.driver.content.rating;
-      }
-      if (el.driver.content.comment) {
+      if (el.driver) {
+        const driverCommentSection = document.querySelector(
+          ".driver-comment-list"
+        );
+        if (el.driver.content.rating != 0) {
+          counterData.driver.count++;
+          counterData.driver.averagePoint += el.driver.content.rating;
+        }
+        if (el.driver.content.comment) {
+          let driverLikes = el.driver.content.likes;
+          let driverDislikes = el.driver.content.dislikes;
 
-        let driverLikes = el.driver.content.likes;
-        let driverDislikes = el.driver.content.dislikes;
+          window.increaseLike = () => {
+            driverLikes++;
+            console.log(driverLikes);
+          };
+          window.decreaseLike = () => {
+            console.log("down");
+          };
 
-        window.increaseLike = () => { driverLikes++; console.log(driverLikes) };
-        window.decreaseLike = () => { console.log('down'); };
-
-        driverCommentSection.insertAdjacentHTML(
-          "beforeend",
-          `
+          driverCommentSection.insertAdjacentHTML(
+            "beforeend",
+            `
         <li class="comment">
           <div class="vcard bio">
             <img src="src/images/comment_vcard.jpg" alt="Image">
@@ -233,20 +238,21 @@ const getComments = async () => {
         </li>
         
       `
+          );
+        }
+      }
+      if (el.hostess) {
+        const hostessCommentSection = document.querySelector(
+          ".hostess-comment-list"
         );
-      }
-
-      const hostessCommentSection = document.querySelector(
-        ".hostess-comment-list"
-      );
-      if (el.hostess.content.rating != 0) {
-        counterData.hostess.count++;
-        counterData.hostess.averagePoint += el.hostess.content.rating;
-      }
-      if (el.hostess.content.comment) {
-        hostessCommentSection.insertAdjacentHTML(
-          "beforeend",
-          `
+        if (el.hostess.content.rating != 0) {
+          counterData.hostess.count++;
+          counterData.hostess.averagePoint += el.hostess.content.rating;
+        }
+        if (el.hostess.content.comment) {
+          hostessCommentSection.insertAdjacentHTML(
+            "beforeend",
+            `
       <li class="comment">
         <div class="vcard bio">
           <img src="src/images/comment_vcard.jpg" alt="Image">
@@ -263,18 +269,21 @@ const getComments = async () => {
       </li>
       
       `
+          );
+        }
+      }
+      if (el.break) {
+        const breakCommentSection = document.querySelector(
+          ".break-comment-list"
         );
-      }
-
-      const breakCommentSection = document.querySelector(".break-comment-list");
-      if (el.breaks.content.rating != 0) {
-        counterData.break.count++;
-        counterData.break.averagePoint += el.breaks.content.rating;
-      }
-      if (el.breaks.content.comment) {
-        breakCommentSection.insertAdjacentHTML(
-          "beforeend",
-          `
+        if (el.breaks.content.rating != 0) {
+          counterData.break.count++;
+          counterData.break.averagePoint += el.breaks.content.rating;
+        }
+        if (el.breaks.content.comment) {
+          breakCommentSection.insertAdjacentHTML(
+            "beforeend",
+            `
       <li class="comment">
         <div class="vcard bio">
           <img src="src/images/comment_vcard.jpg" alt="Image">
@@ -288,20 +297,21 @@ const getComments = async () => {
         </div>
       </li>
       `
+          );
+        }
+      }
+      if (el.baggage) {
+        const baggageCommentSection = document.querySelector(
+          ".baggage-comment-list"
         );
-      }
-
-      const baggageCommentSection = document.querySelector(
-        ".baggage-comment-list"
-      );
-      if (el.baggage.content.rating != 0) {
-        counterData.baggage.count++;
-        counterData.baggage.averagePoint += el.baggage.content.rating;
-      }
-      if (el.baggage.content.comment) {
-        baggageCommentSection.insertAdjacentHTML(
-          "beforeend",
-          `
+        if (el.baggage.content.rating != 0) {
+          counterData.baggage.count++;
+          counterData.baggage.averagePoint += el.baggage.content.rating;
+        }
+        if (el.baggage.content.comment) {
+          baggageCommentSection.insertAdjacentHTML(
+            "beforeend",
+            `
       <li class="comment">
         <div class="vcard bio">
           <img src="src/images/comment_vcard.jpg" alt="Image">
@@ -317,20 +327,21 @@ const getComments = async () => {
         </div>
       </li>
       `
+          );
+        }
+      }
+      if (el.comfort) {
+        const comfortCommentSection = document.querySelector(
+          ".comfort-comment-list"
         );
-      }
-
-      const comfortCommentSection = document.querySelector(
-        ".comfort-comment-list"
-      );
-      if (el.comfort.content.rating != 0) {
-        counterData.comfort.count++;
-        counterData.comfort.averagePoint += el.comfort.content.rating;
-      }
-      if (el.comfort.content.comment) {
-        comfortCommentSection.insertAdjacentHTML(
-          "beforeend",
-          `
+        if (el.comfort.content.rating != 0) {
+          counterData.comfort.count++;
+          counterData.comfort.averagePoint += el.comfort.content.rating;
+        }
+        if (el.comfort.content.comment) {
+          comfortCommentSection.insertAdjacentHTML(
+            "beforeend",
+            `
       <li class="comment">
         <div class="vcard bio">
           <img src="src/images/comment_vcard.jpg" alt="Image">
@@ -346,18 +357,19 @@ const getComments = async () => {
         </div>
       </li>
       `
-        );
+          );
+        }
       }
-
-      const petCommentSection = document.querySelector(".pet-comment-list");
-      if (el.pet.content.rating != 0) {
-        counterData.pet.count++;
-        counterData.pet.averagePoint += el.pet.content.rating;
-      }
-      if (el.pet.content.comment) {
-        petCommentSection.insertAdjacentHTML(
-          "beforeend",
-          `
+      if (el.pet) {
+        const petCommentSection = document.querySelector(".pet-comment-list");
+        if (el.pet.content.rating != 0) {
+          counterData.pet.count++;
+          counterData.pet.averagePoint += el.pet.content.rating;
+        }
+        if (el.pet.content.comment) {
+          petCommentSection.insertAdjacentHTML(
+            "beforeend",
+            `
       <li class="comment">
         <div class="vcard bio">
           <img src="src/images/comment_vcard.jpg" alt="Image">
@@ -371,20 +383,21 @@ const getComments = async () => {
         </div>
       </li>
       `
+          );
+        }
+      }
+      if (el.travel) {
+        const travelCommentSection = document.querySelector(
+          ".travel-comment-list"
         );
-      }
-
-      const travelCommentSection = document.querySelector(
-        ".travel-comment-list"
-      );
-      if (el.travel.content.rating != 0) {
-        counterData.travel.count++;
-        counterData.travel.averagePoint += el.travel.content.rating;
-      }
-      if (el.travel.content.comment) {
-        travelCommentSection.insertAdjacentHTML(
-          "beforeend",
-          `
+        if (el.travel.content.rating != 0) {
+          counterData.travel.count++;
+          counterData.travel.averagePoint += el.travel.content.rating;
+        }
+        if (el.travel.content.comment) {
+          travelCommentSection.insertAdjacentHTML(
+            "beforeend",
+            `
       <li class="comment">
         <div class="vcard bio">
           <img src="src/images/comment_vcard.jpg" alt="Image">
@@ -398,20 +411,21 @@ const getComments = async () => {
         </div>
       </li>
       `
+          );
+        }
+      }
+      if (el.vehicle) {
+        const vehicleCommentSection = document.querySelector(
+          ".vehicle-comment-list"
         );
-      }
-
-      const vehicleCommentSection = document.querySelector(
-        ".vehicle-comment-list"
-      );
-      if (el.vehicle.content.rating != 0) {
-        counterData.vehicle.count++;
-        counterData.vehicle.averagePoint += el.vehicle.content.rating;
-      }
-      if (el.vehicle.content.comment) {
-        vehicleCommentSection.insertAdjacentHTML(
-          "beforeend",
-          `
+        if (el.vehicle.content.rating != 0) {
+          counterData.vehicle.count++;
+          counterData.vehicle.averagePoint += el.vehicle.content.rating;
+        }
+        if (el.vehicle.content.comment) {
+          vehicleCommentSection.insertAdjacentHTML(
+            "beforeend",
+            `
       <li class="comment">
         <div class="vcard bio">
           <img src="src/images/comment_vcard.jpg" alt="Image">
@@ -427,7 +441,8 @@ const getComments = async () => {
         </div>
       </li>
       `
-        );
+          );
+        }
       }
     });
   }
@@ -565,20 +580,59 @@ const getComments = async () => {
 };
 
 const editComments = async (uuid, type, text) => {
-  const newUrl = `${url}/api/review/${type}/update`
+  const newUrl = `${url}/api/review/${type}/update`;
+
+  const token = localStorage.getItem("token");
+
   const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     method: "post",
     url: newUrl,
     data: {
       review: {
-        uuid : uuid,
-        comment: text
-      }
-    }
+        uuid: uuid,
+        comment: text,
+      },
+    },
   };
-  const result = await axios(config);
-  console.log(result);
+  try {
+    const result = await axios(config);
+    console.log(result);
+  } catch (err) {
+    console.log(err);
   }
+};
 
+const deleteComments = async (uuid, type) => {
+  const newUrl = `${url}/api/review/${type}/delete`;
+  const token = localStorage.getItem("token");
 
-export { travelFilter, createComment, getComments, editComments };
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    method: "post",
+    url: newUrl,
+    data: {
+      review: {
+        uuid: uuid,
+      },
+    },
+  };
+  try {
+    const result = await axios(config);
+    console.log(result);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export {
+  travelFilter,
+  createComment,
+  getComments,
+  editComments,
+  deleteComments,
+};
