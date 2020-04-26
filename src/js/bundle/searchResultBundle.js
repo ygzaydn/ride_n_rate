@@ -4853,6 +4853,8 @@ exports.deleteComments = exports.editComments = exports.getComments = exports.cr
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _register = require("../register");
 
 var axios = require("axios").default;
@@ -4886,7 +4888,6 @@ var travelFilter = async function travelFilter() {
   };
   var res = await axios(config);
   var data = res.data;
-  //console.log(data);
 
   async function companyFilter() {
     var configComp = {
@@ -4895,9 +4896,8 @@ var travelFilter = async function travelFilter() {
     };
     var resCompany = await axios(configComp);
     var dataComp = resCompany.data;
-    //console.log(dataComp);
+
     var compNameNoSpace = dataComp.name.replace(/\s+/g, "").toLowerCase();
-    //console.log(compNameNoSpace)
 
     document.querySelector(".evalution").innerHTML = "Firma: " + dataComp.name + " <br> Kalk\u0131\u015F Yeri : " + data.fromCity + " <br> \u0130ni\u015F Yeri : " + data.toCity + " <br> Sefer Saati : " + data.fromHour + ":" + data.fromMinute + " <br> bilgilerine sahip sefer hakk\u0131nda detayl\u0131 bilgiyi a\u015Fa\u011F\u0131da bulabilirsin.";
     document.querySelector(".logo-place").attributes[1].nodeValue = "background-image: url(\"src/images/companies/" + compNameNoSpace + ".png\"); background-size: contain; background-position: 50% -25px;";
@@ -4957,11 +4957,10 @@ var createComment = async function createComment(cUUID, tsUUID) {
       }
     }
   };
-  console.log(data);
+
   removeEmpty(data);
-  console.log(data);
+
   removeEmpty(data);
-  console.log(data);
 
   var config = {
     headers: {
@@ -5046,7 +5045,7 @@ var getComments = async function getComments() {
   if (resData.length != 0) {
     resData.forEach(function (el) {
       //console.log(counterData.driver.count);
-      console.log(counterData.driver.averagePoint);
+      //console.log(counterData.driver.averagePoint);
       var date = el.review.createdAt.split("T")[0];
       var uuid = el.review.uuid;
 
@@ -5054,53 +5053,125 @@ var getComments = async function getComments() {
         var driverCommentSection = document.getElementById("driver-comment-list");
         var driverLikes = el.driver.content.likes;
         var driverDislikes = el.driver.content.dislikes;
-        getSubComments(driverCommentSection, el.driver, counterData.driver.count, counterData.driver.averagePoint, driverLikes, driverDislikes, el.user.userName, date, uuid, "driver");
+
+        var _getSubComments = getSubComments(driverCommentSection, el.driver, counterData.driver.count, counterData.driver.averagePoint, driverLikes, driverDislikes, el.user.userName, date, uuid, "driver");
+
+        var _getSubComments2 = _slicedToArray(_getSubComments, 2);
+
+        counterData.driver.count = _getSubComments2[0];
+        counterData.driver.averagePoint = _getSubComments2[1];
       }
       if (el.hostess) {
         var hostessCommentSection = document.getElementById("hostess-comment-list");
         var hostessLikes = el.hostess.content.likes;
         var hostessDislikes = el.hostess.content.dislikes;
-        getSubComments(hostessCommentSection, el.hostess, counterData.hostess.count, counterData.hostess.averagePoint, hostessLikes, hostessDislikes, el.user.userName, date, uuid, "hostess");
+
+        var _getSubComments3 = getSubComments(hostessCommentSection, el.hostess, counterData.hostess.count, counterData.hostess.averagePoint, hostessLikes, hostessDislikes, el.user.userName, date, uuid, "hostess");
+
+        var _getSubComments4 = _slicedToArray(_getSubComments3, 2);
+
+        counterData.hostess.count = _getSubComments4[0];
+        counterData.hostess.averagePoint = _getSubComments4[1];
       }
       if (el.breaks) {
         var breaksLikes = el.breaks.content.likes;
         var breaksDislikes = el.breaks.content.dislikes;
         var breakCommentSection = document.getElementById("break-comment-list");
-        getSubComments(breakCommentSection, el.breaks, counterData.break.count, counterData.break.averagePoint, breaksLikes, breaksDislikes, el.user.userName, date, uuid, "break");
+
+        var _getSubComments5 = getSubComments(breakCommentSection, el.breaks, counterData.break.count, counterData.break.averagePoint, breaksLikes, breaksDislikes, el.user.userName, date, uuid, "break");
+
+        var _getSubComments6 = _slicedToArray(_getSubComments5, 2);
+
+        counterData.break.count = _getSubComments6[0];
+        counterData.break.averagePoint = _getSubComments6[1];
       }
       if (el.baggage) {
         var baggageLikes = el.baggage.content.likes;
         var baggageDislikes = el.baggage.content.dislikes;
         var baggageCommentSection = document.getElementById("baggage-comment-list");
-        getSubComments(baggageCommentSection, el.baggage, counterData.baggage.count, counterData.baggage.averagePoint, baggageLikes, baggageDislikes, el.user.userName, date, uuid, "baggage");
+
+        var _getSubComments7 = getSubComments(baggageCommentSection, el.baggage, counterData.baggage.count, counterData.baggage.averagePoint, baggageLikes, baggageDislikes, el.user.userName, date, uuid, "baggage");
+
+        var _getSubComments8 = _slicedToArray(_getSubComments7, 2);
+
+        counterData.baggage.count = _getSubComments8[0];
+        counterData.baggage.averagePoint = _getSubComments8[1];
       }
       if (el.comfort) {
         var comfortLikes = el.comfort.content.likes;
         var comfortDislikes = el.comfort.content.dislikes;
         var comfortCommentSection = document.getElementById("comfort-comment-list");
 
-        getSubComments(comfortCommentSection, el.comfort, counterData.comfort.count, counterData.comfort.averagePoint, comfortLikes, comfortDislikes, el.user.userName, date, uuid, "comfort");
+        var _getSubComments9 = getSubComments(comfortCommentSection, el.comfort, counterData.comfort.count, counterData.comfort.averagePoint, comfortLikes, comfortDislikes, el.user.userName, date, uuid, "comfort");
+
+        var _getSubComments10 = _slicedToArray(_getSubComments9, 2);
+
+        counterData.comfort.count = _getSubComments10[0];
+        counterData.comfort.averagePoint = _getSubComments10[1];
       }
       if (el.pet) {
         var petLikes = el.pet.content.likes;
         var petDislikes = el.pet.content.dislikes;
 
         var petCommentSection = document.getElementById("pet-comment-list");
-        getSubComments(petCommentSection, el.pet, counterData.pet.count, counterData.pet.averagePoint, petLikes, petDislikes, el.user.userName, date, uuid, "pet");
+
+        var _getSubComments11 = getSubComments(petCommentSection, el.pet, counterData.pet.count, counterData.pet.averagePoint, petLikes, petDislikes, el.user.userName, date, uuid, "pet");
+
+        var _getSubComments12 = _slicedToArray(_getSubComments11, 2);
+
+        counterData.pet.count = _getSubComments12[0];
+        counterData.pet.averagePoint = _getSubComments12[1];
       }
       if (el.travel) {
         var traveLikes = el.travel.content.likes;
         var travelDislikes = el.travel.content.dislikes;
         var travelCommentSection = document.getElementById("travel-comment-list");
-        getSubComments(travelCommentSection, el.travel, counterData.travel.count, counterData.travel.averagePoint, traveLikes, travelDislikes, el.user.userName, date, uuid, "travel");
+
+        var _getSubComments13 = getSubComments(travelCommentSection, el.travel, counterData.travel.count, counterData.travel.averagePoint, traveLikes, travelDislikes, el.user.userName, date, uuid, "travel");
+
+        var _getSubComments14 = _slicedToArray(_getSubComments13, 2);
+
+        counterData.travel.count = _getSubComments14[0];
+        counterData.travel.averagePoint = _getSubComments14[1];
       }
       if (el.vehicle) {
         var vehicleLikes = el.vehicle.content.likes;
         var vehicleDislikes = el.vehicle.content.dislikes;
         var vehicleCommentSection = document.getElementById("vehicle-comment-list");
-        getSubComments(vehicleCommentSection, el.vehicle, counterData.vehicle.count, counterData.vehicle.averagePoint, vehicleLikes, vehicleDislikes, el.user.userName, date, uuid, "vehicle");
+
+        var _getSubComments15 = getSubComments(vehicleCommentSection, el.vehicle, counterData.vehicle.count, counterData.vehicle.averagePoint, vehicleLikes, vehicleDislikes, el.user.userName, date, uuid, "vehicle");
+
+        var _getSubComments16 = _slicedToArray(_getSubComments15, 2);
+
+        counterData.vehicle.count = _getSubComments16[0];
+        counterData.vehicle.averagePoint = _getSubComments16[1];
       }
     });
+
+    for (var i = 0; i < counterData.driver.averagePoint / counterData.driver.count; i++) {
+      document.querySelector(".driver-comment-star").insertAdjacentHTML("afterbegin", "\n      <span class=\"icon-star text-warning\"></span>\n      ");
+    }
+    for (var _i = 0; _i < counterData.hostess.averagePoint / counterData.hostess.count; _i++) {
+      document.querySelector(".hostess-comment-star").insertAdjacentHTML("afterbegin", "\n      <span class=\"icon-star text-warning\"></span>\n      ");
+    }
+    for (var _i2 = 0; _i2 < counterData.break.averagePoint / counterData.break.count; _i2++) {
+      document.querySelector(".break-comment-star").insertAdjacentHTML("afterbegin", "\n      <span class=\"icon-star text-warning\"></span>\n      ");
+    }
+    for (var _i3 = 0; _i3 < counterData.comfort.averagePoint / counterData.comfort.count; _i3++) {
+      document.querySelector(".comfort-comment-star").insertAdjacentHTML("afterbegin", "\n      <span class=\"icon-star text-warning\"></span>\n      ");
+    }
+    for (var _i4 = 0; _i4 < counterData.pet.averagePoint / counterData.pet.count; _i4++) {
+      document.querySelector(".pet-comment-star").insertAdjacentHTML("afterbegin", "\n      <span class=\"icon-star text-warning\"></span>\n      ");
+    }
+    for (var _i5 = 0; _i5 < counterData.vehicle.averagePoint / counterData.vehicle.count; _i5++) {
+      document.querySelector(".vehicle-comment-star").insertAdjacentHTML("afterbegin", "\n      <span class=\"icon-star text-warning\"></span>\n      ");
+    }
+    for (var _i6 = 0; _i6 < counterData.travel.averagePoint / counterData.travel.count; _i6++) {
+      document.querySelector(".travel-comment-star").insertAdjacentHTML("afterbegin", "\n      <span class=\"icon-star text-warning\"></span>\n      ");
+    }
+    for (var _i7 = 0; _i7 < counterData.baggage.averagePoint / counterData.baggage.count; _i7++) {
+      document.querySelector(".baggage-comment-star").insertAdjacentHTML("afterbegin", "\n      <span class=\"icon-star text-warning\"></span>\n      ");
+    }
   }
 };
 
@@ -5188,13 +5259,10 @@ var getSubComments = function getSubComments(section, data, count, averagepoint,
 
     document.querySelector(".number-of-review-" + type).innerHTML = "(" + count + " De\u011Ferlendirme)";
 
-    var temp = Math.floor(averagepoint / count);
-    averagepoint = temp;
-
-    for (var i = 0; i < averagepoint; i++) {
-      document.querySelector("." + type + "-comment-star").insertAdjacentHTML("afterbegin", "\n      <span class=\"icon-star text-warning\"></span>\n      ");
-    }
+    //document.querySelector(`.${type}-comment-star`).innerHTML = "";
   }
+
+  return [count, averagepoint];
 };
 
 exports.travelFilter = travelFilter;

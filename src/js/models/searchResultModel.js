@@ -29,7 +29,7 @@ const travelFilter = async () => {
   };
   let res = await axios(config);
   const data = res.data;
-  //console.log(data);
+  
 
   async function companyFilter() {
     const configComp = {
@@ -38,9 +38,9 @@ const travelFilter = async () => {
     };
     let resCompany = await axios(configComp);
     const dataComp = resCompany.data;
-    //console.log(dataComp);
+   
     const compNameNoSpace = dataComp.name.replace(/\s+/g, "").toLowerCase();
-    //console.log(compNameNoSpace)
+   
 
     document.querySelector(
       ".evalution"
@@ -104,11 +104,11 @@ const createComment = async (cUUID, tsUUID) => {
       },
     }
   }
-  console.log(data);
+  
   removeEmpty(data);
-  console.log(data);
+  
   removeEmpty(data);
-  console.log(data);
+  
 
   const config = {
     headers: {
@@ -197,7 +197,7 @@ const getComments = async () => {
   if (resData.length != 0) {
     resData.forEach((el) => {
       //console.log(counterData.driver.count);
-      console.log(counterData.driver.averagePoint);
+      //console.log(counterData.driver.averagePoint);
       const date = el.review.createdAt.split("T")[0];
       const uuid = el.review.uuid;
 
@@ -207,7 +207,7 @@ const getComments = async () => {
         );
         let driverLikes = el.driver.content.likes;
         let driverDislikes = el.driver.content.dislikes;
-        getSubComments(
+        [ counterData.driver.count, counterData.driver.averagePoint ] = getSubComments(
           driverCommentSection,
           el.driver,
           counterData.driver.count,
@@ -217,7 +217,7 @@ const getComments = async () => {
           el.user.userName,
           date,
           uuid,
-          `driver`
+          `driver`,
         );
 
       }
@@ -227,7 +227,7 @@ const getComments = async () => {
         );
         let hostessLikes = el.hostess.content.likes;
         let hostessDislikes = el.hostess.content.dislikes;
-        getSubComments(
+        [ counterData.hostess.count, counterData.hostess.averagePoint ] = getSubComments(
           hostessCommentSection,
           el.hostess,
           counterData.hostess.count,
@@ -246,7 +246,7 @@ const getComments = async () => {
         const breakCommentSection = document.getElementById(
           "break-comment-list"
         );
-        getSubComments(
+        [ counterData.break.count, counterData.break.averagePoint ] = getSubComments(
           breakCommentSection,
           el.breaks,
           counterData.break.count,
@@ -266,7 +266,7 @@ const getComments = async () => {
         const baggageCommentSection = document.getElementById(
           "baggage-comment-list"
         );
-        getSubComments(
+        [ counterData.baggage.count, counterData.baggage.averagePoint ] = getSubComments(
           baggageCommentSection,
           el.baggage,
           counterData.baggage.count,
@@ -288,7 +288,7 @@ const getComments = async () => {
           "comfort-comment-list"
         );
 
-        getSubComments(
+        [ counterData.comfort.count, counterData.comfort.averagePoint ] = getSubComments(
           comfortCommentSection,
           el.comfort,
           counterData.comfort.count,
@@ -307,7 +307,7 @@ const getComments = async () => {
         let petDislikes = el.pet.content.dislikes;
 
         const petCommentSection = document.getElementById("pet-comment-list");
-        getSubComments(
+        [ counterData.pet.count, counterData.pet.averagePoint ] = getSubComments(
           petCommentSection,
           el.pet,
           counterData.pet.count,
@@ -326,7 +326,7 @@ const getComments = async () => {
         const travelCommentSection = document.getElementById(
           "travel-comment-list"
         );
-        getSubComments(
+        [ counterData.travel.count, counterData.travel.averagePoint ] = getSubComments(
           travelCommentSection,
           el.travel,
           counterData.travel.count,
@@ -345,7 +345,7 @@ const getComments = async () => {
         const vehicleCommentSection = document.getElementById(
           "vehicle-comment-list"
         );
-        getSubComments(
+        [ counterData.vehicle.count, counterData.vehicle.averagePoint ] = getSubComments(
           vehicleCommentSection,
           el.vehicle,
           counterData.vehicle.count,
@@ -359,6 +359,74 @@ const getComments = async () => {
         );
       }
     });
+
+    for (let i = 0; i < counterData.driver.averagePoint/counterData.driver.count; i++) {
+      document.querySelector(`.driver-comment-star`).insertAdjacentHTML(
+        "afterbegin",
+        `
+      <span class="icon-star text-warning"></span>
+      `
+      );
+    }
+    for (let i = 0; i < counterData.hostess.averagePoint/counterData.hostess.count; i++) {
+      document.querySelector(`.hostess-comment-star`).insertAdjacentHTML(
+        "afterbegin",
+        `
+      <span class="icon-star text-warning"></span>
+      `
+      );
+    }
+    for (let i = 0; i < counterData.break.averagePoint/counterData.break.count; i++) {
+      document.querySelector(`.break-comment-star`).insertAdjacentHTML(
+        "afterbegin",
+        `
+      <span class="icon-star text-warning"></span>
+      `
+      );
+    }
+    for (let i = 0; i < counterData.comfort.averagePoint/counterData.comfort.count; i++) {
+      document.querySelector(`.comfort-comment-star`).insertAdjacentHTML(
+        "afterbegin",
+        `
+      <span class="icon-star text-warning"></span>
+      `
+      );
+    }
+    for (let i = 0; i < counterData.pet.averagePoint/counterData.pet.count; i++) {
+      document.querySelector(`.pet-comment-star`).insertAdjacentHTML(
+        "afterbegin",
+        `
+      <span class="icon-star text-warning"></span>
+      `
+      );
+    }
+    for (let i = 0; i < counterData.vehicle.averagePoint/counterData.vehicle.count; i++) {
+      document.querySelector(`.vehicle-comment-star`).insertAdjacentHTML(
+        "afterbegin",
+        `
+      <span class="icon-star text-warning"></span>
+      `
+      );
+    }
+    for (let i = 0; i < counterData.travel.averagePoint/counterData.travel.count; i++) {
+      document.querySelector(`.travel-comment-star`).insertAdjacentHTML(
+        "afterbegin",
+        `
+      <span class="icon-star text-warning"></span>
+      `
+      );
+    }
+    for (let i = 0; i < counterData.baggage.averagePoint/counterData.baggage.count; i++) {
+      document.querySelector(`.baggage-comment-star`).insertAdjacentHTML(
+        "afterbegin",
+        `
+      <span class="icon-star text-warning"></span>
+      `
+      );
+    }
+
+
+
   }
 
 };
@@ -494,18 +562,11 @@ const getSubComments = (
       `.number-of-review-${type}`
     ).innerHTML = `(${count} Değerlendirme)`;
 
-    let temp = Math.floor(averagepoint / count);
-    averagepoint = temp;
+    //document.querySelector(`.${type}-comment-star`).innerHTML = "";
 
-    for (let i = 0; i < averagepoint; i++) {
-      document.querySelector(`.${type}-comment-star`).insertAdjacentHTML(
-        "afterbegin",
-        `
-      <span class="icon-star text-warning"></span>
-      `
-      );
-    }
   }
+  
+  return [ count, averagepoint ];
 };
 
 export {
