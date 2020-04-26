@@ -1365,7 +1365,8 @@ h1, h2, h3, h4, h5,
     transform: translateX(0%); }
 
 .testimonial {
-  width: 462px;
+  width: 350px;
+  height: 300px;
   margin: 0 auto !important;
   text-align: center; }
   .testimonial blockquote {

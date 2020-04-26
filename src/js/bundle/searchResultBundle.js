@@ -4851,6 +4851,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.deleteComments = exports.editComments = exports.getComments = exports.createComment = exports.travelFilter = undefined;
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _register = require("../register");
 
 var axios = require("axios").default;
@@ -4904,6 +4906,7 @@ var travelFilter = async function travelFilter() {
 };
 
 var createComment = async function createComment(cUUID, tsUUID) {
+
   var driverP = pointExtractor(driverPoint);
   var hostessP = pointExtractor(hostessPoint);
   var breakP = pointExtractor(breakPoint);
@@ -4915,52 +4918,61 @@ var createComment = async function createComment(cUUID, tsUUID) {
 
   var token = localStorage.getItem("token");
 
+  var data = {
+    review: {
+      companyUUID: cUUID,
+      travelslotUUID: tsUUID,
+      driver: {
+        comment: driverCommentBox.value,
+        rating: driverP
+      },
+      hostess: {
+        comment: hostessCommentBox.value,
+        rating: hostessP
+      },
+      breaks: {
+        comment: breakCommentBox.value,
+        rating: breakP
+      },
+      travel: {
+        comment: travelCommentBox.value,
+        rating: travelP
+      },
+      baggage: {
+        comment: baggageCommentBox.value,
+        rating: baggageP
+      },
+      pet: {
+        petAllowed: true,
+        comment: petCommentBox.value,
+        rating: petP
+      },
+      comfort: {
+        comment: comfortCommentBox.value,
+        rating: comfortP
+      },
+      vehicle: {
+        comment: vehicleCommentBox.value,
+        rating: vehicleP
+      }
+    }
+  };
+  console.log(data);
+  removeEmpty(data);
+  console.log(data);
+  removeEmpty(data);
+  console.log(data);
+
   var config = {
     headers: {
       Authorization: "Bearer " + token
     },
     method: "post",
     url: _register.url + "/api/review/create",
-    data: {
-      review: {
-        companyUUID: cUUID,
-        travelslotUUID: tsUUID,
-        driver: {
-          comment: driverCommentBox.value,
-          rating: driverP
-        },
-        hostess: {
-          comment: hostessCommentBox.value,
-          rating: hostessP
-        },
-        breaks: {
-          comment: breakCommentBox.value,
-          rating: breakP
-        },
-        travel: {
-          comment: travelCommentBox.value,
-          rating: travelP
-        },
-        baggage: {
-          comment: baggageCommentBox.value,
-          rating: baggageP
-        },
-        pet: {
-          petAllowed: true,
-          comment: petCommentBox.value,
-          rating: petP
-        },
-        comfort: {
-          comment: comfortCommentBox.value,
-          rating: comfortP
-        },
-        vehicle: {
-          comment: vehicleCommentBox.value,
-          rating: vehicleP
-        }
-      }
-    }
+    data: data
+
   };
+
   try {
     var result = await axios(config);
     console.log(result);
@@ -5033,6 +5045,8 @@ var getComments = async function getComments() {
 
   if (resData.length != 0) {
     resData.forEach(function (el) {
+      //console.log(counterData.driver.count);
+      console.log(counterData.driver.averagePoint);
       var date = el.review.createdAt.split("T")[0];
       var uuid = el.review.uuid;
 
@@ -5088,9 +5102,6 @@ var getComments = async function getComments() {
       }
     });
   }
-
-  // <span class="icon-star text-warning"></span>
-  // <span class="icon-star text-secondary"></span>
 };
 
 var editComments = async function editComments(uuid, type, text) {
@@ -5143,6 +5154,21 @@ var deleteComments = async function deleteComments(uuid, type) {
   }
 };
 
+var removeEmpty = function removeEmpty(obj) {
+  Object.keys(obj).forEach(function (key) {
+    if (obj[key] && _typeof(obj[key]) === 'object') removeEmpty(obj[key]);else if (obj[key] === "" || obj[key] === 0 || obj[key] === undefined || obj[key] === null) delete obj[key];
+  });
+  function clean(obj) {
+    for (var propName in obj) {
+      if (obj[propName] === null || obj[propName] === undefined) {
+        delete obj[propName];
+      }
+    }
+  }
+  clean(obj);
+  return obj;
+};
+
 window.increaseLike = function () {
   console.log("up");
 };
@@ -5151,8 +5177,9 @@ window.decreaseLike = function () {
 };
 
 var getSubComments = function getSubComments(section, data, count, averagepoint, like, dislike, userName, date, uuid, type) {
+
   if (data.content.rating != 0) {
-    count++;
+    count = count + 1;
     averagepoint += data.content.rating;
   }
 
@@ -5314,8 +5341,6 @@ window.deleteComment = function (e) {
 
 window.addLike = function (e) {
   var parentElement = e.parentNode.parentNode;
-  console.log(parentElement);
-  console.log(parentElement.children[3].firstChild.value);
   var value = parseInt(parentElement.children[3].firstChild.value);
   value++;
   parentElement.children[3].firstChild.value = value;

@@ -53,6 +53,7 @@ const travelFilter = async () => {
 };
 
 const createComment = async (cUUID, tsUUID) => {
+
   const driverP = pointExtractor(driverPoint);
   const hostessP = pointExtractor(hostessPoint);
   const breakP = pointExtractor(breakPoint);
@@ -64,52 +65,61 @@ const createComment = async (cUUID, tsUUID) => {
 
   const token = localStorage.getItem("token");
 
+  let data = {
+    review: {
+      companyUUID: cUUID,
+      travelslotUUID: tsUUID,
+      driver: {
+        comment: driverCommentBox.value,
+        rating: driverP,
+      },
+      hostess: {
+        comment: hostessCommentBox.value,
+        rating: hostessP,
+      },
+      breaks: {
+        comment: breakCommentBox.value,
+        rating: breakP,
+      },
+      travel: {
+        comment: travelCommentBox.value,
+        rating: travelP,
+      },
+      baggage: {
+        comment: baggageCommentBox.value,
+        rating: baggageP,
+      },
+      pet: {
+        petAllowed: true,
+        comment: petCommentBox.value,
+        rating: petP,
+      },
+      comfort: {
+        comment: comfortCommentBox.value,
+        rating: comfortP,
+      },
+      vehicle: {
+        comment: vehicleCommentBox.value,
+        rating: vehicleP,
+      },
+    }
+  }
+  console.log(data);
+  removeEmpty(data);
+  console.log(data);
+  removeEmpty(data);
+  console.log(data);
+
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
     method: "post",
     url: `${url}/api/review/create`,
-    data: {
-      review: {
-        companyUUID: cUUID,
-        travelslotUUID: tsUUID,
-        driver: {
-          comment: driverCommentBox.value,
-          rating: driverP,
-        },
-        hostess: {
-          comment: hostessCommentBox.value,
-          rating: hostessP,
-        },
-        breaks: {
-          comment: breakCommentBox.value,
-          rating: breakP,
-        },
-        travel: {
-          comment: travelCommentBox.value,
-          rating: travelP,
-        },
-        baggage: {
-          comment: baggageCommentBox.value,
-          rating: baggageP,
-        },
-        pet: {
-          petAllowed: true,
-          comment: petCommentBox.value,
-          rating: petP,
-        },
-        comfort: {
-          comment: comfortCommentBox.value,
-          rating: comfortP,
-        },
-        vehicle: {
-          comment: vehicleCommentBox.value,
-          rating: vehicleP,
-        },
-      },
-    },
-  };
+    data : data
+      
+    };
+
   try {
     const result = await axios(config);
     console.log(result);
@@ -186,6 +196,8 @@ const getComments = async () => {
 
   if (resData.length != 0) {
     resData.forEach((el) => {
+      //console.log(counterData.driver.count);
+      console.log(counterData.driver.averagePoint);
       const date = el.review.createdAt.split("T")[0];
       const uuid = el.review.uuid;
 
@@ -349,8 +361,6 @@ const getComments = async () => {
     });
   }
 
-  // <span class="icon-star text-warning"></span>
-  // <span class="icon-star text-secondary"></span>
 };
 
 const editComments = async (uuid, type, text) => {
@@ -403,6 +413,22 @@ const deleteComments = async (uuid, type) => {
   }
 };
 
+const removeEmpty = (obj) => {
+  Object.keys(obj).forEach(key => {
+    if (obj[key] && typeof obj[key] === 'object') removeEmpty(obj[key]);
+    else if (obj[key] === "" || obj[key] === 0 || obj[key] === undefined || obj[key] === null ) delete obj[key];
+  });
+  function clean(obj) {
+    for (var propName in obj) { 
+      if (obj[propName] === null || obj[propName] === undefined) {
+        delete obj[propName];
+      }
+    }
+  }
+  clean(obj);
+  return obj;
+};
+
 window.increaseLike = () => {
   console.log("up");
 };
@@ -422,8 +448,9 @@ const getSubComments = (
   uuid,
   type
 ) => {
+
   if (data.content.rating != 0) {
-    count++;
+    count = count + 1;
     averagepoint += data.content.rating;
   }
 
