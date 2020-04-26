@@ -78,8 +78,9 @@ window.deleteComment = function (e) {
         "success"
       );
       deleteComments(uuid,type);
-      setTimeout(function(){ resetFields(); }, 1000);
-      getComments();
+      resetFields();
+      setTimeout(function(){ getComments(); }, 3000);
+      
     }
   });
 };

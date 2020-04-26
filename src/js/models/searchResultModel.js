@@ -455,7 +455,7 @@ const getSubComments = (
               <a onclick="deleteComment(this)" class="delete">Delete</a></p>
 
               <p hidden>${uuid}</p>
-              <p hidden>type</p>
+              <p hidden>${type}</p>
 
             </div>
           </div>

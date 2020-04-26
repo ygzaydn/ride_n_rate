@@ -5158,7 +5158,7 @@ var getSubComments = function getSubComments(section, data, count, averagepoint,
   }
 
   if (data.content.comment) {
-    section.insertAdjacentHTML("beforeend", "\n\n    <div style=\"width:400px; height:300px\">\n            <div class=\"testimonial\">\n              <figure class=\"mb-4\">\n                <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n                <h2>" + userName + "</h2>\n                <div class=\"meta\">" + date + "</div>\n              </figure>\n              <blockquote>\n                <p>&ldquo;" + data.content.comment + "&rdquo;</p>\n              </blockquote>\n\n              <p><a onclick=\"increaseLike(addLike(this))\" class=\"like\">Like</a> \n              <a onclick=\"decreaseLike(addDislike(this))\" class=\"dislike\">Dislike</a></p>\n              \n              <p><input class=\"qty\" name=\"qty\" type=\"text\" value=\"" + (like - dislike) + "\" /></p>\n              \n              <p><a onclick=\"editComment(this)\" class=\"edit\">Edit</a> \n              <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n\n              <p hidden>" + uuid + "</p>\n              <p hidden>type</p>\n\n            </div>\n          </div>\n    \n    \n    ");
+    section.insertAdjacentHTML("beforeend", "\n\n    <div style=\"width:400px; height:300px\">\n            <div class=\"testimonial\">\n              <figure class=\"mb-4\">\n                <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n                <h2>" + userName + "</h2>\n                <div class=\"meta\">" + date + "</div>\n              </figure>\n              <blockquote>\n                <p>&ldquo;" + data.content.comment + "&rdquo;</p>\n              </blockquote>\n\n              <p><a onclick=\"increaseLike(addLike(this))\" class=\"like\">Like</a> \n              <a onclick=\"decreaseLike(addDislike(this))\" class=\"dislike\">Dislike</a></p>\n              \n              <p><input class=\"qty\" name=\"qty\" type=\"text\" value=\"" + (like - dislike) + "\" /></p>\n              \n              <p><a onclick=\"editComment(this)\" class=\"edit\">Edit</a> \n              <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n\n              <p hidden>" + uuid + "</p>\n              <p hidden>" + type + "</p>\n\n            </div>\n          </div>\n    \n    \n    ");
 
     document.querySelector(".number-of-review-" + type).innerHTML = "(" + count + " De\u011Ferlendirme)";
 
@@ -5305,10 +5305,10 @@ window.deleteComment = function (e) {
     if (result.value) {
       Swal.fire("Kaldırıldı", "Yorumun başarılı bir şekilde kaldırıldı", "success");
       (0, _searchResultModel.deleteComments)(uuid, type);
+      resetFields();
       setTimeout(function () {
-        resetFields();
-      }, 1000);
-      (0, _searchResultModel.getComments)();
+        (0, _searchResultModel.getComments)();
+      }, 3000);
     }
   });
 };
