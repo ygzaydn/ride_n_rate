@@ -186,393 +186,167 @@ const getComments = async () => {
 
   if (resData.length != 0) {
     resData.forEach((el) => {
+      const date = el.review.createdAt.split("T")[0];
+      const uuid = el.review.uuid;
+
       if (el.driver) {
-        const driverCommentSection = document.querySelector(
-          ".driver-comment-list"
+        const driverCommentSection = document.getElementById(
+          "driver-comment-list"
         );
-        if (el.driver.content.rating != 0) {
-          counterData.driver.count++;
-          counterData.driver.averagePoint += el.driver.content.rating;
-        }
-        if (el.driver.content.comment) {
-          let driverLikes = el.driver.content.likes;
-          let driverDislikes = el.driver.content.dislikes;
+        let driverLikes = el.driver.content.likes;
+        let driverDislikes = el.driver.content.dislikes;
+        getSubComments(
+          driverCommentSection,
+          el.driver,
+          counterData.driver.count,
+          counterData.driver.averagePoint,
+          driverLikes,
+          driverDislikes,
+          el.user.userName,
+          date,
+          uuid,
+          `driver`
+        );
 
-          window.increaseLike = () => {
-            driverLikes++;
-            console.log(driverLikes);
-          };
-          window.decreaseLike = () => {
-            console.log("down");
-          };
-
-          driverCommentSection.insertAdjacentHTML(
-            "beforeend",
-            `
-        <li class="comment">
-          <div class="vcard bio">
-            <img src="src/images/comment_vcard.jpg" alt="Image">
-          </div>
-          <div class="comment-body">
-            <h3>${el.user.userName}</h3>
-            <div class="meta">${el.review.createdAt.split("T")[0]}</div>
-            <p id="comment" style="overflow-wrap: break-word;">${
-              el.driver.content.comment
-            }</p>
-
-            <p><a onclick="increaseLike(addLike(this))" class="like">Like</a> 
-            <a onclick="decreaseLike(addDislike(this))" class="dislike">Dislike</a>
-            
-            <input class="qty" name="qty" type="text" value="${
-              driverLikes - driverDislikes
-            }" /></p>
-            
-            
-            <p><a onclick="editComment(this)" class="edit">Edit</a> 
-            <a onclick="deleteComment(this)" class="delete">Delete</a></p>
-
-            <p hidden>${el.review.uuid}</p>
-            <p hidden>driver</p>
-
-          </div>
-        </li>
-        
-      `
-          );
-        }
       }
       if (el.hostess) {
-        const hostessCommentSection = document.querySelector(
-          ".hostess-comment-list"
+        const hostessCommentSection = document.getElementById(
+          "hostess-comment-list"
         );
-        if (el.hostess.content.rating != 0) {
-          counterData.hostess.count++;
-          counterData.hostess.averagePoint += el.hostess.content.rating;
-        }
-        if (el.hostess.content.comment) {
-          hostessCommentSection.insertAdjacentHTML(
-            "beforeend",
-            `
-      <li class="comment">
-        <div class="vcard bio">
-          <img src="src/images/comment_vcard.jpg" alt="Image">
-        </div>
-        <div class="comment-body">
-          <h3>${el.user.userName}</h3>
-          <div class="meta">${el.review.createdAt.split("T")[0]}</div>
-          <p style="overflow-wrap: break-word;">${
-            el.hostess.content.comment
-          }</p>
-          <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
-          <p></p>
-        </div>
-      </li>
-      
-      `
-          );
-        }
+        let hostessLikes = el.hostess.content.likes;
+        let hostessDislikes = el.hostess.content.dislikes;
+        getSubComments(
+          hostessCommentSection,
+          el.hostess,
+          counterData.hostess.count,
+          counterData.hostess.averagePoint,
+          hostessLikes,
+          hostessDislikes,
+          el.user.userName,
+          date,
+          uuid,
+          `hostess`
+        );
       }
-      if (el.break) {
-        const breakCommentSection = document.querySelector(
-          ".break-comment-list"
+      if (el.breaks) {
+        let breaksLikes = el.breaks.content.likes;
+        let breaksDislikes = el.breaks.content.dislikes;
+        const breakCommentSection = document.getElementById(
+          "break-comment-list"
         );
-        if (el.breaks.content.rating != 0) {
-          counterData.break.count++;
-          counterData.break.averagePoint += el.breaks.content.rating;
-        }
-        if (el.breaks.content.comment) {
-          breakCommentSection.insertAdjacentHTML(
-            "beforeend",
-            `
-      <li class="comment">
-        <div class="vcard bio">
-          <img src="src/images/comment_vcard.jpg" alt="Image">
-        </div>
-        <div class="comment-body">
-          <h3>${el.user.userName}</h3>
-          <div class="meta">${el.review.createdAt.split("T")[0]}</div>
-          <p style="overflow-wrap: break-word;">${el.breaks.content.comment}</p>
-          <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
-          <p></p>
-        </div>
-      </li>
-      `
-          );
-        }
+        getSubComments(
+          breakCommentSection,
+          el.breaks,
+          counterData.break.count,
+          counterData.break.averagePoint,
+          breaksLikes,
+          breaksDislikes,
+          el.user.userName,
+          date,
+          uuid,
+          `break`
+        );
+
       }
       if (el.baggage) {
-        const baggageCommentSection = document.querySelector(
-          ".baggage-comment-list"
+        let baggageLikes = el.baggage.content.likes;
+        let baggageDislikes = el.baggage.content.dislikes;
+        const baggageCommentSection = document.getElementById(
+          "baggage-comment-list"
         );
-        if (el.baggage.content.rating != 0) {
-          counterData.baggage.count++;
-          counterData.baggage.averagePoint += el.baggage.content.rating;
-        }
-        if (el.baggage.content.comment) {
-          baggageCommentSection.insertAdjacentHTML(
-            "beforeend",
-            `
-      <li class="comment">
-        <div class="vcard bio">
-          <img src="src/images/comment_vcard.jpg" alt="Image">
-        </div>
-        <div class="comment-body">
-          <h3>${el.user.userName}</h3>
-          <div class="meta">${el.review.createdAt.split("T")[0]}</div>
-          <p style="overflow-wrap: break-word;">${
-            el.baggage.content.comment
-          }</p>
-          <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
-          <p></p>
-        </div>
-      </li>
-      `
-          );
-        }
+        getSubComments(
+          baggageCommentSection,
+          el.baggage,
+          counterData.baggage.count,
+          counterData.baggage.averagePoint,
+          baggageLikes,
+          baggageDislikes,
+          el.user.userName,
+          date,
+          uuid,
+          `baggage`
+        );
+
+        
       }
       if (el.comfort) {
-        const comfortCommentSection = document.querySelector(
-          ".comfort-comment-list"
+        let comfortLikes = el.comfort.content.likes;
+        let comfortDislikes = el.comfort.content.dislikes;
+        const comfortCommentSection = document.getElementById(
+          "comfort-comment-list"
         );
-        if (el.comfort.content.rating != 0) {
-          counterData.comfort.count++;
-          counterData.comfort.averagePoint += el.comfort.content.rating;
-        }
-        if (el.comfort.content.comment) {
-          comfortCommentSection.insertAdjacentHTML(
-            "beforeend",
-            `
-      <li class="comment">
-        <div class="vcard bio">
-          <img src="src/images/comment_vcard.jpg" alt="Image">
-        </div>
-        <div class="comment-body">
-          <h3>${el.user.userName}</h3>
-          <div class="meta">${el.review.createdAt.split("T")[0]}</div>
-          <p style="overflow-wrap: break-word;">${
-            el.comfort.content.comment
-          }</p>
-          <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
-          <p></p>
-        </div>
-      </li>
-      `
-          );
-        }
+
+        getSubComments(
+          comfortCommentSection,
+          el.comfort,
+          counterData.comfort.count,
+          counterData.comfort.averagePoint,
+          comfortLikes,
+          comfortDislikes,
+          el.user.userName,
+          date,
+          uuid,
+          `comfort`
+        );
+        
       }
       if (el.pet) {
-        const petCommentSection = document.querySelector(".pet-comment-list");
-        if (el.pet.content.rating != 0) {
-          counterData.pet.count++;
-          counterData.pet.averagePoint += el.pet.content.rating;
-        }
-        if (el.pet.content.comment) {
-          petCommentSection.insertAdjacentHTML(
-            "beforeend",
-            `
-      <li class="comment">
-        <div class="vcard bio">
-          <img src="src/images/comment_vcard.jpg" alt="Image">
-        </div>
-        <div class="comment-body">
-          <h3>${el.user.userName}</h3>
-          <div class="meta">${el.review.createdAt.split("T")[0]}</div>
-          <p style="overflow-wrap: break-word;">${el.pet.content.comment}</p>
-          <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
-          <p></p>
-        </div>
-      </li>
-      `
-          );
-        }
+        let petLikes = el.pet.content.likes;
+        let petDislikes = el.pet.content.dislikes;
+
+        const petCommentSection = document.getElementById("pet-comment-list");
+        getSubComments(
+          petCommentSection,
+          el.pet,
+          counterData.pet.count,
+          counterData.pet.averagePoint,
+          petLikes,
+          petDislikes,
+          el.user.userName,
+          date,
+          uuid,
+          `pet`
+        );
       }
       if (el.travel) {
-        const travelCommentSection = document.querySelector(
-          ".travel-comment-list"
+        let traveLikes = el.travel.content.likes;
+        let travelDislikes = el.travel.content.dislikes;
+        const travelCommentSection = document.getElementById(
+          "travel-comment-list"
         );
-        if (el.travel.content.rating != 0) {
-          counterData.travel.count++;
-          counterData.travel.averagePoint += el.travel.content.rating;
-        }
-        if (el.travel.content.comment) {
-          travelCommentSection.insertAdjacentHTML(
-            "beforeend",
-            `
-      <li class="comment">
-        <div class="vcard bio">
-          <img src="src/images/comment_vcard.jpg" alt="Image">
-        </div>
-        <div class="comment-body">
-          <h3>${el.user.userName}</h3>
-          <div class="meta">${el.review.createdAt.split("T")[0]}</div>
-          <p style="overflow-wrap: break-word;">${el.travel.content.comment}</p>
-          <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
-          <p></p>
-        </div>
-      </li>
-      `
-          );
-        }
+        getSubComments(
+          travelCommentSection,
+          el.travel,
+          counterData.travel.count,
+          counterData.travel.averagePoint,
+          traveLikes,
+          travelDislikes,
+          el.user.userName,
+          date,
+          uuid,
+          `travel`
+        );
       }
       if (el.vehicle) {
-        const vehicleCommentSection = document.querySelector(
-          ".vehicle-comment-list"
+        let vehicleLikes = el.vehicle.content.likes;
+        let vehicleDislikes = el.vehicle.content.dislikes;
+        const vehicleCommentSection = document.getElementById(
+          "vehicle-comment-list"
         );
-        if (el.vehicle.content.rating != 0) {
-          counterData.vehicle.count++;
-          counterData.vehicle.averagePoint += el.vehicle.content.rating;
-        }
-        if (el.vehicle.content.comment) {
-          vehicleCommentSection.insertAdjacentHTML(
-            "beforeend",
-            `
-      <li class="comment">
-        <div class="vcard bio">
-          <img src="src/images/comment_vcard.jpg" alt="Image">
-        </div>
-        <div class="comment-body">
-          <h3>${el.user.userName}</h3>
-          <div class="meta">${el.review.createdAt.split("T")[0]}</div>
-          <p style="overflow-wrap: break-word;">${
-            el.vehicle.content.comment
-          }</p>
-          <p><a onclick="editComment(this)" class="edit" >Edit</a> <a onclick="deleteComment(this)" class="delete">Delete</a></p>
-          <p></p>
-        </div>
-      </li>
-      `
-          );
-        }
+        getSubComments(
+          vehicleCommentSection,
+          el.vehicle,
+          counterData.vehicle.count,
+          counterData.vehicle.averagePoint,
+          vehicleLikes,
+          vehicleDislikes,
+          el.user.userName,
+          date,
+          uuid,
+          `vehicle`
+        );
       }
     });
-  }
-
-  document.querySelector(
-    ".number-of-review-driver"
-  ).innerHTML = `(${counterData.driver.count} Değerlendirme)`;
-
-  document.querySelector(
-    ".number-of-review-hostess"
-  ).innerHTML = `(${counterData.hostess.count} Değerlendirme)`;
-
-  document.querySelector(
-    ".number-of-review-break"
-  ).innerHTML = `(${counterData.break.count} Değerlendirme)`;
-
-  document.querySelector(
-    ".number-of-review-baggage"
-  ).innerHTML = `(${counterData.baggage.count} Değerlendirme)`;
-
-  document.querySelector(
-    ".number-of-review-comfort"
-  ).innerHTML = `(${counterData.comfort.count} Değerlendirme)`;
-
-  document.querySelector(
-    ".number-of-review-pet"
-  ).innerHTML = `(${counterData.pet.count} Değerlendirme)`;
-
-  document.querySelector(
-    ".number-of-review-travel"
-  ).innerHTML = `(${counterData.travel.count} Değerlendirme)`;
-
-  document.querySelector(
-    ".number-of-review-vehicle"
-  ).innerHTML = `(${counterData.vehicle.count} Değerlendirme)`;
-
-  counterData.vehicle.averagePoint = Math.floor(
-    counterData.vehicle.averagePoint / counterData.vehicle.count
-  );
-  for (let i = 0; i < counterData.vehicle.averagePoint; i++) {
-    document.querySelector(".vehicle-comment-star").insertAdjacentHTML(
-      "afterbegin",
-      `
-    <span class="icon-star text-warning"></span>
-    `
-    );
-  }
-
-  counterData.travel.averagePoint = Math.floor(
-    counterData.travel.averagePoint / counterData.travel.count
-  );
-  for (let i = 0; i < counterData.travel.averagePoint; i++) {
-    document.querySelector(".travel-comment-star").insertAdjacentHTML(
-      "afterbegin",
-      `
-    <span class="icon-star text-warning"></span>
-    `
-    );
-  }
-
-  counterData.pet.averagePoint = Math.floor(
-    counterData.pet.averagePoint / counterData.pet.count
-  );
-  for (let i = 0; i < counterData.pet.averagePoint; i++) {
-    document.querySelector(".pet-comment-star").insertAdjacentHTML(
-      "afterbegin",
-      `
-    <span class="icon-star text-warning"></span>
-    `
-    );
-  }
-
-  counterData.comfort.averagePoint = Math.floor(
-    counterData.comfort.averagePoint / counterData.comfort.count
-  );
-  for (let i = 0; i < counterData.comfort.averagePoint; i++) {
-    document.querySelector(".comfort-comment-star").insertAdjacentHTML(
-      "afterbegin",
-      `
-    <span class="icon-star text-warning"></span>
-    `
-    );
-  }
-
-  counterData.baggage.averagePoint = Math.floor(
-    counterData.baggage.averagePoint / counterData.baggage.count
-  );
-  for (let i = 0; i < counterData.baggage.averagePoint; i++) {
-    document.querySelector(".baggage-comment-star").insertAdjacentHTML(
-      "afterbegin",
-      `
-    <span class="icon-star text-warning"></span>
-    `
-    );
-  }
-
-  counterData.break.averagePoint = Math.floor(
-    counterData.break.averagePoint / counterData.break.count
-  );
-  for (let i = 0; i < counterData.break.averagePoint; i++) {
-    document.querySelector(".break-comment-star").insertAdjacentHTML(
-      "afterbegin",
-      `
-    <span class="icon-star text-warning"></span>
-    `
-    );
-  }
-
-  counterData.driver.averagePoint = Math.floor(
-    counterData.driver.averagePoint / counterData.driver.count
-  );
-  for (let i = 0; i < counterData.driver.averagePoint; i++) {
-    document.querySelector(".driver-comment-star").insertAdjacentHTML(
-      "afterbegin",
-      `
-    <span class="icon-star text-warning"></span>
-    `
-    );
-  }
-
-  counterData.hostess.averagePoint = Math.floor(
-    counterData.hostess.averagePoint / counterData.hostess.count
-  );
-  for (let i = 0; i < counterData.hostess.averagePoint; i++) {
-    document.querySelector(".hostess-comment-star").insertAdjacentHTML(
-      "afterbegin",
-      `
-    <span class="icon-star text-warning"></span>
-    `
-    );
   }
 
   // <span class="icon-star text-warning"></span>
@@ -626,6 +400,85 @@ const deleteComments = async (uuid, type) => {
     console.log(result);
   } catch (err) {
     console.log(err);
+  }
+};
+
+window.increaseLike = () => {
+  driverLikes++;
+  console.log(driverLikes);
+};
+window.decreaseLike = () => {
+  console.log("down");
+};
+
+const getSubComments = (
+  section,
+  data,
+  count,
+  averagepoint,
+  like,
+  dislike,
+  userName,
+  date,
+  uuid,
+  type
+) => {
+  if (data.content.rating != 0) {
+    count++;
+    averagepoint += data.content.rating;
+  }
+
+  if (data.content.comment) {
+    section.insertAdjacentHTML(
+      "beforeend",
+      `
+
+    <div style="width:400px; height:300px">
+            <div class="testimonial">
+              <figure class="mb-4">
+                <img src="src/images/comment_vcard.jpg" alt="Image">
+                <h2>${userName}</h2>
+                <div class="meta">${date}</div>
+              </figure>
+              <blockquote>
+                <p>&ldquo;${data.content.comment}&rdquo;</p>
+              </blockquote>
+
+              <p><a onclick="increaseLike(addLike(this))" class="like">Like</a> 
+              <a onclick="decreaseLike(addDislike(this))" class="dislike">Dislike</a></p>
+              
+              <p><input class="qty" name="qty" type="text" value="${
+                like - dislike
+              }" /></p>
+              
+              <p><a onclick="editComment(this)" class="edit">Edit</a> 
+              <a onclick="deleteComment(this)" class="delete">Delete</a></p>
+
+              <p hidden>${uuid}</p>
+              <p hidden>type</p>
+
+            </div>
+          </div>
+    
+    
+    `
+    );
+
+    document.querySelector(
+      `.number-of-review-${type}`
+    ).innerHTML = `(${count} Değerlendirme)`;
+
+    let temp = Math.floor(averagepoint / count);
+    averagepoint = temp;
+
+    for (let i = 0; i < averagepoint; i++) {
+      document.querySelector(`.${type}-comment-star`).insertAdjacentHTML(
+        "afterbegin",
+        `
+      <span class="icon-star text-warning"></span>
+      `
+      );
+    }
   }
 };
 

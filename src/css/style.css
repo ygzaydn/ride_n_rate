@@ -1365,7 +1365,7 @@ h1, h2, h3, h4, h5,
     transform: translateX(0%); }
 
 .testimonial {
-  max-width: 800px;
+  width: 462px;
   margin: 0 auto !important;
   text-align: center; }
   .testimonial blockquote {
@@ -1892,19 +1892,46 @@ td {
 }
 
 .like, .dislike {    
-  display: inline-block;
-  margin-bottom: 0;
+  
   font-weight: normal;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
   background: lightblue;
   border: 1px solid transparent;
-  white-space: nowrap;
+  
   padding: 6px 12px;
   font-size: 14px;
-  line-height: 1.428571429;
+  
   border-radius: 4px;
 }
 
-.qty {border: none;}
+.edit, .delete {
+  text-align: center;
+  vertical-align: middle;
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.qty {border: none;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.slider {
+  width: 400px;
+  height: 400px;
+  display: flex;
+  overflow-x: scroll;
+   
+}
+.slide {
+  
+  flex-shrink: 0;
+}
+.slides > div {
+  /* CURRENT way. */
+  scroll-snap-align: start;
+  align-items: center;
+  justify-content: center;
+}

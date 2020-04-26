@@ -9,14 +9,14 @@ import {
 const Swal = require("sweetalert2");
 
 const resetFields = () => {
-  document.querySelector(".driver-comment-list").innerHTML = "";
-  document.querySelector(".hostess-comment-list").innerHTML = "";
-  document.querySelector(".break-comment-list").innerHTML = "";
-  document.querySelector(".travel-comment-list").innerHTML = "";
-  document.querySelector(".baggage-comment-list").innerHTML = "";
-  document.querySelector(".comfort-comment-list").innerHTML = "";
-  document.querySelector(".vehicle-comment-list").innerHTML = "";
-  document.querySelector(".pet-comment-list").innerHTML = "";
+  document.getElementById("driver-comment-list").innerHTML = "";
+  document.getElementById("hostess-comment-list").innerHTML = "";
+  document.getElementById("break-comment-list").innerHTML = "";
+  document.getElementById("travel-comment-list").innerHTML = "";
+  document.getElementById("baggage-comment-list").innerHTML = "";
+  document.getElementById("comfort-comment-list").innerHTML = "";
+  document.getElementById("vehicle-comment-list").innerHTML = "";
+  document.getElementById("pet-comment-list").innerHTML = "";
 };
 
 const travelSlotUUID = location.href.split("?")[1];

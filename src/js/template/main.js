@@ -202,6 +202,7 @@ jQuery(document).ready(function($) {
 	    nav: true,
 	    navText: ['<span class="icon-keyboard_arrow_left">', '<span class="icon-keyboard_arrow_right">']
 	  });
+	  
 	};
 	siteCarousel();
 
