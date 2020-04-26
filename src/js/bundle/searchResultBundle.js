@@ -5038,9 +5038,9 @@ var getComments = async function getComments() {
 
       if (el.driver) {
         var driverCommentSection = document.getElementById("driver-comment-list");
-        var _driverLikes = el.driver.content.likes;
+        var driverLikes = el.driver.content.likes;
         var driverDislikes = el.driver.content.dislikes;
-        getSubComments(driverCommentSection, el.driver, counterData.driver.count, counterData.driver.averagePoint, _driverLikes, driverDislikes, el.user.userName, date, uuid, "driver");
+        getSubComments(driverCommentSection, el.driver, counterData.driver.count, counterData.driver.averagePoint, driverLikes, driverDislikes, el.user.userName, date, uuid, "driver");
       }
       if (el.hostess) {
         var hostessCommentSection = document.getElementById("hostess-comment-list");
@@ -5144,8 +5144,7 @@ var deleteComments = async function deleteComments(uuid, type) {
 };
 
 window.increaseLike = function () {
-  driverLikes++;
-  console.log(driverLikes);
+  console.log("up");
 };
 window.decreaseLike = function () {
   console.log("down");
@@ -5314,17 +5313,19 @@ window.deleteComment = function (e) {
 };
 
 window.addLike = function (e) {
-  var parentElement = e.parentNode;
-  var value = parseInt(parentElement.children[2].value);
+  var parentElement = e.parentNode.parentNode;
+  console.log(parentElement);
+  console.log(parentElement.children[3].firstChild.value);
+  var value = parseInt(parentElement.children[3].firstChild.value);
   value++;
-  parentElement.children[2].value = value;
+  parentElement.children[3].firstChild.value = value;
 };
 
 window.addDislike = function (e) {
-  var parentElement = e.parentNode;
-  var value = parseInt(parentElement.children[2].value);
+  var parentElement = e.parentNode.parentNode;
+  var value = parseInt(parentElement.children[3].firstChild.value);
   value--;
-  parentElement.children[2].value = value;
+  parentElement.children[3].firstChild.value = value;
 };
 
 sendButton.addEventListener("click", function () {

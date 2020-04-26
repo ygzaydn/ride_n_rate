@@ -404,8 +404,7 @@ const deleteComments = async (uuid, type) => {
 };
 
 window.increaseLike = () => {
-  driverLikes++;
-  console.log(driverLikes);
+  console.log("up");
 };
 window.decreaseLike = () => {
   console.log("down");

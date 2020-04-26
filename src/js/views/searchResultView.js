@@ -86,17 +86,17 @@ window.deleteComment = function (e) {
 };
 
 window.addLike = (e) => {
-  const parentElement = e.parentNode;
-  let value = parseInt(parentElement.children[2].value);
+  const parentElement = e.parentNode.parentNode;
+  let value = parseInt(parentElement.children[3].firstChild.value);
   value++;
-  parentElement.children[2].value = value;
+  parentElement.children[3].firstChild.value= value;
 };
 
 window.addDislike = (e) => {
-  const parentElement = e.parentNode;
-  let value = parseInt(parentElement.children[2].value);
+  const parentElement = e.parentNode.parentNode;
+  let value = parseInt(parentElement.children[3].firstChild.value);
   value--;
-  parentElement.children[2].value = value;
+  parentElement.children[3].firstChild.value = value;
 };
 
 sendButton.addEventListener("click", () => {
