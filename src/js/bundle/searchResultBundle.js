@@ -4860,6 +4860,7 @@ var _register = require("../register");
 var axios = require("axios").default;
 axios.defaults.withCredentials = true;
 
+var Swal = require("sweetalert2");
 
 var driverCommentBox = document.getElementById("message_box_driver");
 var hostessCommentBox = document.getElementById("message_box_hostess");
@@ -4921,47 +4922,67 @@ var createComment = async function createComment(cUUID, tsUUID) {
   var data = {
     review: {
       companyUUID: cUUID,
-      travelslotUUID: tsUUID,
-      driver: {
-        comment: driverCommentBox.value,
-        rating: driverP
-      },
-      hostess: {
-        comment: hostessCommentBox.value,
-        rating: hostessP
-      },
-      breaks: {
-        comment: breakCommentBox.value,
-        rating: breakP
-      },
-      travel: {
-        comment: travelCommentBox.value,
-        rating: travelP
-      },
-      baggage: {
-        comment: baggageCommentBox.value,
-        rating: baggageP
-      },
-      pet: {
-        petAllowed: true,
-        comment: petCommentBox.value,
-        rating: petP
-      },
-      comfort: {
-        comment: comfortCommentBox.value,
-        rating: comfortP
-      },
-      vehicle: {
-        comment: vehicleCommentBox.value,
-        rating: vehicleP
-      }
+      travelslotUUID: tsUUID
     }
   };
 
-  removeEmpty(data);
+  if (driverP != 0 && driverCommentBox.value != "") {
+    data.review.driver = {
+      comment: driverCommentBox.value,
+      rating: driverP
+    };
+  };
 
-  removeEmpty(data);
+  if (hostessP != 0 && hostessCommentBox.value != "") {
+    data.review.hostess = {
+      comment: hostessCommentBox.value,
+      rating: hostessP
+    };
+  };
 
+  if (breakP != 0 && breakCommentBox.value != "") {
+    data.review.breaks = {
+      comment: breakCommentBox.value,
+      rating: breakP
+    };
+  };
+
+  if (travelP != 0 && travelCommentBox.value != "") {
+    data.review.travel = {
+      comment: travelCommentBox.value,
+      rating: travelP
+    };
+  };
+
+  if (baggageP != 0 && baggageCommentBox.value != "") {
+    data.review.baggage = {
+      comment: baggageCommentBox.value,
+      rating: baggageP
+    };
+  };
+
+  if (petP != 0 && petCommentBox.value != "") {
+    data.review.pet = {
+      comment: petCommentBox.value,
+      rating: petP,
+      petAllowed: true
+    };
+  };
+
+  if (comfortP != 0 && comfortCommentBox.value != "") {
+    data.review.comfort = {
+      comment: comfortCommentBox.value,
+      rating: comfortP
+    };
+  };
+
+  if (vehicleP != 0 && vehicleCommentBox.value != "") {
+    data.review.vehicle = {
+      comment: vehicleCommentBox.value,
+      rating: vehicleP
+    };
+  };
+  console.log(data);
   var config = {
     headers: {
       Authorization: "Bearer " + token
@@ -4976,6 +4997,13 @@ var createComment = async function createComment(cUUID, tsUUID) {
     var result = await axios(config);
     console.log(result);
     console.log("Comment send succesfully");
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Yorumun başarı ile kaydedildi',
+      showConfirmButton: false,
+      timer: 2500
+    });
   } catch (err) {
     console.log(err);
   }
@@ -4992,7 +5020,9 @@ var pointExtractor = function pointExtractor(queryElement) {
 var getComments = async function getComments() {
   var travelSlotUUID = location.href.split("?")[1];
   var companyUUID = location.href.split("?")[2];
+
   var config = {
+
     url: _register.url + "/api/review/all",
     method: "post",
     data: {
@@ -5002,6 +5032,10 @@ var getComments = async function getComments() {
       }
     }
   };
+  var token = localStorage.getItem("token");
+  if (token != 0) config.headers = { Authorization: "Bearer " + token };
+  console.log(config);
+
   var result = await axios(config);
   //console.log(result);
   var resData = result.data;
@@ -5276,7 +5310,7 @@ exports.getComments = getComments;
 exports.editComments = editComments;
 exports.deleteComments = deleteComments;
 
-},{"../register":30,"axios":1}],30:[function(require,module,exports){
+},{"../register":30,"axios":1,"sweetalert2":28}],30:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

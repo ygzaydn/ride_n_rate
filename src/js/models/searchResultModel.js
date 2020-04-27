@@ -1,6 +1,7 @@
 const axios = require("axios").default;
 axios.defaults.withCredentials = true;
 import { url } from "../register";
+const Swal = require("sweetalert2");
 
 const driverCommentBox = document.getElementById("message_box_driver");
 const hostessCommentBox = document.getElementById("message_box_hostess");
@@ -69,47 +70,66 @@ const createComment = async (cUUID, tsUUID) => {
     review: {
       companyUUID: cUUID,
       travelslotUUID: tsUUID,
-      driver: {
-        comment: driverCommentBox.value,
-        rating: driverP,
-      },
-      hostess: {
-        comment: hostessCommentBox.value,
-        rating: hostessP,
-      },
-      breaks: {
-        comment: breakCommentBox.value,
-        rating: breakP,
-      },
-      travel: {
-        comment: travelCommentBox.value,
-        rating: travelP,
-      },
-      baggage: {
-        comment: baggageCommentBox.value,
-        rating: baggageP,
-      },
-      pet: {
-        petAllowed: true,
-        comment: petCommentBox.value,
-        rating: petP,
-      },
-      comfort: {
-        comment: comfortCommentBox.value,
-        rating: comfortP,
-      },
-      vehicle: {
-        comment: vehicleCommentBox.value,
-        rating: vehicleP,
-      },
     }
-  }
-  
-  removeEmpty(data);
-  
-  removeEmpty(data);
-  
+  };
 
+  if (driverP != 0 && driverCommentBox.value != "") {
+    data.review.driver = {
+      comment: driverCommentBox.value,
+      rating: driverP
+    }
+  };
+
+  if (hostessP != 0 && hostessCommentBox.value != "") {
+    data.review.hostess = {
+      comment: hostessCommentBox.value,
+      rating: hostessP
+    }
+  };
+
+  if (breakP != 0 && breakCommentBox.value != "") {
+    data.review.breaks = {
+      comment: breakCommentBox.value,
+        rating: breakP,
+    }
+  };
+
+  if (travelP != 0 && travelCommentBox.value != "") {
+    data.review.travel = {
+      comment: travelCommentBox.value,
+        rating: travelP,
+    }
+  };
+
+  if (baggageP != 0 && baggageCommentBox.value != "") {
+    data.review.baggage = {
+      comment: baggageCommentBox.value,
+        rating: baggageP,
+    }
+  };
+
+  if (petP != 0 && petCommentBox.value != "") {
+    data.review.pet = {
+      comment: petCommentBox.value,
+        rating: petP,
+        petAllowed: true
+    }
+  };
+
+  if (comfortP != 0 && comfortCommentBox.value != "") {
+    data.review.comfort = {
+      comment: comfortCommentBox.value,
+        rating: comfortP,
+    }
+  };
+
+  if (vehicleP != 0 && vehicleCommentBox.value != "") {
+    data.review.vehicle = {
+      comment: vehicleCommentBox.value,
+        rating: vehicleP,
+    }
+  };
+  console.log(data);
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -124,6 +144,13 @@ const createComment = async (cUUID, tsUUID) => {
     const result = await axios(config);
     console.log(result);
     console.log("Comment send succesfully");
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Yorumun başarı ile kaydedildi',
+      showConfirmButton: false,
+      timer: 2500
+    })
   } catch (err) {
     console.log(err);
   }
@@ -144,7 +171,10 @@ const pointExtractor = (queryElement) => {
 const getComments = async () => {
   const travelSlotUUID = location.href.split("?")[1];
   const companyUUID = location.href.split("?")[2];
+  
   const config = {
+    
+
     url: `${url}/api/review/all`,
     method: "post",
     data: {
@@ -154,6 +184,10 @@ const getComments = async () => {
       },
     },
   };
+  const token = localStorage.getItem("token");
+  if (token != 0) config.headers = {Authorization: `Bearer ${token}`};
+  console.log(config);
+  
   const result = await axios(config);
   //console.log(result);
   const resData = result.data;

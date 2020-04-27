@@ -1,6 +1,7 @@
 const axios = require('axios').default;
 axios.defaults.withCredentials = true;
 import {url} from '../register';
+const Swal = require("sweetalert2");
 
 
 const signUpScreen = document.querySelectorAll('.form-control');
@@ -28,6 +29,13 @@ async function loginRequest (email, password) {
         console.log(res.data.user.username);
         localStorage.setItem('token',res.data.jwt);
         localStorage.setItem('username',res.data.user.username);
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Giriş başarılı',
+            showConfirmButton: false,
+            timer: 3000
+          })
         /* console.log(res.data.user);
         console.log(res.status); */
     } catch (e) {
