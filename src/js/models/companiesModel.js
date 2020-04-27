@@ -85,7 +85,7 @@ async function filterBuilder() {
     petSupport.push(`${parsedTitle}-${el.information.petAllowed}`);
   });
 
-  return { points, threeSeatSupport, petSupport, fromCities, toCities };
+  return { points, threeSeatSupport, petSupport };
 }
 
 async function companyFilter() {

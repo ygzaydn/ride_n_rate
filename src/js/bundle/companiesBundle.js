@@ -1821,7 +1821,7 @@ async function filterBuilder() {
     petSupport.push(parsedTitle + "-" + el.information.petAllowed);
   });
 
-  return { points: points, threeSeatSupport: threeSeatSupport, petSupport: petSupport, fromCities: fromCities, toCities: toCities };
+  return { points: points, threeSeatSupport: threeSeatSupport, petSupport: petSupport };
 }
 
 async function companyFilter() {
