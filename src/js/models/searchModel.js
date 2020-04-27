@@ -21,13 +21,14 @@ async function travelFilter () {
     try {
     let res = await axios(config);
     let resArr = res.data;
+    console.log(resArr);
     
     resArr.forEach(el => {
         //console.log(el.travelslot.isPetAllowed);
         //console.log(el.travelslot.is3Seater);
         const starBuilder = () => {
         let output = ``
-            for(let i=0;i<el.travelslot.fromHour;i++){
+            for(let i=0;i<el.travelslot.averageRating;i++){
                 output+=`<span class="icon-star text-warning"></span>`
             }
         return output;
@@ -52,11 +53,11 @@ async function travelFilter () {
         <p hidden class="pet">${el.travelslot.isPetAllowed}</p>
         <p hidden class="threeSeat">${el.travelslot.is3Seater}</p>
         <h3>${el.travelslot.fromCity} - ${el.travelslot.toCity}<br></h3>
-        <span>(123213 Değerlendirme)<br></span>
+        <span>(${el.travelslot.reviewCount} Değerlendirme)<br></span>
     
         <span>Kalkış: ${el.travelslot.travelTime}</span>
         <p>
-        <span class="icon-star text-warning"></span>
+        
             ${starBuilder()}
         </p>
         </div>

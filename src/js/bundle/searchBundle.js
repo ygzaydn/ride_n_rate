@@ -1775,20 +1775,21 @@ async function travelFilter() {
     try {
         var res = await axios(config);
         var resArr = res.data;
+        console.log(resArr);
 
         resArr.forEach(function (el) {
             //console.log(el.travelslot.isPetAllowed);
             //console.log(el.travelslot.is3Seater);
             var starBuilder = function starBuilder() {
                 var output = '';
-                for (var i = 0; i < el.travelslot.fromHour; i++) {
+                for (var i = 0; i < el.travelslot.averageRating; i++) {
                     output += '<span class="icon-star text-warning"></span>';
                 }
                 return output;
             };
             var companyNameWithoutSpace = el.company.title.split(':')[1].replace(/\s+/g, '').toLowerCase();
             var DOM = document.querySelector('.companies');
-            DOM.insertAdjacentHTML('beforeend', '\n        <div class="d-block d-md-flex listing-horizontal">\n        <a href="search_result.html?' + el.travelslot.uuid + '?' + el.company.uuid + '" class="img d-block" style="background-image: url(\'src/images/companies/' + companyNameWithoutSpace + '.png\'); object-fit: cover;">\n        </a>\n        <div class="lh-content">\n  \n        <h3><a class="company_names" href="search_result.html?' + el.travelslot.uuid + '?' + el.company.uuid + '"</a></h3>\n        <!--  <p>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-secondary"></span>\n        <span>(492 De\u011Ferlendirme)</span>\n        </p> -->\n        <p hidden class="pet">' + el.travelslot.isPetAllowed + '</p>\n        <p hidden class="threeSeat">' + el.travelslot.is3Seater + '</p>\n        <h3>' + el.travelslot.fromCity + ' - ' + el.travelslot.toCity + '<br></h3>\n        <span>(123213 De\u011Ferlendirme)<br></span>\n    \n        <span>Kalk\u0131\u015F: ' + el.travelslot.travelTime + '</span>\n        <p>\n        <span class="icon-star text-warning"></span>\n            ' + starBuilder() + '\n        </p>\n        </div>\n        </div>');
+            DOM.insertAdjacentHTML('beforeend', '\n        <div class="d-block d-md-flex listing-horizontal">\n        <a href="search_result.html?' + el.travelslot.uuid + '?' + el.company.uuid + '" class="img d-block" style="background-image: url(\'src/images/companies/' + companyNameWithoutSpace + '.png\'); object-fit: cover;">\n        </a>\n        <div class="lh-content">\n  \n        <h3><a class="company_names" href="search_result.html?' + el.travelslot.uuid + '?' + el.company.uuid + '"</a></h3>\n        <!--  <p>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-secondary"></span>\n        <span>(492 De\u011Ferlendirme)</span>\n        </p> -->\n        <p hidden class="pet">' + el.travelslot.isPetAllowed + '</p>\n        <p hidden class="threeSeat">' + el.travelslot.is3Seater + '</p>\n        <h3>' + el.travelslot.fromCity + ' - ' + el.travelslot.toCity + '<br></h3>\n        <span>(' + el.travelslot.reviewCount + ' De\u011Ferlendirme)<br></span>\n    \n        <span>Kalk\u0131\u015F: ' + el.travelslot.travelTime + '</span>\n        <p>\n        \n            ' + starBuilder() + '\n        </p>\n        </div>\n        </div>');
         });
     } catch (err) {
         console.log(err);
