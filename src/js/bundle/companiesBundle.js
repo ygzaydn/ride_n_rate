@@ -1797,7 +1797,7 @@ async function companySearch() {
     companyCitiesBuilder(el.uuid).then(function (data) {
       //console.log(data);
 
-      companyListDOM.insertAdjacentHTML("beforeend", "\n        <div class=\"d-block d-md-flex listing-horizontal pet threeseat\" >\n        <a href=\"#\" class=\"img d-block\" style=\"background-image: url('src/images/companies/" + parsedTitleNoSpace + ".png')\">\n        </a>\n        <div class=\"lh-content\">\n          <h3><a class=\"company_names\" href=\"companydetail.html?" + el.uuid + "\">" + parsedTitle + "</a></h3>\n          <p>\n            " + starBuilder() + "\n          </p>\n          <span>(" + el.reviewCount + " De\u011Ferlendirme)</span>\n          <div class=\"cities-from\" hidden>" + data.resultData.from + " </div>\n          <div class=\"cities-to\" hidden>" + data.resultData.to + " </div>\n        </div>\n        </div>\n        ");
+      companyListDOM.insertAdjacentHTML("beforeend", "\n        <div class=\"d-block d-md-flex listing-horizontal pet threeseat\" >\n        <a href=\"companydetail.html?" + el.uuid + "\" class=\"img d-block\" style=\"background-image: url('src/images/companies/" + parsedTitleNoSpace + ".png')\">\n        </a>\n        <div class=\"lh-content\">\n          <h3><a class=\"company_names\" href=\"companydetail.html?" + el.uuid + "\">" + parsedTitle + "</a></h3>\n          <p>\n            " + starBuilder() + "\n          </p>\n          <span>(" + el.reviewCount + " De\u011Ferlendirme)</span>\n          <div class=\"cities-from\" hidden>" + data.resultData.from + " </div>\n          <div class=\"cities-to\" hidden>" + data.resultData.to + " </div>\n        </div>\n        </div>\n        ");
     });
   });
 }

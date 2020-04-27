@@ -46,7 +46,9 @@ async function companySearch() {
         "beforeend",
         `
         <div class="d-block d-md-flex listing-horizontal pet threeseat" >
-        <a href="#" class="img d-block" style="background-image: url('src/images/companies/${parsedTitleNoSpace}.png')">
+        <a href="companydetail.html?${
+          el.uuid
+        }" class="img d-block" style="background-image: url('src/images/companies/${parsedTitleNoSpace}.png')">
         </a>
         <div class="lh-content">
           <h3><a class="company_names" href="companydetail.html?${
