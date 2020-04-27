@@ -218,6 +218,7 @@ const getComments = async () => {
           date,
           uuid,
           `driver`,
+          el.review.canEdit
         );
 
       }
@@ -237,7 +238,8 @@ const getComments = async () => {
           el.user.userName,
           date,
           uuid,
-          `hostess`
+          `hostess`,
+          el.review.canEdit
         );
       }
       if (el.breaks) {
@@ -256,7 +258,8 @@ const getComments = async () => {
           el.user.userName,
           date,
           uuid,
-          `break`
+          `break`,
+          el.review.canEdit
         );
 
       }
@@ -276,7 +279,8 @@ const getComments = async () => {
           el.user.userName,
           date,
           uuid,
-          `baggage`
+          `baggage`,
+          el.review.canEdit
         );
 
         
@@ -298,7 +302,8 @@ const getComments = async () => {
           el.user.userName,
           date,
           uuid,
-          `comfort`
+          `comfort`,
+          el.review.canEdit
         );
         
       }
@@ -317,7 +322,8 @@ const getComments = async () => {
           el.user.userName,
           date,
           uuid,
-          `pet`
+          `pet`,
+          el.review.canEdit
         );
       }
       if (el.travel) {
@@ -336,7 +342,8 @@ const getComments = async () => {
           el.user.userName,
           date,
           uuid,
-          `travel`
+          `travel`,
+          el.review.canEdit
         );
       }
       if (el.vehicle) {
@@ -355,7 +362,8 @@ const getComments = async () => {
           el.user.userName,
           date,
           uuid,
-          `vehicle`
+          `vehicle`,
+          el.review.canEdit
         );
       }
     });
@@ -514,12 +522,18 @@ const getSubComments = (
   userName,
   date,
   uuid,
-  type
+  type,
+  edit
 ) => {
 
   if (data.content.rating != 0) {
     count = count + 1;
     averagepoint += data.content.rating;
+  }
+  
+  let editPar = 'hidden';
+  if(edit === true){
+    editPar = null;
   }
 
   if (data.content.comment) {
@@ -545,7 +559,7 @@ const getSubComments = (
                 like - dislike
               }" /></p>
               
-              <p><a onclick="editComment(this)" class="edit">Edit</a> 
+              <p ${editPar}><a onclick="editComment(this)" class="edit">Edit</a> 
               <a onclick="deleteComment(this)" class="delete">Delete</a></p>
 
               <p hidden>${uuid}</p>

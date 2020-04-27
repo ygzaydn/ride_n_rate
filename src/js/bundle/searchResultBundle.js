@@ -5054,7 +5054,7 @@ var getComments = async function getComments() {
         var driverLikes = el.driver.content.likes;
         var driverDislikes = el.driver.content.dislikes;
 
-        var _getSubComments = getSubComments(driverCommentSection, el.driver, counterData.driver.count, counterData.driver.averagePoint, driverLikes, driverDislikes, el.user.userName, date, uuid, "driver");
+        var _getSubComments = getSubComments(driverCommentSection, el.driver, counterData.driver.count, counterData.driver.averagePoint, driverLikes, driverDislikes, el.user.userName, date, uuid, "driver", el.review.canEdit);
 
         var _getSubComments2 = _slicedToArray(_getSubComments, 2);
 
@@ -5066,7 +5066,7 @@ var getComments = async function getComments() {
         var hostessLikes = el.hostess.content.likes;
         var hostessDislikes = el.hostess.content.dislikes;
 
-        var _getSubComments3 = getSubComments(hostessCommentSection, el.hostess, counterData.hostess.count, counterData.hostess.averagePoint, hostessLikes, hostessDislikes, el.user.userName, date, uuid, "hostess");
+        var _getSubComments3 = getSubComments(hostessCommentSection, el.hostess, counterData.hostess.count, counterData.hostess.averagePoint, hostessLikes, hostessDislikes, el.user.userName, date, uuid, "hostess", el.review.canEdit);
 
         var _getSubComments4 = _slicedToArray(_getSubComments3, 2);
 
@@ -5078,7 +5078,7 @@ var getComments = async function getComments() {
         var breaksDislikes = el.breaks.content.dislikes;
         var breakCommentSection = document.getElementById("break-comment-list");
 
-        var _getSubComments5 = getSubComments(breakCommentSection, el.breaks, counterData.break.count, counterData.break.averagePoint, breaksLikes, breaksDislikes, el.user.userName, date, uuid, "break");
+        var _getSubComments5 = getSubComments(breakCommentSection, el.breaks, counterData.break.count, counterData.break.averagePoint, breaksLikes, breaksDislikes, el.user.userName, date, uuid, "break", el.review.canEdit);
 
         var _getSubComments6 = _slicedToArray(_getSubComments5, 2);
 
@@ -5090,7 +5090,7 @@ var getComments = async function getComments() {
         var baggageDislikes = el.baggage.content.dislikes;
         var baggageCommentSection = document.getElementById("baggage-comment-list");
 
-        var _getSubComments7 = getSubComments(baggageCommentSection, el.baggage, counterData.baggage.count, counterData.baggage.averagePoint, baggageLikes, baggageDislikes, el.user.userName, date, uuid, "baggage");
+        var _getSubComments7 = getSubComments(baggageCommentSection, el.baggage, counterData.baggage.count, counterData.baggage.averagePoint, baggageLikes, baggageDislikes, el.user.userName, date, uuid, "baggage", el.review.canEdit);
 
         var _getSubComments8 = _slicedToArray(_getSubComments7, 2);
 
@@ -5102,7 +5102,7 @@ var getComments = async function getComments() {
         var comfortDislikes = el.comfort.content.dislikes;
         var comfortCommentSection = document.getElementById("comfort-comment-list");
 
-        var _getSubComments9 = getSubComments(comfortCommentSection, el.comfort, counterData.comfort.count, counterData.comfort.averagePoint, comfortLikes, comfortDislikes, el.user.userName, date, uuid, "comfort");
+        var _getSubComments9 = getSubComments(comfortCommentSection, el.comfort, counterData.comfort.count, counterData.comfort.averagePoint, comfortLikes, comfortDislikes, el.user.userName, date, uuid, "comfort", el.review.canEdit);
 
         var _getSubComments10 = _slicedToArray(_getSubComments9, 2);
 
@@ -5115,7 +5115,7 @@ var getComments = async function getComments() {
 
         var petCommentSection = document.getElementById("pet-comment-list");
 
-        var _getSubComments11 = getSubComments(petCommentSection, el.pet, counterData.pet.count, counterData.pet.averagePoint, petLikes, petDislikes, el.user.userName, date, uuid, "pet");
+        var _getSubComments11 = getSubComments(petCommentSection, el.pet, counterData.pet.count, counterData.pet.averagePoint, petLikes, petDislikes, el.user.userName, date, uuid, "pet", el.review.canEdit);
 
         var _getSubComments12 = _slicedToArray(_getSubComments11, 2);
 
@@ -5127,7 +5127,7 @@ var getComments = async function getComments() {
         var travelDislikes = el.travel.content.dislikes;
         var travelCommentSection = document.getElementById("travel-comment-list");
 
-        var _getSubComments13 = getSubComments(travelCommentSection, el.travel, counterData.travel.count, counterData.travel.averagePoint, traveLikes, travelDislikes, el.user.userName, date, uuid, "travel");
+        var _getSubComments13 = getSubComments(travelCommentSection, el.travel, counterData.travel.count, counterData.travel.averagePoint, traveLikes, travelDislikes, el.user.userName, date, uuid, "travel", el.review.canEdit);
 
         var _getSubComments14 = _slicedToArray(_getSubComments13, 2);
 
@@ -5139,7 +5139,7 @@ var getComments = async function getComments() {
         var vehicleDislikes = el.vehicle.content.dislikes;
         var vehicleCommentSection = document.getElementById("vehicle-comment-list");
 
-        var _getSubComments15 = getSubComments(vehicleCommentSection, el.vehicle, counterData.vehicle.count, counterData.vehicle.averagePoint, vehicleLikes, vehicleDislikes, el.user.userName, date, uuid, "vehicle");
+        var _getSubComments15 = getSubComments(vehicleCommentSection, el.vehicle, counterData.vehicle.count, counterData.vehicle.averagePoint, vehicleLikes, vehicleDislikes, el.user.userName, date, uuid, "vehicle", el.review.canEdit);
 
         var _getSubComments16 = _slicedToArray(_getSubComments15, 2);
 
@@ -5247,15 +5247,20 @@ window.decreaseLike = function () {
   console.log("down");
 };
 
-var getSubComments = function getSubComments(section, data, count, averagepoint, like, dislike, userName, date, uuid, type) {
+var getSubComments = function getSubComments(section, data, count, averagepoint, like, dislike, userName, date, uuid, type, edit) {
 
   if (data.content.rating != 0) {
     count = count + 1;
     averagepoint += data.content.rating;
   }
 
+  var editPar = 'hidden';
+  if (edit === true) {
+    editPar = null;
+  }
+
   if (data.content.comment) {
-    section.insertAdjacentHTML("beforeend", "\n\n    <div style=\"width:400px; height:300px\">\n            <div class=\"testimonial\">\n              <figure class=\"mb-4\">\n                <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n                <h2>" + userName + "</h2>\n                <div class=\"meta\">" + date + "</div>\n              </figure>\n              <blockquote>\n                <p>&ldquo;" + data.content.comment + "&rdquo;</p>\n              </blockquote>\n\n              <p><a onclick=\"increaseLike(addLike(this))\" class=\"like\">Like</a> \n              <a onclick=\"decreaseLike(addDislike(this))\" class=\"dislike\">Dislike</a></p>\n              \n              <p><input class=\"qty\" name=\"qty\" type=\"text\" value=\"" + (like - dislike) + "\" /></p>\n              \n              <p><a onclick=\"editComment(this)\" class=\"edit\">Edit</a> \n              <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n\n              <p hidden>" + uuid + "</p>\n              <p hidden>" + type + "</p>\n\n            </div>\n          </div>\n    \n    \n    ");
+    section.insertAdjacentHTML("beforeend", "\n\n    <div style=\"width:400px; height:300px\">\n            <div class=\"testimonial\">\n              <figure class=\"mb-4\">\n                <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n                <h2>" + userName + "</h2>\n                <div class=\"meta\">" + date + "</div>\n              </figure>\n              <blockquote>\n                <p>&ldquo;" + data.content.comment + "&rdquo;</p>\n              </blockquote>\n\n              <p><a onclick=\"increaseLike(addLike(this))\" class=\"like\">Like</a> \n              <a onclick=\"decreaseLike(addDislike(this))\" class=\"dislike\">Dislike</a></p>\n              \n              <p><input class=\"qty\" name=\"qty\" type=\"text\" value=\"" + (like - dislike) + "\" /></p>\n              \n              <p " + editPar + "><a onclick=\"editComment(this)\" class=\"edit\">Edit</a> \n              <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n\n              <p hidden>" + uuid + "</p>\n              <p hidden>" + type + "</p>\n\n            </div>\n          </div>\n    \n    \n    ");
 
     document.querySelector(".number-of-review-" + type).innerHTML = "(" + count + " De\u011Ferlendirme)";
 
