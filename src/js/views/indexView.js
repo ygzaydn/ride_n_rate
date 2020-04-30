@@ -38,8 +38,8 @@ document.getElementById("search_button").addEventListener("click",() => {
 
     searchParameters.summarize();
 
-    if (searchParameters.departure !== "" && searchParameters.destination !== ""){
-    window.open(`search.html?filters=_fromCity:"${searchParameters.departure}"_toCity:"${searchParameters.destination}"_fromHour:"${searchParameters.hour}"_fromMinute:"${searchParameters.minute}"`);
+    if (searchParameters.departure !== "" && searchParameters.destination !== "" && searchParameters.hour !== "" && searchParameters.minute !== ""){
+        window.location.href=`search.html?filters=_fromCity:"${searchParameters.departure}"_toCity:"${searchParameters.destination}"_fromHour:"${searchParameters.hour}"_fromMinute:"${searchParameters.minute}"`;
     }
     else {
         alert(`Lütfen girdiğiniz bilgileri kontrol edin`);

@@ -1,5 +1,5 @@
 import {signUpScreen, signupScreenArr, signUpVariables, signInVariables, new_User, registered_User, loginRequest, signInRequest, userCredientals} from '../models/signUpModel'
-
+const Swal = require("sweetalert2");
 
 document.getElementById("SignUp").addEventListener("click", ()=>{
 
@@ -8,10 +8,18 @@ document.getElementById("SignUp").addEventListener("click", ()=>{
     const emailIndNum = (parseInt(newUser.email.indexOf('@')));
 
     if (newUser.password !== newUser.repassword){
-        alert(`Check your e-mail or password`);
+        Swal.fire(
+            'Kayıt sırasında bir hata oluştu',
+            'Lütfen şifrenizi doğru girdiğinizden emin olun.',
+            'error'
+          )
     }
     else if (emailIndNum <= -1) {
-        alert(`Check your e-mail or password`);
+        Swal.fire(
+            'Kayıt sırasında bir hata oluştu',
+            'Lütfen geçerli bir e-mail adresi girin',
+            'error'
+          )
     }
     else {
     
@@ -30,9 +38,17 @@ document.getElementById("SignIn").addEventListener("click", ()=>{
             loginRequest(registeredUser.email, registeredUser.password)
             .then( setTimeout(() => {userCredientals()}, 3000));
     } else {
-        alert(`Epostanızı kontrol edin.`)
+        Swal.fire(
+            'Giriş yaparken bir hata oluştu',
+            'Lütfen doğru e-mail ve şifre girdiğinizden emin olun',
+            'error'
+          )
     }
     } else {
-        alert(`Bilgilerinizi kontrol edin.`)
+        Swal.fire(
+            'Giriş yaparken bir hata oluştu',
+            'Lütfen doğru e-mail ve şifre girdiğinizden emin olun',
+            'error'
+          )
     }
 })

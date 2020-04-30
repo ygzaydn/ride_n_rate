@@ -4897,6 +4897,7 @@ async function loginRequest(email, password) {
         /* console.log(res.data.user);
         console.log(res.status); */
     } catch (e) {
+        Swal.fire('Giriş yaparken bir hata oluştu', 'Lütfen doğru e-mail ve şifre girdiğinizden emin olun', 'error');
         console.log(e);
     }
 }
@@ -5053,6 +5054,8 @@ exports.url = url;
 
 var _signUpModel = require("../models/signUpModel");
 
+var Swal = require("sweetalert2");
+
 document.getElementById("SignUp").addEventListener("click", function () {
 
     var newUser = new _signUpModel.new_User(_signUpModel.signUpVariables.username.value, _signUpModel.signUpVariables.email.value, _signUpModel.signUpVariables.password.value, _signUpModel.signUpVariables.repassword.value);
@@ -5060,9 +5063,9 @@ document.getElementById("SignUp").addEventListener("click", function () {
     var emailIndNum = parseInt(newUser.email.indexOf('@'));
 
     if (newUser.password !== newUser.repassword) {
-        alert("Check your e-mail or password");
+        Swal.fire('Kayıt sırasında bir hata oluştu', 'Lütfen şifrenizi doğru girdiğinizden emin olun.', 'error');
     } else if (emailIndNum <= -1) {
-        alert("Check your e-mail or password");
+        Swal.fire('Kayıt sırasında bir hata oluştu', 'Lütfen geçerli bir e-mail adresi girin', 'error');
     } else {
 
         (0, _signUpModel.signInRequest)(newUser.username, newUser.email, newUser.password);
@@ -5081,11 +5084,11 @@ document.getElementById("SignIn").addEventListener("click", function () {
                 (0, _signUpModel.userCredientals)();
             }, 3000));
         } else {
-            alert("Epostan\u0131z\u0131 kontrol edin.");
+            Swal.fire('Giriş yaparken bir hata oluştu', 'Lütfen doğru e-mail ve şifre girdiğinizden emin olun', 'error');
         }
     } else {
-        alert("Bilgilerinizi kontrol edin.");
+        Swal.fire('Giriş yaparken bir hata oluştu', 'Lütfen doğru e-mail ve şifre girdiğinizden emin olun', 'error');
     }
 });
 
-},{"../models/signUpModel":29}]},{},[31]);
+},{"../models/signUpModel":29,"sweetalert2":28}]},{},[31]);

@@ -39,6 +39,11 @@ async function loginRequest (email, password) {
         /* console.log(res.data.user);
         console.log(res.status); */
     } catch (e) {
+        Swal.fire(
+            'Giriş yaparken bir hata oluştu',
+            'Lütfen doğru e-mail ve şifre girdiğinizden emin olun',
+            'error'
+          )
         console.log(e);
     }
 
