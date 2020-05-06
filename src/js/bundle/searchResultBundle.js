@@ -4849,7 +4849,7 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteComments = exports.editComments = exports.getComments = exports.createComment = exports.travelFilter = undefined;
+exports.dislikeComment = exports.likeComment = exports.deleteComments = exports.editComments = exports.getComments = exports.createComment = exports.travelFilter = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -4982,7 +4982,7 @@ var createComment = async function createComment(cUUID, tsUUID) {
       rating: vehicleP
     };
   };
-  console.log(data);
+  //console.log(data);
   var config = {
     headers: {
       Authorization: "Bearer " + token
@@ -5034,10 +5034,7 @@ var getComments = async function getComments() {
   };
   var token = localStorage.getItem("token");
   if (token != 0) config.headers = { Authorization: "Bearer " + token };
-  console.log(config);
-
   var result = await axios(config);
-  //console.log(result);
   var resData = result.data;
   console.log(resData);
 
@@ -5185,6 +5182,7 @@ var getComments = async function getComments() {
     for (var i = 0; i < counterData.driver.averagePoint / counterData.driver.count; i++) {
       document.querySelector(".driver-comment-star").insertAdjacentHTML("afterbegin", "\n      <span class=\"icon-star text-warning\"></span>\n      ");
     }
+
     for (var _i = 0; _i < counterData.hostess.averagePoint / counterData.hostess.count; _i++) {
       document.querySelector(".hostess-comment-star").insertAdjacentHTML("afterbegin", "\n      <span class=\"icon-star text-warning\"></span>\n      ");
     }
@@ -5206,6 +5204,54 @@ var getComments = async function getComments() {
     for (var _i7 = 0; _i7 < counterData.baggage.averagePoint / counterData.baggage.count; _i7++) {
       document.querySelector(".baggage-comment-star").insertAdjacentHTML("afterbegin", "\n      <span class=\"icon-star text-warning\"></span>\n      ");
     }
+  }
+};
+
+var likeComment = async function likeComment(uuid, type) {
+  var newUrl = _register.url + "/api/review/" + type + "/like/increase";
+  var token = localStorage.getItem("token");
+
+  var config = {
+    headers: {
+      Authorization: "Bearer " + token
+    },
+    method: 'post',
+    url: newUrl,
+    data: {
+      review: {
+        uuid: uuid
+      }
+    }
+  };
+  try {
+    var res = await axios(config);
+    console.log(res.status);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+var dislikeComment = async function dislikeComment(uuid, type) {
+  var newUrl = _register.url + "/api/review/" + type + "/like/disincrease";
+  var token = localStorage.getItem("token");
+
+  var config = {
+    headers: {
+      Authorization: "Bearer " + token
+    },
+    method: 'post',
+    url: newUrl,
+    data: {
+      review: {
+        uuid: uuid
+      }
+    }
+  };
+  try {
+    var res = await axios(config);
+    console.log(res.status);
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -5274,12 +5320,8 @@ var removeEmpty = function removeEmpty(obj) {
   return obj;
 };
 
-window.increaseLike = function () {
-  console.log("up");
-};
-window.decreaseLike = function () {
-  console.log("down");
-};
+window.increaseLike = function () {};
+window.decreaseLike = function () {};
 
 var getSubComments = function getSubComments(section, data, count, averagepoint, like, dislike, userName, date, uuid, type, edit) {
 
@@ -5294,7 +5336,7 @@ var getSubComments = function getSubComments(section, data, count, averagepoint,
   }
 
   if (data.content.comment) {
-    section.insertAdjacentHTML("beforeend", "\n\n    <div style=\"width:400px; height:300px\">\n            <div class=\"testimonial\">\n              <figure class=\"mb-4\">\n                <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n                <h2>" + userName + "</h2>\n                <div class=\"meta\">" + date + "</div>\n              </figure>\n              <blockquote>\n                <p>&ldquo;" + data.content.comment + "&rdquo;</p>\n              </blockquote>\n\n              <p><a onclick=\"increaseLike(addLike(this))\" class=\"like\">Like</a> \n              <a onclick=\"decreaseLike(addDislike(this))\" class=\"dislike\">Dislike</a></p>\n              \n              <p><input class=\"qty\" name=\"qty\" type=\"text\" value=\"" + (like - dislike) + "\" /></p>\n              \n              <p " + editPar + "><a onclick=\"editComment(this)\" class=\"edit\">Edit</a> \n              <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n\n              <p hidden>" + uuid + "</p>\n              <p hidden>" + type + "</p>\n\n            </div>\n          </div>\n    \n    \n    ");
+    section.insertAdjacentHTML("beforeend", "\n\n    <div style=\"width:400px; height:300px\">\n            <div class=\"testimonial\">\n              <figure class=\"mb-4\">\n                <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n                <h2>" + userName + "</h2>\n                <div class=\"meta\">" + date + "</div>\n              </figure>\n              <blockquote>\n                <p>&ldquo;" + data.content.comment + "&rdquo;</p>\n              </blockquote>\n\n              <p><a onclick=\"increaseLike(addLike(this))\" id= \"" + type + "liked\" class=\"like\">Like</a> \n              <a onclick=\"decreaseLike(addDislike(this))\" id=\"" + type + "disliked\" class=\"dislike\">Dislike</a></p>\n              \n              <p><input class=\"qty\" name=\"qty\" type=\"text\" value=\"" + (like - dislike) + "\" /></p>\n              \n              <p " + editPar + "><a onclick=\"editComment(this)\" class=\"edit\">Edit</a> \n              <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n\n              <p hidden>" + uuid + "</p>\n              <p hidden>" + type + "</p>\n\n            </div>\n          </div>\n    \n    \n    ");
 
     document.querySelector(".number-of-review-" + type).innerHTML = "(" + count + " De\u011Ferlendirme)";
 
@@ -5309,6 +5351,8 @@ exports.createComment = createComment;
 exports.getComments = getComments;
 exports.editComments = editComments;
 exports.deleteComments = deleteComments;
+exports.likeComment = likeComment;
+exports.dislikeComment = dislikeComment;
 
 },{"../register":30,"axios":1,"sweetalert2":28}],30:[function(require,module,exports){
 "use strict";
@@ -5372,6 +5416,32 @@ var _searchResultModel = require("../models/searchResultModel");
 var Swal = require("sweetalert2");
 
 var resetFields = function resetFields() {
+
+  if (document.querySelector(".driver-comment-star").innerHTML) {
+    document.querySelector(".driver-comment-star").innerHTML = '';
+  };
+  if (document.querySelector(".pet-comment-star").innerHTML) {
+    document.querySelector(".pet-comment-star").innerHTML = '';
+  };
+  if (document.querySelector(".comfort-comment-star").innerHTML) {
+    document.querySelector(".comfort-comment-star").innerHTML = '';
+  };
+  if (document.querySelector(".baggage-comment-star").innerHTML) {
+    document.querySelector(".baggage-comment-star").innerHTML = '';
+  };
+  if (document.querySelector(".vehicle-comment-star").innerHTML) {
+    document.querySelector(".vehicle-comment-star").innerHTML = '';
+  };
+  if (document.querySelector(".break-comment-star").innerHTML) {
+    document.querySelector(".break-comment-star").innerHTML = '';
+  };
+  if (document.querySelector(".hostess-comment-star").innerHTML) {
+    document.querySelector(".hostess-comment-star").innerHTML = '';
+  };
+  if (document.querySelector(".travel-comment-star").innerHTML) {
+    document.querySelector(".travel-comment-star").innerHTML = '';
+  };
+
   document.getElementById("driver-comment-list").innerHTML = "";
   document.getElementById("hostess-comment-list").innerHTML = "";
   document.getElementById("break-comment-list").innerHTML = "";
@@ -5380,6 +5450,23 @@ var resetFields = function resetFields() {
   document.getElementById("comfort-comment-list").innerHTML = "";
   document.getElementById("vehicle-comment-list").innerHTML = "";
   document.getElementById("pet-comment-list").innerHTML = "";
+};
+
+var fixButton = function fixButton(type, buttonType) {
+
+  var IDLikeButton = buttonType + "liked";
+  var IDDislikeButton = buttonType + "disliked";
+
+  console.log(IDDislikeButton);
+  console.log(IDLikeButton);
+  if (type === 'like') {
+    document.getElementById("" + IDLikeButton).style.display = 'none';
+    document.getElementById("" + IDDislikeButton).style.display = '';
+  }
+  if (type === 'dislike') {
+    document.getElementById("" + IDLikeButton).style.display = '';
+    document.getElementById("" + IDDislikeButton).style.display = 'none';
+  }
 };
 
 var travelSlotUUID = location.href.split("?")[1];
@@ -5446,18 +5533,25 @@ window.deleteComment = function (e) {
   });
 };
 
-window.addLike = function (e) {
+window.addLike = async function (e) {
+
   var parentElement = e.parentNode.parentNode;
-  var value = parseInt(parentElement.children[3].firstChild.value);
-  value++;
-  parentElement.children[3].firstChild.value = value;
+  var uuid = parentElement.children[5].innerText;
+  var type = parentElement.children[6].innerText;
+  await (0, _searchResultModel.likeComment)(uuid, type);
+  resetFields();
+  await (0, _searchResultModel.getComments)();
+  fixButton('like', type);
 };
 
-window.addDislike = function (e) {
+window.addDislike = async function (e) {
   var parentElement = e.parentNode.parentNode;
-  var value = parseInt(parentElement.children[3].firstChild.value);
-  value--;
-  parentElement.children[3].firstChild.value = value;
+  var uuid = parentElement.children[5].innerText;
+  var type = parentElement.children[6].innerText;
+  await (0, _searchResultModel.dislikeComment)(uuid, type);
+  resetFields();
+  await (0, _searchResultModel.getComments)();
+  fixButton('dislike', type);
 };
 
 sendButton.addEventListener("click", function () {

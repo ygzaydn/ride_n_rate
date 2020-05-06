@@ -4,11 +4,39 @@ import {
   createComment,
   getComments,
   editComments,
-  deleteComments
+  deleteComments,
+  likeComment,
+  dislikeComment
 } from "../models/searchResultModel";
 const Swal = require("sweetalert2");
 
 const resetFields = () => {
+  
+  if (document.querySelector(`.driver-comment-star`).innerHTML){
+    document.querySelector(`.driver-comment-star`).innerHTML='';
+  };
+  if (document.querySelector(`.pet-comment-star`).innerHTML){
+    document.querySelector(`.pet-comment-star`).innerHTML='';
+  };
+  if (document.querySelector(`.comfort-comment-star`).innerHTML){
+    document.querySelector(`.comfort-comment-star`).innerHTML='';
+  };
+  if (document.querySelector(`.baggage-comment-star`).innerHTML){
+    document.querySelector(`.baggage-comment-star`).innerHTML='';
+  };
+  if (document.querySelector(`.vehicle-comment-star`).innerHTML){
+    document.querySelector(`.vehicle-comment-star`).innerHTML='';
+  };
+  if (document.querySelector(`.break-comment-star`).innerHTML){
+    document.querySelector(`.break-comment-star`).innerHTML='';
+  };
+  if (document.querySelector(`.hostess-comment-star`).innerHTML){
+    document.querySelector(`.hostess-comment-star`).innerHTML='';
+  };
+  if (document.querySelector(`.travel-comment-star`).innerHTML){
+    document.querySelector(`.travel-comment-star`).innerHTML='';
+  };
+  
   document.getElementById("driver-comment-list").innerHTML = "";
   document.getElementById("hostess-comment-list").innerHTML = "";
   document.getElementById("break-comment-list").innerHTML = "";
@@ -18,6 +46,24 @@ const resetFields = () => {
   document.getElementById("vehicle-comment-list").innerHTML = "";
   document.getElementById("pet-comment-list").innerHTML = "";
 };
+
+
+const fixButton = (type, buttonType) => {
+
+  const IDLikeButton = `${buttonType}liked`;
+  const IDDislikeButton = `${buttonType}disliked`;
+
+  console.log(IDDislikeButton);
+  console.log(IDLikeButton);
+  if (type === 'like'){
+    document.getElementById(`${IDLikeButton}`).style.display = 'none';
+    document.getElementById(`${IDDislikeButton}`).style.display =''
+  }
+  if (type === 'dislike') {
+    document.getElementById(`${IDLikeButton}`).style.display = '';
+    document.getElementById(`${IDDislikeButton}`).style.display ='none'
+  }
+}
 
 const travelSlotUUID = location.href.split("?")[1];
 const companyUUID = location.href.split("?")[2];
@@ -85,18 +131,26 @@ window.deleteComment = function (e) {
   });
 };
 
-window.addLike = (e) => {
+window.addLike =  async (e) => {
+
   const parentElement = e.parentNode.parentNode;
-  let value = parseInt(parentElement.children[3].firstChild.value);
-  value++;
-  parentElement.children[3].firstChild.value= value;
+  const uuid = parentElement.children[5].innerText;
+  const type = parentElement.children[6].innerText;
+  await likeComment(uuid,type);
+  resetFields();
+  await getComments();
+  fixButton('like', type);
+  
 };
 
-window.addDislike = (e) => {
+window.addDislike = async (e) => {
   const parentElement = e.parentNode.parentNode;
-  let value = parseInt(parentElement.children[3].firstChild.value);
-  value--;
-  parentElement.children[3].firstChild.value = value;
+  const uuid = parentElement.children[5].innerText;
+  const type = parentElement.children[6].innerText;
+  await dislikeComment(uuid,type);
+  resetFields();
+  await getComments();
+  fixButton('dislike',type);
 };
 
 sendButton.addEventListener("click", () => {

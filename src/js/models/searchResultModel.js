@@ -129,7 +129,7 @@ const createComment = async (cUUID, tsUUID) => {
         rating: vehicleP,
     }
   };
-  console.log(data);
+  //console.log(data);
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -186,10 +186,7 @@ const getComments = async () => {
   };
   const token = localStorage.getItem("token");
   if (token != 0) config.headers = {Authorization: `Bearer ${token}`};
-  console.log(config);
-  
   const result = await axios(config);
-  //console.log(result);
   const resData = result.data;
   console.log(resData);
 
@@ -402,6 +399,7 @@ const getComments = async () => {
       }
     });
 
+    
     for (let i = 0; i < counterData.driver.averagePoint/counterData.driver.count; i++) {
       document.querySelector(`.driver-comment-star`).insertAdjacentHTML(
         "afterbegin",
@@ -410,6 +408,7 @@ const getComments = async () => {
       `
       );
     }
+
     for (let i = 0; i < counterData.hostess.averagePoint/counterData.hostess.count; i++) {
       document.querySelector(`.hostess-comment-star`).insertAdjacentHTML(
         "afterbegin",
@@ -472,6 +471,56 @@ const getComments = async () => {
   }
 
 };
+
+const likeComment = async (uuid, type) => {
+  const newUrl = `${url}/api/review/${type}/like/increase`;
+  const token = localStorage.getItem("token");
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    method: 'post',
+    url: newUrl,
+    data: {
+      review: {
+        uuid: uuid
+      }
+    }
+  }
+  try {
+    const res = await axios(config);
+    console.log(res.status);
+  } catch (err) {
+    console.log(err);
+  }
+  
+};
+
+const dislikeComment = async (uuid, type) => {
+  const newUrl = `${url}/api/review/${type}/like/disincrease`;
+  const token = localStorage.getItem("token");
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    method: 'post',
+    url: newUrl,
+    data: {
+      review: {
+        uuid: uuid
+      }
+    }
+  }
+  try {
+    const res = await axios(config);
+    console.log(res.status);
+  } catch (err) {
+    console.log(err);
+  }
+  
+}
 
 const editComments = async (uuid, type, text) => {
   const newUrl = `${url}/api/review/${type}/update`;
@@ -540,10 +589,9 @@ const removeEmpty = (obj) => {
 };
 
 window.increaseLike = () => {
-  console.log("up");
+  
 };
 window.decreaseLike = () => {
-  console.log("down");
 };
 
 const getSubComments = (
@@ -586,8 +634,8 @@ const getSubComments = (
                 <p>&ldquo;${data.content.comment}&rdquo;</p>
               </blockquote>
 
-              <p><a onclick="increaseLike(addLike(this))" class="like">Like</a> 
-              <a onclick="decreaseLike(addDislike(this))" class="dislike">Dislike</a></p>
+              <p><a onclick="increaseLike(addLike(this))" id= "${type}liked" class="like">Like</a> 
+              <a onclick="decreaseLike(addDislike(this))" id="${type}disliked" class="dislike">Dislike</a></p>
               
               <p><input class="qty" name="qty" type="text" value="${
                 like - dislike
@@ -623,4 +671,6 @@ export {
   getComments,
   editComments,
   deleteComments,
+  likeComment,
+  dislikeComment
 };
