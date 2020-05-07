@@ -144,6 +144,7 @@ window.addLike =  async (e) => {
 };
 
 window.addDislike = async (e) => {
+
   const parentElement = e.parentNode.parentNode;
   const uuid = parentElement.children[5].innerText;
   const type = parentElement.children[6].innerText;
@@ -151,6 +152,7 @@ window.addDislike = async (e) => {
   resetFields();
   await getComments();
   fixButton('dislike',type);
+  
 };
 
 sendButton.addEventListener("click", () => {
