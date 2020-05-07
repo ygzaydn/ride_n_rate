@@ -5208,7 +5208,10 @@ var getComments = async function getComments() {
 };
 
 var likeComment = async function likeComment(uuid, type) {
-  var newUrl = _register.url + "/api/review/" + type + "/like/increase";
+  if (type === 'break') {
+    type = 'breaks';
+  }
+  var newUrl = _register.url + "/api/review/" + type + "/like";
   var token = localStorage.getItem("token");
 
   var config = {
@@ -5232,7 +5235,10 @@ var likeComment = async function likeComment(uuid, type) {
 };
 
 var dislikeComment = async function dislikeComment(uuid, type) {
-  var newUrl = _register.url + "/api/review/" + type + "/like/disincrease";
+  if (type === 'break') {
+    type = 'breaks';
+  }
+  var newUrl = _register.url + "/api/review/" + type + "/dislike";
   var token = localStorage.getItem("token");
 
   var config = {
@@ -5328,15 +5334,25 @@ var getSubComments = function getSubComments(section, data, count, averagepoint,
   if (data.content.rating != 0) {
     count = count + 1;
     averagepoint += data.content.rating;
-  }
+  };
 
   var editPar = 'hidden';
   if (edit === true) {
     editPar = null;
-  }
+  };
+
+  var canLike = 'hidden';
+  if (data.canLike === true) {
+    canLike = null;
+  };
+
+  var canDislike = 'hidden';
+  if (data.canDislike === true) {
+    canDislike = null;
+  };
 
   if (data.content.comment) {
-    section.insertAdjacentHTML("beforeend", "\n\n    <div style=\"width:400px; height:300px\">\n            <div class=\"testimonial\">\n              <figure class=\"mb-4\">\n                <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n                <h2>" + userName + "</h2>\n                <div class=\"meta\">" + date + "</div>\n              </figure>\n              <blockquote>\n                <p>&ldquo;" + data.content.comment + "&rdquo;</p>\n              </blockquote>\n\n              <p><a onclick=\"increaseLike(addLike(this))\" id= \"" + type + "liked\" class=\"like\">Like</a> \n              <a onclick=\"decreaseLike(addDislike(this))\" id=\"" + type + "disliked\" class=\"dislike\">Dislike</a></p>\n              \n              <p><input class=\"qty\" name=\"qty\" type=\"text\" value=\"" + (like - dislike) + "\" /></p>\n              \n              <p " + editPar + "><a onclick=\"editComment(this)\" class=\"edit\">Edit</a> \n              <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n\n              <p hidden>" + uuid + "</p>\n              <p hidden>" + type + "</p>\n\n            </div>\n          </div>\n    \n    \n    ");
+    section.insertAdjacentHTML("beforeend", "\n\n    <div style=\"width:400px; height:300px\">\n            <div class=\"testimonial\">\n              <figure class=\"mb-4\">\n                <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n                <h2>" + userName + "</h2>\n                <div class=\"meta\">" + date + "</div>\n              </figure>\n              <blockquote>\n                <p>&ldquo;" + data.content.comment + "&rdquo;</p>\n              </blockquote>\n\n              <p><a " + canLike + " onclick=\"increaseLike(addLike(this))\" id= \"" + type + "liked\" class=\"like\">Like</a> \n              <a " + canDislike + " onclick=\"decreaseLike(addDislike(this))\" id=\"" + type + "disliked\" class=\"dislike\">Dislike</a></p>\n              \n              <p><input class=\"qty\" name=\"qty\" type=\"text\" value=\"" + (like - dislike) + "\" /></p>\n              \n              <p " + editPar + "><a onclick=\"editComment(this)\" class=\"edit\">Edit</a> \n              <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n\n              <p hidden>" + uuid + "</p>\n              <p hidden>" + type + "</p>\n\n            </div>\n          </div>\n    \n    \n    ");
 
     document.querySelector(".number-of-review-" + type).innerHTML = "(" + count + " De\u011Ferlendirme)";
 
@@ -5452,23 +5468,6 @@ var resetFields = function resetFields() {
   document.getElementById("pet-comment-list").innerHTML = "";
 };
 
-var fixButton = function fixButton(type, buttonType) {
-
-  var IDLikeButton = buttonType + "liked";
-  var IDDislikeButton = buttonType + "disliked";
-
-  console.log(IDDislikeButton);
-  console.log(IDLikeButton);
-  if (type === 'like') {
-    document.getElementById("" + IDLikeButton).style.display = 'none';
-    document.getElementById("" + IDDislikeButton).style.display = '';
-  }
-  if (type === 'dislike') {
-    document.getElementById("" + IDLikeButton).style.display = '';
-    document.getElementById("" + IDDislikeButton).style.display = 'none';
-  }
-};
-
 var travelSlotUUID = location.href.split("?")[1];
 var companyUUID = location.href.split("?")[2];
 var sendButton = document.querySelector(".send-review");
@@ -5541,17 +5540,16 @@ window.addLike = async function (e) {
   await (0, _searchResultModel.likeComment)(uuid, type);
   resetFields();
   await (0, _searchResultModel.getComments)();
-  fixButton('like', type);
 };
 
 window.addDislike = async function (e) {
+
   var parentElement = e.parentNode.parentNode;
   var uuid = parentElement.children[5].innerText;
   var type = parentElement.children[6].innerText;
   await (0, _searchResultModel.dislikeComment)(uuid, type);
   resetFields();
   await (0, _searchResultModel.getComments)();
-  fixButton('dislike', type);
 };
 
 sendButton.addEventListener("click", function () {

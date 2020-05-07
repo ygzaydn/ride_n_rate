@@ -473,8 +473,12 @@ const getComments = async () => {
 };
 
 const likeComment = async (uuid, type) => {
-  const newUrl = `${url}/api/review/${type}/like/increase`;
+  if (type === 'break') {
+    type = 'breaks'
+  }
+  const newUrl = `${url}/api/review/${type}/like`;
   const token = localStorage.getItem("token");
+  
 
   const config = {
     headers: {
@@ -498,7 +502,10 @@ const likeComment = async (uuid, type) => {
 };
 
 const dislikeComment = async (uuid, type) => {
-  const newUrl = `${url}/api/review/${type}/like/disincrease`;
+  if (type === 'break') {
+    type = 'breaks'
+  }
+  const newUrl = `${url}/api/review/${type}/dislike`;
   const token = localStorage.getItem("token");
 
   const config = {
@@ -607,16 +614,26 @@ const getSubComments = (
   type,
   edit
 ) => {
-
+  
   if (data.content.rating != 0) {
     count = count + 1;
     averagepoint += data.content.rating;
-  }
+  };
   
   let editPar = 'hidden';
   if(edit === true){
     editPar = null;
-  }
+  };
+
+  let canLike = 'hidden';
+  if (data.canLike === true) {
+    canLike = null;
+  };
+
+  let canDislike = 'hidden';
+  if (data.canDislike === true) {
+    canDislike = null;
+  };
 
   if (data.content.comment) {
     section.insertAdjacentHTML(
@@ -634,8 +651,8 @@ const getSubComments = (
                 <p>&ldquo;${data.content.comment}&rdquo;</p>
               </blockquote>
 
-              <p><a onclick="increaseLike(addLike(this))" id= "${type}liked" class="like">Like</a> 
-              <a onclick="decreaseLike(addDislike(this))" id="${type}disliked" class="dislike">Dislike</a></p>
+              <p><a ${canLike} onclick="increaseLike(addLike(this))" id= "${type}liked" class="like">Like</a> 
+              <a ${canDislike} onclick="decreaseLike(addDislike(this))" id="${type}disliked" class="dislike">Dislike</a></p>
               
               <p><input class="qty" name="qty" type="text" value="${
                 like - dislike

@@ -48,22 +48,7 @@ const resetFields = () => {
 };
 
 
-const fixButton = (type, buttonType) => {
 
-  const IDLikeButton = `${buttonType}liked`;
-  const IDDislikeButton = `${buttonType}disliked`;
-
-  console.log(IDDislikeButton);
-  console.log(IDLikeButton);
-  if (type === 'like'){
-    document.getElementById(`${IDLikeButton}`).style.display = 'none';
-    document.getElementById(`${IDDislikeButton}`).style.display =''
-  }
-  if (type === 'dislike') {
-    document.getElementById(`${IDLikeButton}`).style.display = '';
-    document.getElementById(`${IDDislikeButton}`).style.display ='none'
-  }
-}
 
 const travelSlotUUID = location.href.split("?")[1];
 const companyUUID = location.href.split("?")[2];
@@ -139,7 +124,7 @@ window.addLike =  async (e) => {
   await likeComment(uuid,type);
   resetFields();
   await getComments();
-  fixButton('like', type);
+  
   
 };
 
@@ -151,7 +136,7 @@ window.addDislike = async (e) => {
   await dislikeComment(uuid,type);
   resetFields();
   await getComments();
-  fixButton('dislike',type);
+ 
   
 };
 
