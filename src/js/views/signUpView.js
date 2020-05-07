@@ -1,4 +1,4 @@
-import {signUpScreen, signupScreenArr, signUpVariables, signInVariables, new_User, registered_User, loginRequest, signInRequest, userCredientals} from '../models/signUpModel'
+import {signUpVariables, signInVariables, new_User, registered_User, loginRequest, signInRequest, userCredientals} from '../models/signUpModel'
 const Swal = require("sweetalert2");
 
 document.getElementById("SignUp").addEventListener("click", ()=>{
@@ -51,4 +51,18 @@ document.getElementById("SignIn").addEventListener("click", ()=>{
             'error'
           )
     }
+})
+
+document.getElementById("forgot-password").addEventListener('click', async () => {
+    const { value: email } = await Swal.fire({
+        title: 'E-posta adresinizi girin.',
+        input: 'text',
+        inputPlaceholder: 'E-posta adresinizi girin.'
+      })
+      
+      if (email.includes('@')) {
+        Swal.fire(`${email} adresinize şifrenizi sıfırlamak için bir mail gönderdik.`)
+      } else if (email){
+          Swal.fire(`Geçersiz bir e-mail girdiniz.`)
+      }
 })

@@ -5091,4 +5091,19 @@ document.getElementById("SignIn").addEventListener("click", function () {
     }
 });
 
+document.getElementById("forgot-password").addEventListener('click', async function () {
+    var _ref = await Swal.fire({
+        title: 'E-posta adresinizi girin.',
+        input: 'text',
+        inputPlaceholder: 'E-posta adresinizi girin.'
+    }),
+        email = _ref.value;
+
+    if (email.includes('@')) {
+        Swal.fire(email + " adresinize \u015Fifrenizi s\u0131f\u0131rlamak i\xE7in bir mail g\xF6nderdik.");
+    } else if (email) {
+        Swal.fire("Ge\xE7ersiz bir e-mail girdiniz.");
+    }
+});
+
 },{"../models/signUpModel":29,"sweetalert2":28}]},{},[31]);
