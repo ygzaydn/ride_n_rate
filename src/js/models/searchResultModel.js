@@ -30,7 +30,6 @@ const travelFilter = async () => {
   };
   let res = await axios(config);
   const data = res.data;
-  
 
   async function companyFilter() {
     const configComp = {
@@ -39,9 +38,8 @@ const travelFilter = async () => {
     };
     let resCompany = await axios(configComp);
     const dataComp = resCompany.data;
-   
+
     const compNameNoSpace = dataComp.name.replace(/\s+/g, "").toLowerCase();
-   
 
     document.querySelector(
       ".evalution"
@@ -54,7 +52,6 @@ const travelFilter = async () => {
 };
 
 const createComment = async (cUUID, tsUUID) => {
-
   const driverP = pointExtractor(driverPoint);
   const hostessP = pointExtractor(hostessPoint);
   const breakP = pointExtractor(breakPoint);
@@ -70,65 +67,65 @@ const createComment = async (cUUID, tsUUID) => {
     review: {
       companyUUID: cUUID,
       travelslotUUID: tsUUID,
-    }
+    },
   };
 
   if (driverP != 0 && driverCommentBox.value != "") {
     data.review.driver = {
       comment: driverCommentBox.value,
-      rating: driverP
-    }
-  };
+      rating: driverP,
+    };
+  }
 
   if (hostessP != 0 && hostessCommentBox.value != "") {
     data.review.hostess = {
       comment: hostessCommentBox.value,
-      rating: hostessP
-    }
-  };
+      rating: hostessP,
+    };
+  }
 
   if (breakP != 0 && breakCommentBox.value != "") {
     data.review.breaks = {
       comment: breakCommentBox.value,
-        rating: breakP,
-    }
-  };
+      rating: breakP,
+    };
+  }
 
   if (travelP != 0 && travelCommentBox.value != "") {
     data.review.travel = {
       comment: travelCommentBox.value,
-        rating: travelP,
-    }
-  };
+      rating: travelP,
+    };
+  }
 
   if (baggageP != 0 && baggageCommentBox.value != "") {
     data.review.baggage = {
       comment: baggageCommentBox.value,
-        rating: baggageP,
-    }
-  };
+      rating: baggageP,
+    };
+  }
 
   if (petP != 0 && petCommentBox.value != "") {
     data.review.pet = {
       comment: petCommentBox.value,
-        rating: petP,
-        petAllowed: true
-    }
-  };
+      rating: petP,
+      petAllowed: true,
+    };
+  }
 
   if (comfortP != 0 && comfortCommentBox.value != "") {
     data.review.comfort = {
       comment: comfortCommentBox.value,
-        rating: comfortP,
-    }
-  };
+      rating: comfortP,
+    };
+  }
 
   if (vehicleP != 0 && vehicleCommentBox.value != "") {
     data.review.vehicle = {
       comment: vehicleCommentBox.value,
-        rating: vehicleP,
-    }
-  };
+      rating: vehicleP,
+    };
+  }
   //console.log(data);
   const config = {
     headers: {
@@ -136,21 +133,20 @@ const createComment = async (cUUID, tsUUID) => {
     },
     method: "post",
     url: `${url}/api/review/create`,
-    data : data
-      
-    };
+    data: data,
+  };
 
   try {
     const result = await axios(config);
     console.log(result);
     console.log("Comment send succesfully");
     Swal.fire({
-      position: 'top-end',
-      icon: 'success',
-      title: 'Yorumun başarı ile kaydedildi',
+      position: "top-end",
+      icon: "success",
+      title: "Yorumun başarı ile kaydedildi",
       showConfirmButton: false,
-      timer: 2500
-    })
+      timer: 2500,
+    });
   } catch (err) {
     console.log(err);
   }
@@ -171,10 +167,8 @@ const pointExtractor = (queryElement) => {
 const getComments = async () => {
   const travelSlotUUID = location.href.split("?")[1];
   const companyUUID = location.href.split("?")[2];
-  
-  const config = {
-    
 
+  const config = {
     url: `${url}/api/review/all`,
     method: "post",
     data: {
@@ -185,7 +179,7 @@ const getComments = async () => {
     },
   };
   const token = localStorage.getItem("token");
-  if (token != 0) config.headers = {Authorization: `Bearer ${token}`};
+  if (token != 0) config.headers = { Authorization: `Bearer ${token}` };
   const result = await axios(config);
   const resData = result.data;
   console.log(resData);
@@ -238,7 +232,10 @@ const getComments = async () => {
         );
         let driverLikes = el.driver.content.likes;
         let driverDislikes = el.driver.content.dislikes;
-        [ counterData.driver.count, counterData.driver.averagePoint ] = getSubComments(
+        [
+          counterData.driver.count,
+          counterData.driver.averagePoint,
+        ] = getSubComments(
           driverCommentSection,
           el.driver,
           counterData.driver.count,
@@ -251,7 +248,6 @@ const getComments = async () => {
           `driver`,
           el.review.canEdit
         );
-
       }
       if (el.hostess) {
         const hostessCommentSection = document.getElementById(
@@ -259,7 +255,10 @@ const getComments = async () => {
         );
         let hostessLikes = el.hostess.content.likes;
         let hostessDislikes = el.hostess.content.dislikes;
-        [ counterData.hostess.count, counterData.hostess.averagePoint ] = getSubComments(
+        [
+          counterData.hostess.count,
+          counterData.hostess.averagePoint,
+        ] = getSubComments(
           hostessCommentSection,
           el.hostess,
           counterData.hostess.count,
@@ -279,7 +278,10 @@ const getComments = async () => {
         const breakCommentSection = document.getElementById(
           "break-comment-list"
         );
-        [ counterData.break.count, counterData.break.averagePoint ] = getSubComments(
+        [
+          counterData.break.count,
+          counterData.break.averagePoint,
+        ] = getSubComments(
           breakCommentSection,
           el.breaks,
           counterData.break.count,
@@ -292,7 +294,6 @@ const getComments = async () => {
           `break`,
           el.review.canEdit
         );
-
       }
       if (el.baggage) {
         let baggageLikes = el.baggage.content.likes;
@@ -300,7 +301,10 @@ const getComments = async () => {
         const baggageCommentSection = document.getElementById(
           "baggage-comment-list"
         );
-        [ counterData.baggage.count, counterData.baggage.averagePoint ] = getSubComments(
+        [
+          counterData.baggage.count,
+          counterData.baggage.averagePoint,
+        ] = getSubComments(
           baggageCommentSection,
           el.baggage,
           counterData.baggage.count,
@@ -313,8 +317,6 @@ const getComments = async () => {
           `baggage`,
           el.review.canEdit
         );
-
-        
       }
       if (el.comfort) {
         let comfortLikes = el.comfort.content.likes;
@@ -323,7 +325,10 @@ const getComments = async () => {
           "comfort-comment-list"
         );
 
-        [ counterData.comfort.count, counterData.comfort.averagePoint ] = getSubComments(
+        [
+          counterData.comfort.count,
+          counterData.comfort.averagePoint,
+        ] = getSubComments(
           comfortCommentSection,
           el.comfort,
           counterData.comfort.count,
@@ -336,14 +341,13 @@ const getComments = async () => {
           `comfort`,
           el.review.canEdit
         );
-        
       }
       if (el.pet) {
         let petLikes = el.pet.content.likes;
         let petDislikes = el.pet.content.dislikes;
 
         const petCommentSection = document.getElementById("pet-comment-list");
-        [ counterData.pet.count, counterData.pet.averagePoint ] = getSubComments(
+        [counterData.pet.count, counterData.pet.averagePoint] = getSubComments(
           petCommentSection,
           el.pet,
           counterData.pet.count,
@@ -363,7 +367,10 @@ const getComments = async () => {
         const travelCommentSection = document.getElementById(
           "travel-comment-list"
         );
-        [ counterData.travel.count, counterData.travel.averagePoint ] = getSubComments(
+        [
+          counterData.travel.count,
+          counterData.travel.averagePoint,
+        ] = getSubComments(
           travelCommentSection,
           el.travel,
           counterData.travel.count,
@@ -383,7 +390,10 @@ const getComments = async () => {
         const vehicleCommentSection = document.getElementById(
           "vehicle-comment-list"
         );
-        [ counterData.vehicle.count, counterData.vehicle.averagePoint ] = getSubComments(
+        [
+          counterData.vehicle.count,
+          counterData.vehicle.averagePoint,
+        ] = getSubComments(
           vehicleCommentSection,
           el.vehicle,
           counterData.vehicle.count,
@@ -399,8 +409,11 @@ const getComments = async () => {
       }
     });
 
-    
-    for (let i = 0; i < counterData.driver.averagePoint/counterData.driver.count; i++) {
+    for (
+      let i = 0;
+      i < counterData.driver.averagePoint / counterData.driver.count;
+      i++
+    ) {
       document.querySelector(`.driver-comment-star`).insertAdjacentHTML(
         "afterbegin",
         `
@@ -409,7 +422,11 @@ const getComments = async () => {
       );
     }
 
-    for (let i = 0; i < counterData.hostess.averagePoint/counterData.hostess.count; i++) {
+    for (
+      let i = 0;
+      i < counterData.hostess.averagePoint / counterData.hostess.count;
+      i++
+    ) {
       document.querySelector(`.hostess-comment-star`).insertAdjacentHTML(
         "afterbegin",
         `
@@ -417,7 +434,11 @@ const getComments = async () => {
       `
       );
     }
-    for (let i = 0; i < counterData.break.averagePoint/counterData.break.count; i++) {
+    for (
+      let i = 0;
+      i < counterData.break.averagePoint / counterData.break.count;
+      i++
+    ) {
       document.querySelector(`.break-comment-star`).insertAdjacentHTML(
         "afterbegin",
         `
@@ -425,7 +446,11 @@ const getComments = async () => {
       `
       );
     }
-    for (let i = 0; i < counterData.comfort.averagePoint/counterData.comfort.count; i++) {
+    for (
+      let i = 0;
+      i < counterData.comfort.averagePoint / counterData.comfort.count;
+      i++
+    ) {
       document.querySelector(`.comfort-comment-star`).insertAdjacentHTML(
         "afterbegin",
         `
@@ -433,7 +458,11 @@ const getComments = async () => {
       `
       );
     }
-    for (let i = 0; i < counterData.pet.averagePoint/counterData.pet.count; i++) {
+    for (
+      let i = 0;
+      i < counterData.pet.averagePoint / counterData.pet.count;
+      i++
+    ) {
       document.querySelector(`.pet-comment-star`).insertAdjacentHTML(
         "afterbegin",
         `
@@ -441,7 +470,11 @@ const getComments = async () => {
       `
       );
     }
-    for (let i = 0; i < counterData.vehicle.averagePoint/counterData.vehicle.count; i++) {
+    for (
+      let i = 0;
+      i < counterData.vehicle.averagePoint / counterData.vehicle.count;
+      i++
+    ) {
       document.querySelector(`.vehicle-comment-star`).insertAdjacentHTML(
         "afterbegin",
         `
@@ -449,7 +482,11 @@ const getComments = async () => {
       `
       );
     }
-    for (let i = 0; i < counterData.travel.averagePoint/counterData.travel.count; i++) {
+    for (
+      let i = 0;
+      i < counterData.travel.averagePoint / counterData.travel.count;
+      i++
+    ) {
       document.querySelector(`.travel-comment-star`).insertAdjacentHTML(
         "afterbegin",
         `
@@ -457,7 +494,11 @@ const getComments = async () => {
       `
       );
     }
-    for (let i = 0; i < counterData.baggage.averagePoint/counterData.baggage.count; i++) {
+    for (
+      let i = 0;
+      i < counterData.baggage.averagePoint / counterData.baggage.count;
+      i++
+    ) {
       document.querySelector(`.baggage-comment-star`).insertAdjacentHTML(
         "afterbegin",
         `
@@ -465,45 +506,70 @@ const getComments = async () => {
       `
       );
     }
-
-
-
   }
-
 };
 
 const likeComment = async (uuid, type) => {
-  if (type === 'break') {
-    type = 'breaks'
+  if (type === "break") {
+    type = "breaks";
   }
   const newUrl = `${url}/api/review/${type}/like`;
   const token = localStorage.getItem("token");
-  
 
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    method: 'post',
+    method: "post",
     url: newUrl,
     data: {
       review: {
-        uuid: uuid
-      }
-    }
-  }
+        uuid: uuid,
+      },
+    },
+  };
   try {
     const res = await axios(config);
-    console.log(res.status);
+    //console.log(res.status);
+    let timerInterval;
+    Swal.fire({
+      title: "Bu yorumu beğendiniz.",
+      timer: 1500,
+      timerProgressBar: true,
+      onBeforeOpen: () => {
+        Swal.showLoading();
+        timerInterval = setInterval(() => {
+          const content = Swal.getContent();
+          if (content) {
+            const b = content.querySelector("b");
+            if (b) {
+              b.textContent = Swal.getTimerLeft();
+            }
+          }
+        }, 100);
+      },
+      onClose: () => {
+        clearInterval(timerInterval);
+      },
+    }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        //console.log("I was closed by the timer");
+      }
+    });
   } catch (err) {
     console.log(err);
+    Swal.fire(
+      'Hata',
+      'Bir hata oluştu',
+      'error'
+    )
   }
-  
 };
 
 const dislikeComment = async (uuid, type) => {
-  if (type === 'break') {
-    type = 'breaks'
+  if (type === "break") {
+    type = "breaks";
   }
   const newUrl = `${url}/api/review/${type}/dislike`;
   const token = localStorage.getItem("token");
@@ -512,22 +578,52 @@ const dislikeComment = async (uuid, type) => {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    method: 'post',
+    method: "post",
     url: newUrl,
     data: {
       review: {
-        uuid: uuid
-      }
-    }
-  }
+        uuid: uuid,
+      },
+    },
+  };
   try {
     const res = await axios(config);
-    console.log(res.status);
+    //console.log(res.status);
+    let timerInterval;
+    Swal.fire({
+      title: "Bu yorumu beğenmediniz.",
+      timer: 1500,
+      timerProgressBar: true,
+      onBeforeOpen: () => {
+        Swal.showLoading();
+        timerInterval = setInterval(() => {
+          const content = Swal.getContent();
+          if (content) {
+            const b = content.querySelector("b");
+            if (b) {
+              b.textContent = Swal.getTimerLeft();
+            }
+          }
+        }, 100);
+      },
+      onClose: () => {
+        clearInterval(timerInterval);
+      },
+    }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        //console.log("I was closed by the timer");
+      }
+    });
   } catch (err) {
     console.log(err);
+    Swal.fire(
+      'Hata',
+      'Bir hata oluştu',
+      'error'
+    )
   }
-  
-}
+};
 
 const editComments = async (uuid, type, text) => {
   const newUrl = `${url}/api/review/${type}/update`;
@@ -580,12 +676,18 @@ const deleteComments = async (uuid, type) => {
 };
 
 const removeEmpty = (obj) => {
-  Object.keys(obj).forEach(key => {
-    if (obj[key] && typeof obj[key] === 'object') removeEmpty(obj[key]);
-    else if (obj[key] === "" || obj[key] === 0 || obj[key] === undefined || obj[key] === null ) delete obj[key];
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] && typeof obj[key] === "object") removeEmpty(obj[key]);
+    else if (
+      obj[key] === "" ||
+      obj[key] === 0 ||
+      obj[key] === undefined ||
+      obj[key] === null
+    )
+      delete obj[key];
   });
   function clean(obj) {
-    for (var propName in obj) { 
+    for (var propName in obj) {
       if (obj[propName] === null || obj[propName] === undefined) {
         delete obj[propName];
       }
@@ -595,11 +697,8 @@ const removeEmpty = (obj) => {
   return obj;
 };
 
-window.increaseLike = () => {
-  
-};
-window.decreaseLike = () => {
-};
+window.increaseLike = () => {};
+window.decreaseLike = () => {};
 
 const getSubComments = (
   section,
@@ -614,26 +713,25 @@ const getSubComments = (
   type,
   edit
 ) => {
-  
   if (data.content.rating != 0) {
     count = count + 1;
     averagepoint += data.content.rating;
-  };
-  
-  let editPar = 'hidden';
-  if(edit === true){
-    editPar = null;
-  };
+  }
 
-  let canLike = 'hidden';
+  let editPar = "hidden";
+  if (edit === true) {
+    editPar = null;
+  }
+
+  let canLike = "hidden";
   if (data.canLike === true) {
     canLike = null;
-  };
+  }
 
-  let canDislike = 'hidden';
+  let canDislike = "hidden";
   if (data.canDislike === true) {
     canDislike = null;
-  };
+  }
 
   if (data.content.comment) {
     section.insertAdjacentHTML(
@@ -654,7 +752,7 @@ const getSubComments = (
               <p><a ${canLike} onclick="increaseLike(addLike(this))" id= "${type}liked" class="like">Like</a> 
               <a ${canDislike} onclick="decreaseLike(addDislike(this))" id="${type}disliked" class="dislike">Dislike</a></p>
               
-              <p><input class="qty" name="qty" type="text" value="${
+              <p><input class="qty" name="qty" type="text" value=" Toplam Beğenme: ${
                 like - dislike
               }" /></p>
               
@@ -676,10 +774,9 @@ const getSubComments = (
     ).innerHTML = `(${count} Değerlendirme)`;
 
     //document.querySelector(`.${type}-comment-star`).innerHTML = "";
-
   }
-  
-  return [ count, averagepoint ];
+
+  return [count, averagepoint];
 };
 
 export {
@@ -689,5 +786,5 @@ export {
   editComments,
   deleteComments,
   likeComment,
-  dislikeComment
+  dislikeComment,
 };

@@ -28,6 +28,16 @@ gulp.task('signup', function(){
     .pipe(gulp.dest(destFolder));
 });
 
+gulp.task('forgotPassword', function(){
+    return browserify('./src/js/views/forgotPasswordView.js')
+    .transform(babelify.configure({
+        presets: ["es2015"]
+    }))
+    .bundle()
+    .pipe(source('forgotPasswordBundle.js'))
+    .pipe(gulp.dest(destFolder));
+});
+
 gulp.task('about', function(){
     return browserify('./src/js/views/aboutView.js')
     .transform(babelify.configure({

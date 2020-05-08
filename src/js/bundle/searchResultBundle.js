@@ -4907,7 +4907,6 @@ var travelFilter = async function travelFilter() {
 };
 
 var createComment = async function createComment(cUUID, tsUUID) {
-
   var driverP = pointExtractor(driverPoint);
   var hostessP = pointExtractor(hostessPoint);
   var breakP = pointExtractor(breakPoint);
@@ -4931,35 +4930,35 @@ var createComment = async function createComment(cUUID, tsUUID) {
       comment: driverCommentBox.value,
       rating: driverP
     };
-  };
+  }
 
   if (hostessP != 0 && hostessCommentBox.value != "") {
     data.review.hostess = {
       comment: hostessCommentBox.value,
       rating: hostessP
     };
-  };
+  }
 
   if (breakP != 0 && breakCommentBox.value != "") {
     data.review.breaks = {
       comment: breakCommentBox.value,
       rating: breakP
     };
-  };
+  }
 
   if (travelP != 0 && travelCommentBox.value != "") {
     data.review.travel = {
       comment: travelCommentBox.value,
       rating: travelP
     };
-  };
+  }
 
   if (baggageP != 0 && baggageCommentBox.value != "") {
     data.review.baggage = {
       comment: baggageCommentBox.value,
       rating: baggageP
     };
-  };
+  }
 
   if (petP != 0 && petCommentBox.value != "") {
     data.review.pet = {
@@ -4967,21 +4966,21 @@ var createComment = async function createComment(cUUID, tsUUID) {
       rating: petP,
       petAllowed: true
     };
-  };
+  }
 
   if (comfortP != 0 && comfortCommentBox.value != "") {
     data.review.comfort = {
       comment: comfortCommentBox.value,
       rating: comfortP
     };
-  };
+  }
 
   if (vehicleP != 0 && vehicleCommentBox.value != "") {
     data.review.vehicle = {
       comment: vehicleCommentBox.value,
       rating: vehicleP
     };
-  };
+  }
   //console.log(data);
   var config = {
     headers: {
@@ -4990,7 +4989,6 @@ var createComment = async function createComment(cUUID, tsUUID) {
     method: "post",
     url: _register.url + "/api/review/create",
     data: data
-
   };
 
   try {
@@ -4998,9 +4996,9 @@ var createComment = async function createComment(cUUID, tsUUID) {
     console.log(result);
     console.log("Comment send succesfully");
     Swal.fire({
-      position: 'top-end',
-      icon: 'success',
-      title: 'Yorumun başarı ile kaydedildi',
+      position: "top-end",
+      icon: "success",
+      title: "Yorumun başarı ile kaydedildi",
       showConfirmButton: false,
       timer: 2500
     });
@@ -5022,7 +5020,6 @@ var getComments = async function getComments() {
   var companyUUID = location.href.split("?")[2];
 
   var config = {
-
     url: _register.url + "/api/review/all",
     method: "post",
     data: {
@@ -5208,8 +5205,8 @@ var getComments = async function getComments() {
 };
 
 var likeComment = async function likeComment(uuid, type) {
-  if (type === 'break') {
-    type = 'breaks';
+  if (type === "break") {
+    type = "breaks";
   }
   var newUrl = _register.url + "/api/review/" + type + "/like";
   var token = localStorage.getItem("token");
@@ -5218,7 +5215,7 @@ var likeComment = async function likeComment(uuid, type) {
     headers: {
       Authorization: "Bearer " + token
     },
-    method: 'post',
+    method: "post",
     url: newUrl,
     data: {
       review: {
@@ -5228,15 +5225,42 @@ var likeComment = async function likeComment(uuid, type) {
   };
   try {
     var res = await axios(config);
-    console.log(res.status);
+    //console.log(res.status);
+    var timerInterval = void 0;
+    Swal.fire({
+      title: "Bu yorumu beğendiniz.",
+      timer: 1500,
+      timerProgressBar: true,
+      onBeforeOpen: function onBeforeOpen() {
+        Swal.showLoading();
+        timerInterval = setInterval(function () {
+          var content = Swal.getContent();
+          if (content) {
+            var b = content.querySelector("b");
+            if (b) {
+              b.textContent = Swal.getTimerLeft();
+            }
+          }
+        }, 100);
+      },
+      onClose: function onClose() {
+        clearInterval(timerInterval);
+      }
+    }).then(function (result) {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        //console.log("I was closed by the timer");
+      }
+    });
   } catch (err) {
     console.log(err);
+    Swal.fire('Hata', 'Bir hata oluştu', 'error');
   }
 };
 
 var dislikeComment = async function dislikeComment(uuid, type) {
-  if (type === 'break') {
-    type = 'breaks';
+  if (type === "break") {
+    type = "breaks";
   }
   var newUrl = _register.url + "/api/review/" + type + "/dislike";
   var token = localStorage.getItem("token");
@@ -5245,7 +5269,7 @@ var dislikeComment = async function dislikeComment(uuid, type) {
     headers: {
       Authorization: "Bearer " + token
     },
-    method: 'post',
+    method: "post",
     url: newUrl,
     data: {
       review: {
@@ -5255,9 +5279,36 @@ var dislikeComment = async function dislikeComment(uuid, type) {
   };
   try {
     var res = await axios(config);
-    console.log(res.status);
+    //console.log(res.status);
+    var timerInterval = void 0;
+    Swal.fire({
+      title: "Bu yorumu beğenmediniz.",
+      timer: 1500,
+      timerProgressBar: true,
+      onBeforeOpen: function onBeforeOpen() {
+        Swal.showLoading();
+        timerInterval = setInterval(function () {
+          var content = Swal.getContent();
+          if (content) {
+            var b = content.querySelector("b");
+            if (b) {
+              b.textContent = Swal.getTimerLeft();
+            }
+          }
+        }, 100);
+      },
+      onClose: function onClose() {
+        clearInterval(timerInterval);
+      }
+    }).then(function (result) {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        //console.log("I was closed by the timer");
+      }
+    });
   } catch (err) {
     console.log(err);
+    Swal.fire('Hata', 'Bir hata oluştu', 'error');
   }
 };
 
@@ -5313,7 +5364,7 @@ var deleteComments = async function deleteComments(uuid, type) {
 
 var removeEmpty = function removeEmpty(obj) {
   Object.keys(obj).forEach(function (key) {
-    if (obj[key] && _typeof(obj[key]) === 'object') removeEmpty(obj[key]);else if (obj[key] === "" || obj[key] === 0 || obj[key] === undefined || obj[key] === null) delete obj[key];
+    if (obj[key] && _typeof(obj[key]) === "object") removeEmpty(obj[key]);else if (obj[key] === "" || obj[key] === 0 || obj[key] === undefined || obj[key] === null) delete obj[key];
   });
   function clean(obj) {
     for (var propName in obj) {
@@ -5330,29 +5381,28 @@ window.increaseLike = function () {};
 window.decreaseLike = function () {};
 
 var getSubComments = function getSubComments(section, data, count, averagepoint, like, dislike, userName, date, uuid, type, edit) {
-
   if (data.content.rating != 0) {
     count = count + 1;
     averagepoint += data.content.rating;
-  };
+  }
 
-  var editPar = 'hidden';
+  var editPar = "hidden";
   if (edit === true) {
     editPar = null;
-  };
+  }
 
-  var canLike = 'hidden';
+  var canLike = "hidden";
   if (data.canLike === true) {
     canLike = null;
-  };
+  }
 
-  var canDislike = 'hidden';
+  var canDislike = "hidden";
   if (data.canDislike === true) {
     canDislike = null;
-  };
+  }
 
   if (data.content.comment) {
-    section.insertAdjacentHTML("beforeend", "\n\n    <div style=\"width:400px; height:300px\">\n            <div class=\"testimonial\">\n              <figure class=\"mb-4\">\n                <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n                <h2>" + userName + "</h2>\n                <div class=\"meta\">" + date + "</div>\n              </figure>\n              <blockquote>\n                <p>&ldquo;" + data.content.comment + "&rdquo;</p>\n              </blockquote>\n\n              <p><a " + canLike + " onclick=\"increaseLike(addLike(this))\" id= \"" + type + "liked\" class=\"like\">Like</a> \n              <a " + canDislike + " onclick=\"decreaseLike(addDislike(this))\" id=\"" + type + "disliked\" class=\"dislike\">Dislike</a></p>\n              \n              <p><input class=\"qty\" name=\"qty\" type=\"text\" value=\"" + (like - dislike) + "\" /></p>\n              \n              <p " + editPar + "><a onclick=\"editComment(this)\" class=\"edit\">Edit</a> \n              <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n\n              <p hidden>" + uuid + "</p>\n              <p hidden>" + type + "</p>\n\n            </div>\n          </div>\n    \n    \n    ");
+    section.insertAdjacentHTML("beforeend", "\n\n    <div style=\"width:400px; height:300px\">\n            <div class=\"testimonial\">\n              <figure class=\"mb-4\">\n                <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n                <h2>" + userName + "</h2>\n                <div class=\"meta\">" + date + "</div>\n              </figure>\n              <blockquote>\n                <p>&ldquo;" + data.content.comment + "&rdquo;</p>\n              </blockquote>\n\n              <p><a " + canLike + " onclick=\"increaseLike(addLike(this))\" id= \"" + type + "liked\" class=\"like\">Like</a> \n              <a " + canDislike + " onclick=\"decreaseLike(addDislike(this))\" id=\"" + type + "disliked\" class=\"dislike\">Dislike</a></p>\n              \n              <p><input class=\"qty\" name=\"qty\" type=\"text\" value=\" Toplam Be\u011Fenme: " + (like - dislike) + "\" /></p>\n              \n              <p " + editPar + "><a onclick=\"editComment(this)\" class=\"edit\">Edit</a> \n              <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n\n              <p hidden>" + uuid + "</p>\n              <p hidden>" + type + "</p>\n\n            </div>\n          </div>\n    \n    \n    ");
 
     document.querySelector(".number-of-review-" + type).innerHTML = "(" + count + " De\u011Ferlendirme)";
 

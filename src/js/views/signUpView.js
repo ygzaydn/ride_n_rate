@@ -1,4 +1,4 @@
-import {signUpVariables, signInVariables, new_User, registered_User, loginRequest, signInRequest, userCredientals} from '../models/signUpModel'
+import {signUpVariables, signInVariables, new_User, registered_User, loginRequest, signInRequest, userCredientals,forgotPassword} from '../models/signUpModel'
 const Swal = require("sweetalert2");
 
 document.getElementById("SignUp").addEventListener("click", ()=>{
@@ -61,7 +61,8 @@ document.getElementById("forgot-password").addEventListener('click', async () =>
       })
       
       if (email.includes('@')) {
-        Swal.fire(`${email} adresinize şifrenizi sıfırlamak için bir mail gönderdik.`)
+        Swal.fire(`${email} adresinize şifrenizi sıfırlamak için bir mail gönderdik.`);
+        forgotPassword(email);
       } else if (email){
           Swal.fire(`Geçersiz bir e-mail girdiniz.`)
       }

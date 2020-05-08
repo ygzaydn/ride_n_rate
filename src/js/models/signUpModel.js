@@ -85,6 +85,22 @@ async function signInRequest (username, email, password) {
     }
 }
 
+const forgotPassword = async (email) => {
+    const config = {
+        method: 'post',
+        url: `${url}/api/auth/password-reset`,
+        data: {
+            email: email
+        }
+    }
+    try {
+        const result = axios(config);
+        console.log(result.status);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 const signUpVariables = {
     username : signupScreenArr[0],
     email : signupScreenArr[1],
@@ -98,7 +114,7 @@ const signInVariables = {
     password : signupScreenArr[5],
 }
 
-export {signInVariables, signUpScreen, signupScreenArr, signUpVariables, loginRequest, signInRequest, userCredientals}
+export {signInVariables, signUpScreen, signupScreenArr, signUpVariables, loginRequest, signInRequest, userCredientals, forgotPassword}
 
 export class new_User {
     constructor (username, email, password, repassword){

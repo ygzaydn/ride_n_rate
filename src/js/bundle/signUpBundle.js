@@ -4849,7 +4849,7 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.registered_User = exports.new_User = exports.userCredientals = exports.signInRequest = exports.loginRequest = exports.signUpVariables = exports.signupScreenArr = exports.signUpScreen = exports.signInVariables = undefined;
+exports.registered_User = exports.new_User = exports.forgotPassword = exports.userCredientals = exports.signInRequest = exports.loginRequest = exports.signUpVariables = exports.signupScreenArr = exports.signUpScreen = exports.signInVariables = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -4938,6 +4938,22 @@ async function signInRequest(username, email, password) {
     }
 }
 
+var forgotPassword = async function forgotPassword(email) {
+    var config = {
+        method: 'post',
+        url: _register.url + '/api/auth/password-reset',
+        data: {
+            email: email
+        }
+    };
+    try {
+        var result = axios(config);
+        console.log(result.status);
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 var signUpVariables = {
     username: signupScreenArr[0],
     email: signupScreenArr[1],
@@ -4958,6 +4974,7 @@ exports.signUpVariables = signUpVariables;
 exports.loginRequest = loginRequest;
 exports.signInRequest = signInRequest;
 exports.userCredientals = userCredientals;
+exports.forgotPassword = forgotPassword;
 
 var new_User = exports.new_User = function () {
     function new_User(username, email, password, repassword) {
@@ -5101,6 +5118,7 @@ document.getElementById("forgot-password").addEventListener('click', async funct
 
     if (email.includes('@')) {
         Swal.fire(email + " adresinize \u015Fifrenizi s\u0131f\u0131rlamak i\xE7in bir mail g\xF6nderdik.");
+        (0, _signUpModel.forgotPassword)(email);
     } else if (email) {
         Swal.fire("Ge\xE7ersiz bir e-mail girdiniz.");
     }
