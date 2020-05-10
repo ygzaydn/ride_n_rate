@@ -78,6 +78,119 @@ const getTime = () => {
   return fullDate;
 };
 
+const getComments = async () => {
+  const uuid = location.href.split(".html?")[1];
+  const config = {
+    url: `${url}/api/companies/comment/all`,
+    method: "post",
+    data: {
+      filters: {
+        companyUUID: uuid,
+      },
+    },
+  };
+  const token = localStorage.getItem("token");
+  if (token) config.headers = { Authorization: `Bearer ${token}` };
+
+  try {
+    const result = await axios(config);
+
+    const resultData = result.data;
+    console.log(resultData);
+    const section = document.querySelector(".comment-list");
+
+    resultData.forEach((el) => {
+      let canEdit = "hidden";
+      if (el.canUserEdit === true) {
+        canEdit = null;
+      }
+      section.insertAdjacentHTML(
+        "beforeend",`
+        <li class="comment">
+        <div class="vcard bio">
+        <img src="src/images/comment_vcard.jpg" alt="Image">
+        </div>
+        <div class="comment-body">
+          <h3>${el.user.userName}</h3>
+          <p>${el.comment}</p>
+          <p ${canEdit}><a onclick="editComment(this)" class="edit">Edit</a> 
+          <a onclick="deleteComment(this)" class="delete">Delete</a></p>
+          <p hidden>${el.uuid}</p>
+        </div>
+      </li>
+       `
+      );
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const createComment = async (body) => {
+  const token = localStorage.getItem("token");
+  const uuid = location.href.split(".html?")[1];
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    url: `${url}/api/companies/comment/create`,
+    method: "post",
+    data: {
+      companyUUID: uuid,
+      commentBody: body,
+    },
+  };
+  try {
+    const result = await axios(config);
+    console.log(result);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const editComment = async (body, uuid) => {
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    url: `${url}/api/companies/comment/update`,
+    method: "post",
+    data: {
+      commentBody: body,
+      commentUUID: uuid,
+    },
+  };
+
+  try {
+    const result = await axios(config);
+    console.log(result);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const deleteComment = async (uuid) => {
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    url: `${url}/api/companies/comment/delete`,
+    method: "post",
+    data: {
+      commentUUID: uuid,
+    },
+  };
+
+  try {
+    const result = await axios(config);
+    console.log(result);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export {
   companyComment,
   companyCommentArr,
@@ -88,6 +201,10 @@ export {
   companySearchDetailed,
   cityFilterBuilder,
   companyID,
+  getComments,
+  createComment,
+  editComment,
+  deleteComment,
 };
 
 export class new_comment {
