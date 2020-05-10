@@ -1989,10 +1989,10 @@ document.getElementById("3seat_bus").addEventListener("click", function () {
 document.getElementById("reset_button").addEventListener("click", function () {
 
     var elements = document.querySelectorAll('.lh-content');
-    var companies = document.querySelectorAll('.company_names');
-    for (var i = 0; i < companies.length; i++) {
-        elements[i].style.display = "";
-    }
+    //let companies = document.querySelectorAll('.company_names');
+    elements.forEach(function (el) {
+        el.style.display = '';
+    });
 
     document.getElementById('pet_checkbox').checked = false;
     document.getElementById('3seat_bus').checked = false;
