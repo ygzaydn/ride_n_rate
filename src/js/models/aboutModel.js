@@ -55,7 +55,7 @@ async function logOut() {
     try {
         let res = await axios(config);
         if (res.status === 200){
-            localStorage.setItem('token',0);
+            localStorage.removeItem('token');
             window.location.href = 'index.html';
         }
     } catch (err) {

@@ -5030,7 +5030,7 @@ var getComments = async function getComments() {
     }
   };
   var token = localStorage.getItem("token");
-  if (token != 0) config.headers = { Authorization: "Bearer " + token };
+  if (token) config.headers = { Authorization: "Bearer " + token };
   var result = await axios(config);
   var resData = result.data;
   console.log(resData);

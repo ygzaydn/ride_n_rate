@@ -179,7 +179,7 @@ const getComments = async () => {
     },
   };
   const token = localStorage.getItem("token");
-  if (token != 0) config.headers = { Authorization: `Bearer ${token}` };
+  if (token) config.headers = { Authorization: `Bearer ${token}` };
   const result = await axios(config);
   const resData = result.data;
   console.log(resData);
