@@ -12,7 +12,6 @@ async function registeredSectionPage() {
   try {
     let res = await axios(config);
     if (res.status === 200) {
-      
       const registerSection = document.getElementById("register-section");
       const registerButtonNew = document.querySelector(".site-menu").children[2]
         .children[0];
@@ -35,6 +34,11 @@ async function registeredSectionPage() {
 
       if (evaluateTravel) {
         evaluateTravel.style.display = "";
+      }
+
+      if (location.href.includes("/companydetail.html")) {
+        document.getElementById("comment-box").style.display='';
+       
       }
     }
   } catch (err) {

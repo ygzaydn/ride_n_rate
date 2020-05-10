@@ -5082,7 +5082,6 @@ async function registeredSectionPage() {
   try {
     var res = await axios(config);
     if (res.status === 200) {
-
       var registerSection = document.getElementById("register-section");
       var registerButtonNew = document.querySelector(".site-menu").children[2].children[0];
       var registerButton = document.querySelector(".signupelement");
@@ -5104,6 +5103,10 @@ async function registeredSectionPage() {
 
       if (evaluateTravel) {
         evaluateTravel.style.display = "";
+      }
+
+      if (location.href.includes("/companydetail.html")) {
+        document.getElementById("comment-box").style.display = '';
       }
     }
   } catch (err) {
