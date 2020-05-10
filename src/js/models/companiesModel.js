@@ -20,6 +20,14 @@ async function companySearch() {
   const config = {
     method: "post",
     url: `${url}/api/companies/all`,
+    data: {
+      filters: {
+        pageNumber: 1,
+        query : {
+          
+        }
+      }
+    }
   };
 
   let result = await axios(config);

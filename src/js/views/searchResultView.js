@@ -47,8 +47,7 @@ const resetFields = () => {
   document.getElementById("pet-comment-list").innerHTML = "";
 };
 
-
-
+window.page = 1;
 
 const travelSlotUUID = location.href.split("?")[1];
 const companyUUID = location.href.split("?")[2];
@@ -78,7 +77,7 @@ window.editComment = async function (e) {
     const type = parentElement.children[6].innerText;
     editComments(uuid, type, text);
     resetFields();
-    getComments();
+    getComments(page);
 
     //parentElement.children[2].innerText = text;
   }
@@ -110,7 +109,7 @@ window.deleteComment = function (e) {
       );
       deleteComments(uuid,type);
       resetFields();
-      setTimeout(function(){ getComments(); }, 3000);
+      setTimeout(function(){ getComments(page); }, 3000);
       
     }
   });
@@ -123,7 +122,7 @@ window.addLike =  async (e) => {
   const type = parentElement.children[6].innerText;
   await likeComment(uuid,type);
   resetFields();
-  await getComments();
+  await getComments(page);
   
   
 };
@@ -135,7 +134,7 @@ window.addDislike = async (e) => {
   const type = parentElement.children[6].innerText;
   await dislikeComment(uuid,type);
   resetFields();
-  await getComments();
+  await getComments(page);
  
   
 };
@@ -146,5 +145,21 @@ sendButton.addEventListener("click", () => {
 
 checkReview.addEventListener("click", () => {
   resetFields();
-  getComments();
+  getComments(page);
 });
+
+document.getElementById('increase-page').addEventListener('click', async () => {
+  page++;
+  await resetFields();
+  setTimeout(() => { getComments(page); }, 500);
+  console.log(page);
+});
+
+document.getElementById('decrease-page').addEventListener('click', async () => {
+  if (page != 1) {
+    page--;
+  }
+  await resetFields();
+  setTimeout(() => { getComments(page); }, 500);
+  console.log(page);
+})

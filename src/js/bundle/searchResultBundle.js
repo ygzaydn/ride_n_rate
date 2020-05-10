@@ -5015,7 +5015,7 @@ var pointExtractor = function pointExtractor(queryElement) {
   return point;
 };
 
-var getComments = async function getComments() {
+var getComments = async function getComments(page) {
   var travelSlotUUID = location.href.split("?")[1];
   var companyUUID = location.href.split("?")[2];
 
@@ -5023,9 +5023,12 @@ var getComments = async function getComments() {
     url: _register.url + "/api/review/all",
     method: "post",
     data: {
-      review: {
-        companyUUID: companyUUID,
-        travelslotUUID: travelSlotUUID
+      filters: {
+        query: {
+          companyUUID: companyUUID,
+          travelslotUUID: travelSlotUUID
+        },
+        pageNumber: page
       }
     }
   };
@@ -5521,6 +5524,8 @@ var resetFields = function resetFields() {
   document.getElementById("pet-comment-list").innerHTML = "";
 };
 
+window.page = 1;
+
 var travelSlotUUID = location.href.split("?")[1];
 var companyUUID = location.href.split("?")[2];
 var sendButton = document.querySelector(".send-review");
@@ -5550,7 +5555,7 @@ window.editComment = async function (e) {
     var type = parentElement.children[6].innerText;
     (0, _searchResultModel.editComments)(uuid, type, text);
     resetFields();
-    (0, _searchResultModel.getComments)();
+    (0, _searchResultModel.getComments)(page);
 
     //parentElement.children[2].innerText = text;
   }
@@ -5579,7 +5584,7 @@ window.deleteComment = function (e) {
       (0, _searchResultModel.deleteComments)(uuid, type);
       resetFields();
       setTimeout(function () {
-        (0, _searchResultModel.getComments)();
+        (0, _searchResultModel.getComments)(page);
       }, 3000);
     }
   });
@@ -5592,7 +5597,7 @@ window.addLike = async function (e) {
   var type = parentElement.children[6].innerText;
   await (0, _searchResultModel.likeComment)(uuid, type);
   resetFields();
-  await (0, _searchResultModel.getComments)();
+  await (0, _searchResultModel.getComments)(page);
 };
 
 window.addDislike = async function (e) {
@@ -5602,7 +5607,7 @@ window.addDislike = async function (e) {
   var type = parentElement.children[6].innerText;
   await (0, _searchResultModel.dislikeComment)(uuid, type);
   resetFields();
-  await (0, _searchResultModel.getComments)();
+  await (0, _searchResultModel.getComments)(page);
 };
 
 sendButton.addEventListener("click", function () {
@@ -5611,7 +5616,27 @@ sendButton.addEventListener("click", function () {
 
 checkReview.addEventListener("click", function () {
   resetFields();
-  (0, _searchResultModel.getComments)();
+  (0, _searchResultModel.getComments)(page);
+});
+
+document.getElementById('increase-page').addEventListener('click', async function () {
+  page++;
+  await resetFields();
+  setTimeout(function () {
+    (0, _searchResultModel.getComments)(page);
+  }, 500);
+  console.log(page);
+});
+
+document.getElementById('decrease-page').addEventListener('click', async function () {
+  if (page != 1) {
+    page--;
+  }
+  await resetFields();
+  setTimeout(function () {
+    (0, _searchResultModel.getComments)(page);
+  }, 500);
+  console.log(page);
 });
 
 },{"../models/searchResultModel":29,"../register":30,"sweetalert2":28}]},{},[31]);

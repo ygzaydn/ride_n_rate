@@ -1774,7 +1774,13 @@ var companyCitiesBuilder = async function companyCitiesBuilder(uuid) {
 async function companySearch() {
   var config = {
     method: "post",
-    url: _register.url + "/api/companies/all"
+    url: _register.url + "/api/companies/all",
+    data: {
+      filters: {
+        pageNumber: 1,
+        query: {}
+      }
+    }
   };
 
   var result = await axios(config);

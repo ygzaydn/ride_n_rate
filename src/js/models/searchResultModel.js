@@ -164,7 +164,7 @@ const pointExtractor = (queryElement) => {
   return point;
 };
 
-const getComments = async () => {
+const getComments = async (page) => {
   const travelSlotUUID = location.href.split("?")[1];
   const companyUUID = location.href.split("?")[2];
 
@@ -172,9 +172,12 @@ const getComments = async () => {
     url: `${url}/api/review/all`,
     method: "post",
     data: {
-      review: {
-        companyUUID: companyUUID,
-        travelslotUUID: travelSlotUUID,
+      filters: {
+        query: {
+          companyUUID: companyUUID,
+          travelslotUUID: travelSlotUUID,
+        },
+        pageNumber: page
       },
     },
   };

@@ -1740,69 +1740,69 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],28:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.search_variables = exports.travelFilter = exports.companiesScreen = exports.companiesScreenArr = exports.searchVariables = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _register = require('../register');
+var _register = require("../register");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var axios = require('axios').default;
+var axios = require("axios").default;
 axios.defaults.withCredentials = true;
 
 
 async function travelFilter() {
-    var config = {
-        method: 'post',
-        url: _register.url + '/api/travelslots/all',
-        data: {
-            filters: {
-                query: {
-                    fromHour: '' + location.href.split('?')[1].split('%22')[5],
-                    fromCity: '' + location.href.split('?')[1].split('%22')[1],
-                    toCity: '' + location.href.split('?')[1].split('%22')[3] //location.href.split('?')[1].split('%22')[3]
-                },
-                pagination: { pageNumber: 1 }
-            }
-        }
-    };
-    try {
-        var res = await axios(config);
-        var resArr = res.data;
-        console.log(resArr);
-
-        resArr.forEach(function (el) {
-            //console.log(el.travelslot.isPetAllowed);
-            //console.log(el.travelslot.is3Seater);
-            var starBuilder = function starBuilder() {
-                var output = '';
-                for (var i = 0; i < el.travelslot.averageRating; i++) {
-                    output += '<span class="icon-star text-warning"></span>';
-                }
-                return output;
-            };
-            var companyNameWithoutSpace = el.company.title.split(':')[1].replace(/\s+/g, '').toLowerCase();
-            var DOM = document.querySelector('.companies');
-            DOM.insertAdjacentHTML('beforeend', '\n        <div class="d-block d-md-flex listing-horizontal">\n        <a href="search_result.html?' + el.travelslot.uuid + '?' + el.company.uuid + '" class="img d-block" style="background-image: url(\'src/images/companies/' + companyNameWithoutSpace + '.png\'); object-fit: cover;">\n        </a>\n        <div class="lh-content">\n  \n        <h3><a class="company_names" href="search_result.html?' + el.travelslot.uuid + '?' + el.company.uuid + '"</a></h3>\n        <!--  <p>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-warning"></span>\n        <span class="icon-star text-secondary"></span>\n        <span>(492 De\u011Ferlendirme)</span>\n        </p> -->\n        <p hidden class="pet">' + el.travelslot.isPetAllowed + '</p>\n        <p hidden class="threeSeat">' + el.travelslot.is3Seater + '</p>\n        <h3>' + el.travelslot.fromCity + ' - ' + el.travelslot.toCity + '<br></h3>\n        <span>(' + el.travelslot.reviewCount + ' De\u011Ferlendirme)<br></span>\n    \n        <span>Kalk\u0131\u015F: ' + el.travelslot.travelTime + '</span>\n        <p>\n        \n            ' + starBuilder() + '\n        </p>\n        </div>\n        </div>');
-        });
-    } catch (err) {
-        console.log(err);
+  var config = {
+    method: "post",
+    url: _register.url + "/api/travelslots/all",
+    data: {
+      filters: {
+        query: {
+          fromHour: "" + location.href.split("?")[1].split("%22")[5],
+          fromCity: "" + location.href.split("?")[1].split("%22")[1],
+          toCity: "" + location.href.split("?")[1].split("%22")[3] //location.href.split('?')[1].split('%22')[3]
+        },
+        pagination: { pageNumber: 1 }
+      }
     }
+  };
+  try {
+    var res = await axios(config);
+    var resArr = res.data;
+    console.log(resArr);
+
+    resArr.forEach(function (el) {
+      //console.log(el.travelslot.isPetAllowed);
+      //console.log(el.travelslot.is3Seater);
+      var starBuilder = function starBuilder() {
+        var output = "";
+        for (var i = 0; i < el.travelslot.averageRating; i++) {
+          output += "<span class=\"icon-star text-warning\"></span>";
+        }
+        return output;
+      };
+      var companyNameWithoutSpace = el.company.title.split(":")[1].replace(/\s+/g, "").toLowerCase();
+      var DOM = document.querySelector(".companies");
+      DOM.insertAdjacentHTML("beforeend", "\n        <div class=\"d-block d-md-flex listing-horizontal\">\n        <a href=\"search_result.html?" + el.travelslot.uuid + "?" + el.company.uuid + "\" class=\"img d-block\" style=\"background-image: url('src/images/companies/" + companyNameWithoutSpace + ".png'); object-fit: cover;\">\n        </a>\n        <div class=\"lh-content\">\n  \n        <h3><a class=\"company_names\" href=\"search_result.html?" + el.travelslot.uuid + "?" + el.company.uuid + "\"</a></h3>\n        <!--  <p>\n        <span class=\"icon-star text-warning\"></span>\n        <span class=\"icon-star text-warning\"></span>\n        <span class=\"icon-star text-warning\"></span>\n        <span class=\"icon-star text-warning\"></span>\n        <span class=\"icon-star text-secondary\"></span>\n        <span>(492 De\u011Ferlendirme)</span>\n        </p> -->\n        <p hidden class=\"pet\">" + el.travelslot.isPetAllowed + "</p>\n        <p hidden class=\"threeSeat\">" + el.travelslot.is3Seater + "</p>\n        <h3>" + el.travelslot.fromCity + " - " + el.travelslot.toCity + "<br></h3>\n        <span>(" + el.travelslot.reviewCount + " De\u011Ferlendirme)<br></span>\n    \n        <span>Kalk\u0131\u015F: " + el.travelslot.travelTime + "</span>\n        <p>\n        \n            " + starBuilder() + "\n        </p>\n        </div>\n        </div>");
+    });
+  } catch (err) {
+    console.log(err);
+  }
 }
 
-var companiesScreen = document.querySelectorAll('.form-group');
+var companiesScreen = document.querySelectorAll(".form-group");
 var companiesScreenArr = Array.from(companiesScreen);
 
 var searchVariables = {
-    minimumPoint: companiesScreenArr[1], //textcontent.trim()
-    pet: companiesScreen[3].getElementsByClassName("box1")[0], //checked
-    threeSeat: companiesScreen[3].getElementsByClassName("box2")[0] //checked
+  minimumPoint: companiesScreenArr[1], //textcontent.trim()
+  pet: companiesScreen[3].getElementsByClassName("box1")[0], //checked
+  threeSeat: companiesScreen[3].getElementsByClassName("box2")[0] //checked
 };
 
 exports.searchVariables = searchVariables;
@@ -1811,22 +1811,22 @@ exports.companiesScreen = companiesScreen;
 exports.travelFilter = travelFilter;
 
 var search_variables = exports.search_variables = function () {
-    function search_variables(minimumPoint, pet, threeSeat) {
-        _classCallCheck(this, search_variables);
+  function search_variables(minimumPoint, pet, threeSeat) {
+    _classCallCheck(this, search_variables);
 
-        this.minimumPoint = minimumPoint;
-        this.pet = pet;
-        this.threeSeat = threeSeat;
+    this.minimumPoint = minimumPoint;
+    this.pet = pet;
+    this.threeSeat = threeSeat;
+  }
+
+  _createClass(search_variables, [{
+    key: "summarize",
+    value: function summarize() {
+      console.log("Minimum Point = " + this.minimumPoint + "\n        Pet = " + this.pet + "\n        Three Seat Bus = " + this.threeSeat);
     }
+  }]);
 
-    _createClass(search_variables, [{
-        key: 'summarize',
-        value: function summarize() {
-            console.log('Minimum Point = ' + this.minimumPoint + '\n        Pet = ' + this.pet + '\n        Three Seat Bus = ' + this.threeSeat);
-        }
-    }]);
-
-    return search_variables;
+  return search_variables;
 }();
 
 /*
