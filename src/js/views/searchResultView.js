@@ -6,37 +6,36 @@ import {
   editComments,
   deleteComments,
   likeComment,
-  dislikeComment
+  dislikeComment,
 } from "../models/searchResultModel";
 const Swal = require("sweetalert2");
 
 const resetFields = () => {
-  
-  if (document.querySelector(`.driver-comment-star`).innerHTML){
-    document.querySelector(`.driver-comment-star`).innerHTML='';
-  };
-  if (document.querySelector(`.pet-comment-star`).innerHTML){
-    document.querySelector(`.pet-comment-star`).innerHTML='';
-  };
-  if (document.querySelector(`.comfort-comment-star`).innerHTML){
-    document.querySelector(`.comfort-comment-star`).innerHTML='';
-  };
-  if (document.querySelector(`.baggage-comment-star`).innerHTML){
-    document.querySelector(`.baggage-comment-star`).innerHTML='';
-  };
-  if (document.querySelector(`.vehicle-comment-star`).innerHTML){
-    document.querySelector(`.vehicle-comment-star`).innerHTML='';
-  };
-  if (document.querySelector(`.break-comment-star`).innerHTML){
-    document.querySelector(`.break-comment-star`).innerHTML='';
-  };
-  if (document.querySelector(`.hostess-comment-star`).innerHTML){
-    document.querySelector(`.hostess-comment-star`).innerHTML='';
-  };
-  if (document.querySelector(`.travel-comment-star`).innerHTML){
-    document.querySelector(`.travel-comment-star`).innerHTML='';
-  };
-  
+  if (document.querySelector(`.driver-comment-star`).innerHTML) {
+    document.querySelector(`.driver-comment-star`).innerHTML = "";
+  }
+  if (document.querySelector(`.pet-comment-star`).innerHTML) {
+    document.querySelector(`.pet-comment-star`).innerHTML = "";
+  }
+  if (document.querySelector(`.comfort-comment-star`).innerHTML) {
+    document.querySelector(`.comfort-comment-star`).innerHTML = "";
+  }
+  if (document.querySelector(`.baggage-comment-star`).innerHTML) {
+    document.querySelector(`.baggage-comment-star`).innerHTML = "";
+  }
+  if (document.querySelector(`.vehicle-comment-star`).innerHTML) {
+    document.querySelector(`.vehicle-comment-star`).innerHTML = "";
+  }
+  if (document.querySelector(`.break-comment-star`).innerHTML) {
+    document.querySelector(`.break-comment-star`).innerHTML = "";
+  }
+  if (document.querySelector(`.hostess-comment-star`).innerHTML) {
+    document.querySelector(`.hostess-comment-star`).innerHTML = "";
+  }
+  if (document.querySelector(`.travel-comment-star`).innerHTML) {
+    document.querySelector(`.travel-comment-star`).innerHTML = "";
+  }
+
   document.getElementById("driver-comment-list").innerHTML = "";
   document.getElementById("hostess-comment-list").innerHTML = "";
   document.getElementById("break-comment-list").innerHTML = "";
@@ -84,7 +83,6 @@ window.editComment = async function (e) {
 };
 
 window.deleteComment = function (e) {
-
   const parentElement = e.parentNode.parentElement;
   console.log(parentElement.children[5].innerText);
   console.log(parentElement.children[6].innerText);
@@ -107,36 +105,31 @@ window.deleteComment = function (e) {
         "Yorumun başarılı bir şekilde kaldırıldı",
         "success"
       );
-      deleteComments(uuid,type);
+      deleteComments(uuid, type);
       resetFields();
-      setTimeout(function(){ getComments(page); }, 3000);
-      
+      setTimeout(function () {
+        getComments(page);
+      }, 3000);
     }
   });
 };
 
-window.addLike =  async (e) => {
-
+window.addLike = async (e) => {
   const parentElement = e.parentNode.parentNode;
   const uuid = parentElement.children[5].innerText;
   const type = parentElement.children[6].innerText;
-  await likeComment(uuid,type);
+  await likeComment(uuid, type);
   resetFields();
   await getComments(page);
-  
-  
 };
 
 window.addDislike = async (e) => {
-
   const parentElement = e.parentNode.parentNode;
   const uuid = parentElement.children[5].innerText;
   const type = parentElement.children[6].innerText;
-  await dislikeComment(uuid,type);
+  await dislikeComment(uuid, type);
   resetFields();
   await getComments(page);
- 
-  
 };
 
 sendButton.addEventListener("click", () => {
@@ -146,23 +139,29 @@ sendButton.addEventListener("click", () => {
 checkReview.addEventListener("click", () => {
   resetFields();
   getComments(page);
-  document.getElementById('current-page').innerHTML = page;
+  document.getElementById("current-page").innerHTML = page;
 });
 
-document.getElementById('increase-page').addEventListener('click', async () => {
-  page++;
+document.getElementById("increase-page").addEventListener("click", async () => {
+  if (page < localStorage.getItem("maxpage")) {
+    page++;
+  }
   await resetFields();
-  setTimeout(() => { getComments(page); }, 500);
-  console.log(page);
-  document.getElementById('current-page').innerHTML = page;
+  setTimeout(() => {
+    getComments(page);
+  }, 500);
+  //console.log(page);
+  setTimeout(() => { document.getElementById("current-page").innerHTML = page; } , 500);
 });
 
-document.getElementById('decrease-page').addEventListener('click', async () => {
+document.getElementById("decrease-page").addEventListener("click", async () => {
   if (page != 1) {
     page--;
   }
   await resetFields();
-  setTimeout(() => { getComments(page); }, 500);
-  console.log(page);
-  document.getElementById('current-page').innerHTML = page;
-})
+  setTimeout(() => {
+    getComments(page);
+  }, 500);
+  
+  setTimeout(() => { document.getElementById("current-page").innerHTML = page; } , 500);
+});

@@ -1745,19 +1745,15 @@ process.umask = function() { return 0; };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.search_variables = exports.travelFilter = exports.companiesScreen = exports.companiesScreenArr = exports.searchVariables = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+exports.travelFilter = undefined;
 
 var _register = require("../register");
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var axios = require("axios").default;
 axios.defaults.withCredentials = true;
 
 
-async function travelFilter() {
+async function travelFilter(page) {
   var config = {
     method: "post",
     url: _register.url + "/api/travelslots/all",
@@ -1768,14 +1764,14 @@ async function travelFilter() {
           fromCity: "" + location.href.split("?")[1].split("%22")[1],
           toCity: "" + location.href.split("?")[1].split("%22")[3] //location.href.split('?')[1].split('%22')[3]
         },
-        pagination: { pageNumber: 1 }
+        pageNumber: page
       }
     }
   };
   try {
     var res = await axios(config);
     var resArr = res.data;
-    console.log(resArr);
+    localStorage.setItem('maxpage', res.headers['x-max-pages']);
 
     resArr.forEach(function (el) {
       //console.log(el.travelslot.isPetAllowed);
@@ -1788,7 +1784,7 @@ async function travelFilter() {
         return output;
       };
       var companyNameWithoutSpace = el.company.title.split(":")[1].replace(/\s+/g, "").toLowerCase();
-      var DOM = document.querySelector(".companies");
+      var DOM = document.getElementById("companies");
       DOM.insertAdjacentHTML("beforeend", "\n        <div class=\"d-block d-md-flex listing-horizontal\">\n        <a href=\"search_result.html?" + el.travelslot.uuid + "?" + el.company.uuid + "\" class=\"img d-block\" style=\"background-image: url('src/images/companies/" + companyNameWithoutSpace + ".png'); object-fit: cover;\">\n        </a>\n        <div class=\"lh-content\">\n  \n        <h3><a class=\"company_names\" href=\"search_result.html?" + el.travelslot.uuid + "?" + el.company.uuid + "\"</a></h3>\n        <!--  <p>\n        <span class=\"icon-star text-warning\"></span>\n        <span class=\"icon-star text-warning\"></span>\n        <span class=\"icon-star text-warning\"></span>\n        <span class=\"icon-star text-warning\"></span>\n        <span class=\"icon-star text-secondary\"></span>\n        <span>(492 De\u011Ferlendirme)</span>\n        </p> -->\n        <p hidden class=\"pet\">" + el.travelslot.isPetAllowed + "</p>\n        <p hidden class=\"threeSeat\">" + el.travelslot.is3Seater + "</p>\n        <h3>" + el.travelslot.fromCity + " - " + el.travelslot.toCity + "<br></h3>\n        <span>(" + el.travelslot.reviewCount + " De\u011Ferlendirme)<br></span>\n    \n        <span>Kalk\u0131\u015F: " + el.travelslot.travelTime + "</span>\n        <p>\n        \n            " + starBuilder() + "\n        </p>\n        </div>\n        </div>");
     });
   } catch (err) {
@@ -1796,38 +1792,7 @@ async function travelFilter() {
   }
 }
 
-var companiesScreen = document.querySelectorAll(".form-group");
-var companiesScreenArr = Array.from(companiesScreen);
-
-var searchVariables = {
-  minimumPoint: companiesScreenArr[1], //textcontent.trim()
-  pet: companiesScreen[3].getElementsByClassName("box1")[0], //checked
-  threeSeat: companiesScreen[3].getElementsByClassName("box2")[0] //checked
-};
-
-exports.searchVariables = searchVariables;
-exports.companiesScreenArr = companiesScreenArr;
-exports.companiesScreen = companiesScreen;
 exports.travelFilter = travelFilter;
-
-var search_variables = exports.search_variables = function () {
-  function search_variables(minimumPoint, pet, threeSeat) {
-    _classCallCheck(this, search_variables);
-
-    this.minimumPoint = minimumPoint;
-    this.pet = pet;
-    this.threeSeat = threeSeat;
-  }
-
-  _createClass(search_variables, [{
-    key: "summarize",
-    value: function summarize() {
-      console.log("Minimum Point = " + this.minimumPoint + "\n        Pet = " + this.pet + "\n        Three Seat Bus = " + this.threeSeat);
-    }
-  }]);
-
-  return search_variables;
-}();
 
 /*
 
@@ -1910,34 +1875,40 @@ exports.registeredSectionPage = registeredSectionPage;
 exports.url = url;
 
 },{"axios":1}],30:[function(require,module,exports){
-'use strict';
+"use strict";
 
-var _searchModel = require('../models/searchModel');
+var _searchModel = require("../models/searchModel");
 
-var _register = require('../register');
+var _register = require("../register");
+
+window.page = 1;
 
 (0, _register.registeredSectionPage)();
-(0, _searchModel.travelFilter)();
+(0, _searchModel.travelFilter)(page);
+document.getElementById("current-page").innerHTML = page;
+
+var resetField = function resetField() {
+  document.getElementById("companies").innerHTML = "";
+};
 
 document.getElementById("pet_checkbox").addEventListener("click", function () {
+  var elements = document.querySelectorAll(".lh-content");
+  var petValue = document.querySelectorAll(".pet");
+  var threeSeatValue = document.querySelectorAll(".threeSeat");
 
-    var elements = document.querySelectorAll('.lh-content');
-    var petValue = document.querySelectorAll('.pet');
-    var threeSeatValue = document.querySelectorAll('.threeSeat');
+  var petFilter = document.getElementById("pet_checkbox").checked;
+  var threeSeatFilter = document.getElementById("3seat_bus").checked;
 
-    var petFilter = document.getElementById("pet_checkbox").checked;
-    var threeSeatFilter = document.getElementById("3seat_bus").checked;
+  petFilter = petFilter.toString();
+  threeSeatFilter = threeSeatFilter.toString();
 
-    petFilter = petFilter.toString();
-    threeSeatFilter = threeSeatFilter.toString();
-
-    for (var i = 0; i < elements.length; i++) {
-        if (petFilter === petValue[i].innerText && threeSeatFilter === threeSeatValue[i].innerText) {
-            elements[i].style.display = "";
-        } else {
-            elements[i].style.display = "none";
-        }
+  for (var i = 0; i < elements.length; i++) {
+    if (petFilter === petValue[i].innerText && threeSeatFilter === threeSeatValue[i].innerText) {
+      elements[i].style.display = "";
+    } else {
+      elements[i].style.display = "none";
     }
+  }
 });
 
 /* pointFilter = () => {
@@ -1953,49 +1924,69 @@ document.getElementById("pet_checkbox").addEventListener("click", function () {
             elements[i].style.display = "none";
         }
     }
-}
- */
+} */
+
 window.urlParser = function () {
+  var departure = location.href.split("?")[1].split("%22")[1];
+  var destination = location.href.split("?")[1].split("%22")[3];
+  var hour = location.href.split("?")[1].split("%22")[5];
+  var minute = location.href.split("?")[1].split("%22")[7];
 
-    var departure = location.href.split('?')[1].split('%22')[1];
-    var destination = location.href.split('?')[1].split('%22')[3];
-    var hour = location.href.split('?')[1].split('%22')[5];
-    var minute = location.href.split('?')[1].split('%22')[7];
-
-    document.getElementById('results_urlparser').textContent = '\n    Kalk\u0131\u015F yeri : ' + departure + ',    \u0130ni\u015F yeri: ' + destination + ' Saat : ' + hour + ':' + minute + ' bilgilerine sahip seferler a\u015Fa\u011F\u0131da listelenmi\u015Ftir..\n    ';
+  document.getElementById("results_urlparser").textContent = "\n    Kalk\u0131\u015F yeri : " + departure + ",    \u0130ni\u015F yeri: " + destination + " Saat : " + hour + ":" + minute + " bilgilerine sahip seferler a\u015Fa\u011F\u0131da listelenmi\u015Ftir..\n    ";
 };
 
 document.getElementById("3seat_bus").addEventListener("click", function () {
+  var elements = document.querySelectorAll(".lh-content");
+  var petValue = document.querySelectorAll(".pet");
+  var threeSeatValue = document.querySelectorAll(".threeSeat");
 
-    var elements = document.querySelectorAll('.lh-content');
-    var petValue = document.querySelectorAll('.pet');
-    var threeSeatValue = document.querySelectorAll('.threeSeat');
+  var petFilter = document.getElementById("pet_checkbox").checked;
+  var threeSeatFilter = document.getElementById("3seat_bus").checked;
 
-    var petFilter = document.getElementById("pet_checkbox").checked;
-    var threeSeatFilter = document.getElementById("3seat_bus").checked;
+  petFilter = petFilter.toString();
+  threeSeatFilter = threeSeatFilter.toString();
 
-    petFilter = petFilter.toString();
-    threeSeatFilter = threeSeatFilter.toString();
-
-    for (var i = 0; i < elements.length; i++) {
-        if (petFilter === petValue[i].innerText && threeSeatFilter === threeSeatValue[i].innerText) {
-            elements[i].style.display = "";
-        } else {
-            elements[i].style.display = "none";
-        }
+  elements.forEach(function (el, ind) {
+    if (petFilter === petValue[ind].innerText && threeSeatFilter === threeSeatValue[ind].innerText) {
+      el.style.display = "";
+    } else {
+      el.style.display = "none";
     }
+  });
 });
 
 document.getElementById("reset_button").addEventListener("click", function () {
+  var elements = document.querySelectorAll(".lh-content");
+  //let companies = document.querySelectorAll('.company_names');
+  elements.forEach(function (el) {
+    el.style.display = "";
+  });
 
-    var elements = document.querySelectorAll('.lh-content');
-    //let companies = document.querySelectorAll('.company_names');
-    elements.forEach(function (el) {
-        el.style.display = '';
-    });
+  document.getElementById("pet_checkbox").checked = false;
+  document.getElementById("3seat_bus").checked = false;
+});
 
-    document.getElementById('pet_checkbox').checked = false;
-    document.getElementById('3seat_bus').checked = false;
+document.getElementById("decrease-page").addEventListener("click", function () {
+  if (page > 1) {
+    page--;
+  }
+  resetField();
+  (0, _searchModel.travelFilter)(page);
+  setTimeout(function () {
+    document.getElementById("current-page").innerHTML = page;
+  }, 500);
+});
+
+document.getElementById("increase-page").addEventListener("click", function () {
+  if (page < localStorage.getItem('maxpage')) {
+    page++;
+  }
+
+  resetField();
+  (0, _searchModel.travelFilter)(page);
+  setTimeout(function () {
+    document.getElementById("current-page").innerHTML = page;
+  }, 500);
 });
 
 },{"../models/searchModel":28,"../register":29}]},{},[30]);

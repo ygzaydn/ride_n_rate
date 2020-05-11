@@ -5036,8 +5036,9 @@ var getComments = async function getComments(page) {
   if (token) config.headers = { Authorization: "Bearer " + token };
   var result = await axios(config);
   var resData = result.data;
+  localStorage.setItem('maxpage', result.headers['x-max-pages']);
   console.log(resData);
-  console.log(result);
+  //console.log(result);
 
   var counterData = {
     driver: {
@@ -5489,31 +5490,30 @@ var _searchResultModel = require("../models/searchResultModel");
 var Swal = require("sweetalert2");
 
 var resetFields = function resetFields() {
-
   if (document.querySelector(".driver-comment-star").innerHTML) {
-    document.querySelector(".driver-comment-star").innerHTML = '';
-  };
+    document.querySelector(".driver-comment-star").innerHTML = "";
+  }
   if (document.querySelector(".pet-comment-star").innerHTML) {
-    document.querySelector(".pet-comment-star").innerHTML = '';
-  };
+    document.querySelector(".pet-comment-star").innerHTML = "";
+  }
   if (document.querySelector(".comfort-comment-star").innerHTML) {
-    document.querySelector(".comfort-comment-star").innerHTML = '';
-  };
+    document.querySelector(".comfort-comment-star").innerHTML = "";
+  }
   if (document.querySelector(".baggage-comment-star").innerHTML) {
-    document.querySelector(".baggage-comment-star").innerHTML = '';
-  };
+    document.querySelector(".baggage-comment-star").innerHTML = "";
+  }
   if (document.querySelector(".vehicle-comment-star").innerHTML) {
-    document.querySelector(".vehicle-comment-star").innerHTML = '';
-  };
+    document.querySelector(".vehicle-comment-star").innerHTML = "";
+  }
   if (document.querySelector(".break-comment-star").innerHTML) {
-    document.querySelector(".break-comment-star").innerHTML = '';
-  };
+    document.querySelector(".break-comment-star").innerHTML = "";
+  }
   if (document.querySelector(".hostess-comment-star").innerHTML) {
-    document.querySelector(".hostess-comment-star").innerHTML = '';
-  };
+    document.querySelector(".hostess-comment-star").innerHTML = "";
+  }
   if (document.querySelector(".travel-comment-star").innerHTML) {
-    document.querySelector(".travel-comment-star").innerHTML = '';
-  };
+    document.querySelector(".travel-comment-star").innerHTML = "";
+  }
 
   document.getElementById("driver-comment-list").innerHTML = "";
   document.getElementById("hostess-comment-list").innerHTML = "";
@@ -5563,7 +5563,6 @@ window.editComment = async function (e) {
 };
 
 window.deleteComment = function (e) {
-
   var parentElement = e.parentNode.parentElement;
   console.log(parentElement.children[5].innerText);
   console.log(parentElement.children[6].innerText);
@@ -5592,7 +5591,6 @@ window.deleteComment = function (e) {
 };
 
 window.addLike = async function (e) {
-
   var parentElement = e.parentNode.parentNode;
   var uuid = parentElement.children[5].innerText;
   var type = parentElement.children[6].innerText;
@@ -5602,7 +5600,6 @@ window.addLike = async function (e) {
 };
 
 window.addDislike = async function (e) {
-
   var parentElement = e.parentNode.parentNode;
   var uuid = parentElement.children[5].innerText;
   var type = parentElement.children[6].innerText;
@@ -5618,20 +5615,24 @@ sendButton.addEventListener("click", function () {
 checkReview.addEventListener("click", function () {
   resetFields();
   (0, _searchResultModel.getComments)(page);
-  document.getElementById('current-page').innerHTML = page;
+  document.getElementById("current-page").innerHTML = page;
 });
 
-document.getElementById('increase-page').addEventListener('click', async function () {
-  page++;
+document.getElementById("increase-page").addEventListener("click", async function () {
+  if (page < localStorage.getItem("maxpage")) {
+    page++;
+  }
   await resetFields();
   setTimeout(function () {
     (0, _searchResultModel.getComments)(page);
   }, 500);
-  console.log(page);
-  document.getElementById('current-page').innerHTML = page;
+  //console.log(page);
+  setTimeout(function () {
+    document.getElementById("current-page").innerHTML = page;
+  }, 500);
 });
 
-document.getElementById('decrease-page').addEventListener('click', async function () {
+document.getElementById("decrease-page").addEventListener("click", async function () {
   if (page != 1) {
     page--;
   }
@@ -5639,8 +5640,10 @@ document.getElementById('decrease-page').addEventListener('click', async functio
   setTimeout(function () {
     (0, _searchResultModel.getComments)(page);
   }, 500);
-  console.log(page);
-  document.getElementById('current-page').innerHTML = page;
+
+  setTimeout(function () {
+    document.getElementById("current-page").innerHTML = page;
+  }, 500);
 });
 
 },{"../models/searchResultModel":29,"../register":30,"sweetalert2":28}]},{},[31]);

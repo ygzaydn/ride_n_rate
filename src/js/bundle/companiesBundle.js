@@ -1745,13 +1745,9 @@ process.umask = function() { return 0; };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.search_variables = exports.companyFilter = exports.companySearch = exports.searchVariables = exports.companiesScreenArr = exports.companiesScreen = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+exports.companyFilter = exports.companySearch = exports.companiesScreenArr = exports.companiesScreen = undefined;
 
 var _register = require("../register");
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var axios = require("axios").default;
 axios.defaults.withCredentials = true;
@@ -1784,6 +1780,7 @@ async function companySearch(page) {
 
   var result = await axios(config);
   var resultData = result.data;
+  localStorage.setItem('maxpage', result.headers['x-max-pages']);
 
   //console.log(resultData);
 
@@ -1817,105 +1814,58 @@ async function filterBuilder(page) {
       }
     }
   };
-  var points = [];
+
   var threeSeatSupport = [];
   var petSupport = [];
   var result = await axios(config);
   var resultData = result.data;
+  //console.log(resultData);
 
   resultData.forEach(function (el) {
     var title = el.title;
     var parsedTitle = title.substring(7);
-    points.push(parsedTitle + "-" + el.averateRating);
+
     threeSeatSupport.push(parsedTitle + "-" + el.information.is3Seater);
     petSupport.push(parsedTitle + "-" + el.information.petAllowed);
   });
 
-  return { points: points, threeSeatSupport: threeSeatSupport, petSupport: petSupport };
+  return { threeSeatSupport: threeSeatSupport, petSupport: petSupport };
 }
 
 async function companyFilter(page) {
-  var pointsArr = await (await filterBuilder(page)).points;
   var petValuesArr = await (await filterBuilder(page)).petSupport;
   var threeSeatSupportArr = await (await filterBuilder(page)).threeSeatSupport;
 
-  var point = document.getElementById("star_slide").value;
   var filterPet = document.getElementById("pet_checkbox").checked;
   var filterThree = document.getElementById("3seat_bus").checked;
-  var length = document.querySelectorAll(".threeseat").length;
   var elements = document.querySelectorAll(".lh-content");
   filterPet = filterPet.toString();
   filterThree = filterThree.toString();
 
-  var companies = [];
-  var companyPoint = [];
-  var valuePoint = [];
-  var companyPet = [];
   var valuePet = [];
-  var companyThree = [];
   var valueThree = [];
 
-  for (var i = 0; i < length; i++) {
-    companies[i] = elements[i].innerHTML.split('">')[1].split("</")[0];
-  }
-  for (var _i = 0; _i < petValuesArr.length; _i++) {
-    companyPet[_i] = petValuesArr[_i].split("-")[0];
-    valuePet[_i] = petValuesArr[_i].split("-")[1];
-    companyThree[_i] = threeSeatSupportArr[_i].split("-")[0];
-    valueThree[_i] = threeSeatSupportArr[_i].split("-")[1];
-    companyPoint[_i] = pointsArr[_i].split("-")[0];
-    valuePoint[_i] = pointsArr[_i].split("-")[1];
-  }
+  petValuesArr.forEach(function (el, ind) {
+    valuePet[ind] = el.split("-")[1];
+  });
 
-  //console.log(companies);
+  threeSeatSupportArr.forEach(function (el, ind) {
+    valueThree[ind] = el.split("-")[1];
+  });
 
-  for (var _i2 = 0; _i2 < length; _i2++) {
-    if (companies[_i2] === companyPet[_i2] && companies[_i2] === companyThree[_i2] && companies[_i2] === companyPoint[_i2]) {
-      if (filterPet === valuePet[_i2] && filterThree === valueThree[_i2] && valuePoint[_i2] >= point) {
-        elements[_i2].style.display = "";
-      } else {
-        elements[_i2].style.display = "none";
-      }
+  elements.forEach(function (el, ind) {
+    if (filterPet === valuePet[ind] && filterThree === valueThree[ind]) {
+      el.style.display = "";
+    } else {
+      el.style.display = "none";
     }
-  }
+  });
 }
-
-var searchVariables = {
-  companyName: companiesScreenArr[0].getElementsByClassName("form-control")[0], //value
-  departure: companiesScreenArr[1].getElementsByClassName("form-control")[0],
-  destination: companiesScreenArr[2].getElementsByClassName("form-control")[0],
-  minimumPoint: companiesScreenArr[4], //textcontent.trim()
-  pet: companiesScreen[6].getElementsByClassName("box1")[0], //checked
-  threeSeat: companiesScreen[6].getElementsByClassName("box2")[0] //checked
-};
 
 exports.companiesScreen = companiesScreen;
 exports.companiesScreenArr = companiesScreenArr;
-exports.searchVariables = searchVariables;
 exports.companySearch = companySearch;
 exports.companyFilter = companyFilter;
-
-var search_variables = exports.search_variables = function () {
-  function search_variables(companyName, departure, destination, minimumPoint, pet, threeSeat) {
-    _classCallCheck(this, search_variables);
-
-    this.companyName = companyName;
-    this.departure = departure;
-    this.destination = destination;
-    this.minimumPoint = minimumPoint;
-    this.pet = pet;
-    this.threeSeat = threeSeat;
-  }
-
-  _createClass(search_variables, [{
-    key: "summarize",
-    value: function summarize() {
-      console.log("Company Name = " + this.companyName + "\n        Departure = " + this.departure + "\n        Destination = " + this.destination + "\n        Minimum Point = " + this.minimumPoint + "\n        Pet = " + this.pet + "\n        Three Seat Bus = " + this.threeSeat);
-    }
-  }]);
-
-  return search_variables;
-}();
 
 },{"../register":29,"axios":1}],29:[function(require,module,exports){
 "use strict";
@@ -1983,10 +1933,10 @@ window.page = 1;
 
 (0, _register.registeredSectionPage)();
 (0, _companiesModel.companySearch)(page);
-document.getElementById('current-page').innerHTML = page;
+document.getElementById("current-page").innerHTML = page;
 
 var resetField = function resetField() {
-  document.getElementById('companies').innerHTML = '';
+  document.getElementById("companies").innerHTML = "";
 };
 
 /*document.getElementById("list_button").addEventListener("click", () => {
@@ -2021,11 +1971,11 @@ document.getElementById("reset_button").addEventListener("click", function () {
   document.getElementById("3seat_bus").checked = false;
 });
 
-window.pointFilter = function () {
-  (0, _companiesModel.companyFilter)(page);
-};
+/*window.pointFilter = function () {
+  companyFilter(page);
+};*/
 
-function companyNameFilter() {
+var companyNameFilter = function companyNameFilter() {
   var searchText = document.querySelector("#company_name_text");
   var filter = searchText.value.toUpperCase();
   var companies = document.querySelectorAll(".company_names");
@@ -2039,9 +1989,9 @@ function companyNameFilter() {
       elements[i].style.display = "none";
     }
   }
-}
+};
 
-function departureFilter() {
+var departureFilter = function departureFilter() {
   var searchText = document.querySelector("#departure_place_text");
   var filter = searchText.value.toUpperCase();
   var fromCities = document.querySelectorAll(".cities-from");
@@ -2056,7 +2006,7 @@ function departureFilter() {
       elements[i].style.display = "none";
     }
   }
-}
+};
 
 function destinationFilter() {
   var searchText = document.querySelector("#arrival_place_text");
@@ -2081,20 +2031,26 @@ document.getElementById("arrival_place_text").addEventListener("keyup", destinat
 
 document.getElementById("departure_place_text").addEventListener("keyup", departureFilter);
 
-document.getElementById('decrease-page').addEventListener('click', function () {
+document.getElementById("decrease-page").addEventListener("click", function () {
   if (page > 1) {
     page--;
   }
   resetField();
   (0, _companiesModel.companySearch)(page);
-  document.getElementById('current-page').innerHTML = page;
+  setTimeout(function () {
+    document.getElementById("current-page").innerHTML = page;
+  }, 500);
 });
 
-document.getElementById('increase-page').addEventListener('click', function () {
-  page++;
+document.getElementById("increase-page").addEventListener("click", function () {
+  if (page < localStorage.getItem("maxpage")) {
+    page++;
+  }
   resetField();
   (0, _companiesModel.companySearch)(page);
-  document.getElementById('current-page').innerHTML = page;
+  setTimeout(function () {
+    document.getElementById("current-page").innerHTML = page;
+  }, 500);
 });
 
 },{"../models/companiesModel":28,"../register":29}]},{},[30]);

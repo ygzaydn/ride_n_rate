@@ -22,13 +22,14 @@ async function companySearch(page) {
     url: `${url}/api/companies/all`,
     data: {
       filters: {
-        pageNumber: page
-      }
-    }
+        pageNumber: page,
+      },
+    },
   };
 
   let result = await axios(config);
   let resultData = result.data;
+  localStorage.setItem('maxpage',(result.headers['x-max-pages']));
 
   //console.log(resultData);
 
@@ -79,120 +80,57 @@ async function filterBuilder(page) {
     url: `${url}/api/companies/all`,
     data: {
       filters: {
-        pageNumber: page
-      }
-    }
+        pageNumber: page,
+      },
+    },
   };
-  const points = [];
+
   const threeSeatSupport = [];
   const petSupport = [];
   let result = await axios(config);
   let resultData = result.data;
+  //console.log(resultData);
 
   resultData.forEach((el) => {
     let title = el.title;
     let parsedTitle = title.substring(7);
-    points.push(`${parsedTitle}-${el.averateRating}`);
+
     threeSeatSupport.push(`${parsedTitle}-${el.information.is3Seater}`);
     petSupport.push(`${parsedTitle}-${el.information.petAllowed}`);
   });
 
-  return { points, threeSeatSupport, petSupport };
+  return { threeSeatSupport, petSupport };
 }
 
 async function companyFilter(page) {
-  const pointsArr = await (await filterBuilder(page)).points;
   const petValuesArr = await (await filterBuilder(page)).petSupport;
-  const threeSeatSupportArr = await (await filterBuilder(page)).threeSeatSupport;
+  const threeSeatSupportArr = await (await filterBuilder(page))
+    .threeSeatSupport;
 
-  let point = document.getElementById("star_slide").value;
   let filterPet = document.getElementById("pet_checkbox").checked;
   let filterThree = document.getElementById("3seat_bus").checked;
-  let length = document.querySelectorAll(".threeseat").length;
   let elements = document.querySelectorAll(".lh-content");
   filterPet = filterPet.toString();
   filterThree = filterThree.toString();
 
-  const companies = [];
-  const companyPoint = [];
-  const valuePoint = [];
-  const companyPet = [];
   const valuePet = [];
-  const companyThree = [];
   const valueThree = [];
 
-  for (let i = 0; i < length; i++) {
-    companies[i] = elements[i].innerHTML.split('">')[1].split("</")[0];
-  }
-  for (let i = 0; i < petValuesArr.length; i++) {
-    companyPet[i] = petValuesArr[i].split("-")[0];
-    valuePet[i] = petValuesArr[i].split("-")[1];
-    companyThree[i] = threeSeatSupportArr[i].split("-")[0];
-    valueThree[i] = threeSeatSupportArr[i].split("-")[1];
-    companyPoint[i] = pointsArr[i].split("-")[0];
-    valuePoint[i] = pointsArr[i].split("-")[1];
-  }
+  petValuesArr.forEach((el, ind) => {
+    valuePet[ind] = el.split("-")[1];
+  });
 
-  //console.log(companies);
+  threeSeatSupportArr.forEach((el, ind) => {
+    valueThree[ind] = el.split("-")[1];
+  });
 
-  for (let i = 0; i < length; i++) {
-    if (
-      companies[i] === companyPet[i] &&
-      companies[i] === companyThree[i] &&
-      companies[i] === companyPoint[i]
-    ) {
-      if (
-        filterPet === valuePet[i] &&
-        filterThree === valueThree[i] &&
-        valuePoint[i] >= point
-      ) {
-        elements[i].style.display = "";
-      } else {
-        elements[i].style.display = "none";
-      }
+  elements.forEach((el, ind) => {
+    if (filterPet === valuePet[ind] && filterThree === valueThree[ind]) {
+      el.style.display = "";
+    } else {
+      el.style.display = "none";
     }
-  }
+  });
 }
 
-let searchVariables = {
-  companyName: companiesScreenArr[0].getElementsByClassName("form-control")[0], //value
-  departure: companiesScreenArr[1].getElementsByClassName("form-control")[0],
-  destination: companiesScreenArr[2].getElementsByClassName("form-control")[0],
-  minimumPoint: companiesScreenArr[4], //textcontent.trim()
-  pet: companiesScreen[6].getElementsByClassName("box1")[0], //checked
-  threeSeat: companiesScreen[6].getElementsByClassName("box2")[0], //checked
-};
-
-export {
-  companiesScreen,
-  companiesScreenArr,
-  searchVariables,
-  companySearch,
-  companyFilter
-};
-export class search_variables {
-  constructor(
-    companyName,
-    departure,
-    destination,
-    minimumPoint,
-    pet,
-    threeSeat
-  ) {
-    this.companyName = companyName;
-    this.departure = departure;
-    this.destination = destination;
-    this.minimumPoint = minimumPoint;
-    this.pet = pet;
-    this.threeSeat = threeSeat;
-  }
-
-  summarize() {
-    console.log(`Company Name = ${this.companyName}
-        Departure = ${this.departure}
-        Destination = ${this.destination}
-        Minimum Point = ${this.minimumPoint}
-        Pet = ${this.pet}
-        Three Seat Bus = ${this.threeSeat}`);
-  }
-}
+export { companiesScreen, companiesScreenArr, companySearch, companyFilter };

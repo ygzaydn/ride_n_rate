@@ -2,7 +2,7 @@ const axios = require("axios").default;
 axios.defaults.withCredentials = true;
 import { url } from "../register";
 
-async function travelFilter() {
+async function travelFilter(page) {
   const config = {
     method: "post",
     url: `${url}/api/travelslots/all`,
@@ -13,14 +13,15 @@ async function travelFilter() {
           fromCity: `${location.href.split("?")[1].split("%22")[1]}`,
           toCity: `${location.href.split("?")[1].split("%22")[3]}`, //location.href.split('?')[1].split('%22')[3]
         },
-        pagination: { pageNumber: 1 },
+        pageNumber: page,
       },
     },
   };
   try {
     let res = await axios(config);
     let resArr = res.data;
-    console.log(resArr);
+    localStorage.setItem('maxpage',(res.headers['x-max-pages']));
+    
 
     resArr.forEach((el) => {
       //console.log(el.travelslot.isPetAllowed);
@@ -36,7 +37,7 @@ async function travelFilter() {
         .split(":")[1]
         .replace(/\s+/g, "")
         .toLowerCase();
-      const DOM = document.querySelector(".companies");
+      const DOM = document.getElementById("companies");
       DOM.insertAdjacentHTML(
         "beforeend",
         `
@@ -77,29 +78,7 @@ async function travelFilter() {
   }
 }
 
-const companiesScreen = document.querySelectorAll(".form-group");
-const companiesScreenArr = Array.from(companiesScreen);
-
-let searchVariables = {
-  minimumPoint: companiesScreenArr[1], //textcontent.trim()
-  pet: companiesScreen[3].getElementsByClassName("box1")[0], //checked
-  threeSeat: companiesScreen[3].getElementsByClassName("box2")[0], //checked
-};
-
-export { searchVariables, companiesScreenArr, companiesScreen, travelFilter };
-export class search_variables {
-  constructor(minimumPoint, pet, threeSeat) {
-    this.minimumPoint = minimumPoint;
-    this.pet = pet;
-    this.threeSeat = threeSeat;
-  }
-
-  summarize() {
-    console.log(`Minimum Point = ${this.minimumPoint}
-        Pet = ${this.pet}
-        Three Seat Bus = ${this.threeSeat}`);
-  }
-}
+export { travelFilter };
 
 /*
 

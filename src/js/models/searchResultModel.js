@@ -185,8 +185,9 @@ const getComments = async (page) => {
   if (token) config.headers = { Authorization: `Bearer ${token}` };
   const result = await axios(config);
   const resData = result.data;
+  localStorage.setItem('maxpage',(result.headers['x-max-pages']));
   console.log(resData);
-  console.log(result);
+  //console.log(result);
 
   let counterData = {
     driver: {
