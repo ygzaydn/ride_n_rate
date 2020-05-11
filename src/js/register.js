@@ -36,10 +36,11 @@ async function registeredSectionPage() {
         evaluateTravel.style.display = "";
       }
 
+
       if (location.href.includes("/companydetail.html")) {
         document.getElementById("comment-box").style.display='';
-       
       }
+      
     }
   } catch (err) {
     console.log(err);

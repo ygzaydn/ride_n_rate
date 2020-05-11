@@ -78,22 +78,27 @@ const getTime = () => {
   return fullDate;
 };
 
-const getComments = async () => {
+const getComments = async (page) => {
   const uuid = location.href.split(".html?")[1];
   const config = {
     url: `${url}/api/companies/comment/all`,
     method: "post",
     data: {
       filters: {
-        companyUUID: uuid,
+        query : {
+          companyUUID: uuid,
+        },
+        pageNumber : page
       },
     },
   };
   const token = localStorage.getItem("token");
   if (token) config.headers = { Authorization: `Bearer ${token}` };
+  
 
   try {
     const result = await axios(config);
+    localStorage.setItem('maxpage',(result.headers['x-max-pages']));
 
     const resultData = result.data;
     console.log(resultData);
@@ -105,8 +110,8 @@ const getComments = async () => {
         canEdit = null;
       }
       section.insertAdjacentHTML(
-        "beforeend",`
-        <li class="comment">
+        "afterbegin",`
+        <li class="comment" style="position:static !important" >
         <div class="vcard bio">
         <img src="src/images/comment_vcard.jpg" alt="Image">
         </div>
@@ -123,6 +128,9 @@ const getComments = async () => {
     });
   } catch (err) {
     console.log(err);
+  }
+  if (document.querySelector('.comment-list').innerText != ""){
+    document.getElementById('arrows').style.display = ''
   }
 };
 

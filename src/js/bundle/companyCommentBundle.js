@@ -4930,14 +4930,17 @@ var getTime = function getTime() {
   return fullDate;
 };
 
-var getComments = async function getComments() {
+var getComments = async function getComments(page) {
   var uuid = location.href.split(".html?")[1];
   var config = {
     url: _register.url + "/api/companies/comment/all",
     method: "post",
     data: {
       filters: {
-        companyUUID: uuid
+        query: {
+          companyUUID: uuid
+        },
+        pageNumber: page
       }
     }
   };
@@ -4946,6 +4949,7 @@ var getComments = async function getComments() {
 
   try {
     var result = await axios(config);
+    localStorage.setItem('maxpage', result.headers['x-max-pages']);
 
     var resultData = result.data;
     console.log(resultData);
@@ -4956,10 +4960,13 @@ var getComments = async function getComments() {
       if (el.canUserEdit === true) {
         canEdit = null;
       }
-      section.insertAdjacentHTML("beforeend", "\n        <li class=\"comment\">\n        <div class=\"vcard bio\">\n        <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <p>" + el.comment + "</p>\n          <p " + canEdit + "><a onclick=\"editComment(this)\" class=\"edit\">Edit</a> \n          <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n          <p hidden>" + el.uuid + "</p>\n        </div>\n      </li>\n       ");
+      section.insertAdjacentHTML("afterbegin", "\n        <li class=\"comment\" style=\"position:static !important\" >\n        <div class=\"vcard bio\">\n        <img src=\"src/images/comment_vcard.jpg\" alt=\"Image\">\n        </div>\n        <div class=\"comment-body\">\n          <h3>" + el.user.userName + "</h3>\n          <p>" + el.comment + "</p>\n          <p " + canEdit + "><a onclick=\"editComment(this)\" class=\"edit\">Edit</a> \n          <a onclick=\"deleteComment(this)\" class=\"delete\">Delete</a></p>\n          <p hidden>" + el.uuid + "</p>\n        </div>\n      </li>\n       ");
     });
   } catch (err) {
     console.log(err);
+  }
+  if (document.querySelector('.comment-list').innerText != "") {
+    document.getElementById('arrows').style.display = '';
   }
 };
 
@@ -5130,11 +5137,19 @@ var _sweetalert2 = _interopRequireDefault(_sweetalert);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+window.page = 1;
+
 (0, _register.registeredSectionPage)();
 (0, _companyCommentModel.getTime)();
 (0, _companyCommentModel.companySearchDetailed)();
 (0, _companyCommentModel.cityFilterBuilder)(_companyCommentModel.companyID);
-(0, _companyCommentModel.getComments)();
+(0, _companyCommentModel.getComments)(page);
+
+document.getElementById("current-page").innerHTML = page;
+
+if (document.querySelector('.comment-list').innerText != "") {
+  document.getElementById('arrows').style.display = '';
+}
 
 var resetField = function resetField() {
   document.querySelector(".comment-list").innerHTML = "";
@@ -5160,7 +5175,7 @@ window.editComment = async function (e) {
     (0, _companyCommentModel.editComment)(text, uuid);
     resetField();
     setTimeout(function () {
-      (0, _companyCommentModel.getComments)();
+      (0, _companyCommentModel.getComments)(page);
     }, 500);
   }
 };
@@ -5184,7 +5199,7 @@ window.deleteComment = async function (e) {
       (0, _companyCommentModel.deleteComment)(uuid);
       resetField();
       setTimeout(function () {
-        (0, _companyCommentModel.getComments)();
+        (0, _companyCommentModel.getComments)(page);
       }, 500);
     }
   });
@@ -5195,16 +5210,30 @@ document.getElementById("post_comment").addEventListener("click", function () {
   (0, _companyCommentModel.createComment)(comment);
   resetField();
   setTimeout(function () {
-    (0, _companyCommentModel.getComments)();
+    (0, _companyCommentModel.getComments)(page);
   }, 500);
 });
 
-// Get instance of localstorage key/value
-var saved = localStorage.getItem("commentListing");
+document.getElementById("decrease-page").addEventListener("click", function () {
+  if (page > 1) {
+    page--;
+  }
+  resetField();
+  (0, _companyCommentModel.getComments)(page);
+  setTimeout(function () {
+    document.getElementById("current-page").innerHTML = page;
+  }, 500);
+});
 
-// Check if it exists and if so set HTML to value
-if (saved) {
-  _companyCommentModel.commentList.innerHTML = saved;
-}
+document.getElementById("increase-page").addEventListener("click", function () {
+  if (page < localStorage.getItem("maxpage")) {
+    page++;
+  }
+  resetField();
+  (0, _companyCommentModel.getComments)(page);
+  setTimeout(function () {
+    document.getElementById("current-page").innerHTML = page;
+  }, 500);
+});
 
 },{"../models/companyCommentModel":29,"../register":30,"sweetalert2":28}]},{},[31]);

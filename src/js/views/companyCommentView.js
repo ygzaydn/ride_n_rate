@@ -15,11 +15,22 @@ import { registeredSectionPage } from "../register";
 
 import Swal from "sweetalert2";
 
+window.page = 1;
+
 registeredSectionPage();
 getTime();
 companySearchDetailed();
 cityFilterBuilder(companyID);
-getComments();
+getComments(page);
+
+
+document.getElementById("current-page").innerHTML = page;
+
+if (document.querySelector('.comment-list').innerText != ""){
+  document.getElementById('arrows').style.display = ''
+}
+
+
 
 const resetField = () => {
   document.querySelector(".comment-list").innerHTML = "";
@@ -44,7 +55,7 @@ window.editComment = async function (e) {
     editComment(text, uuid);
     resetField();
     setTimeout(() => {
-      getComments();
+      getComments(page);
     }, 500);
   }
 };
@@ -71,7 +82,7 @@ window.deleteComment = async function (e) {
       );
       deleteComment(uuid)
       resetField();
-      setTimeout(function(){ getComments(); }, 500);
+      setTimeout(function(){ getComments(page); }, 500);
       
     }
   });
@@ -85,14 +96,25 @@ document.getElementById("post_comment").addEventListener("click", () => {
   createComment(comment);
   resetField();
   setTimeout(() => {
-    getComments();
+    getComments(page);
   }, 500);
 });
 
-// Get instance of localstorage key/value
-const saved = localStorage.getItem("commentListing");
 
-// Check if it exists and if so set HTML to value
-if (saved) {
-  commentList.innerHTML = saved;
-}
+document.getElementById("decrease-page").addEventListener("click", () => {
+  if (page > 1) {
+    page--;
+  }
+  resetField();
+  getComments(page);
+  setTimeout(() => { document.getElementById("current-page").innerHTML = page; } , 500);
+});
+
+document.getElementById("increase-page").addEventListener("click", () => {
+  if (page < localStorage.getItem("maxpage")) {
+    page++;
+  }
+  resetField();
+  getComments(page);
+  setTimeout(() => { document.getElementById("current-page").innerHTML = page; } , 500);
+});
