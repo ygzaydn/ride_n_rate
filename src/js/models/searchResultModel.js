@@ -186,6 +186,7 @@ const getComments = async (page) => {
   const result = await axios(config);
   const resData = result.data;
   console.log(resData);
+  console.log(result);
 
   let counterData = {
     driver: {

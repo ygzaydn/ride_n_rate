@@ -5037,6 +5037,7 @@ var getComments = async function getComments(page) {
   var result = await axios(config);
   var resData = result.data;
   console.log(resData);
+  console.log(result);
 
   var counterData = {
     driver: {
@@ -5617,6 +5618,7 @@ sendButton.addEventListener("click", function () {
 checkReview.addEventListener("click", function () {
   resetFields();
   (0, _searchResultModel.getComments)(page);
+  document.getElementById('current-page').innerHTML = page;
 });
 
 document.getElementById('increase-page').addEventListener('click', async function () {
@@ -5626,6 +5628,7 @@ document.getElementById('increase-page').addEventListener('click', async functio
     (0, _searchResultModel.getComments)(page);
   }, 500);
   console.log(page);
+  document.getElementById('current-page').innerHTML = page;
 });
 
 document.getElementById('decrease-page').addEventListener('click', async function () {
@@ -5637,6 +5640,7 @@ document.getElementById('decrease-page').addEventListener('click', async functio
     (0, _searchResultModel.getComments)(page);
   }, 500);
   console.log(page);
+  document.getElementById('current-page').innerHTML = page;
 });
 
 },{"../models/searchResultModel":29,"../register":30,"sweetalert2":28}]},{},[31]);

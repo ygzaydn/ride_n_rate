@@ -146,6 +146,7 @@ sendButton.addEventListener("click", () => {
 checkReview.addEventListener("click", () => {
   resetFields();
   getComments(page);
+  document.getElementById('current-page').innerHTML = page;
 });
 
 document.getElementById('increase-page').addEventListener('click', async () => {
@@ -153,6 +154,7 @@ document.getElementById('increase-page').addEventListener('click', async () => {
   await resetFields();
   setTimeout(() => { getComments(page); }, 500);
   console.log(page);
+  document.getElementById('current-page').innerHTML = page;
 });
 
 document.getElementById('decrease-page').addEventListener('click', async () => {
@@ -162,4 +164,5 @@ document.getElementById('decrease-page').addEventListener('click', async () => {
   await resetFields();
   setTimeout(() => { getComments(page); }, 500);
   console.log(page);
+  document.getElementById('current-page').innerHTML = page;
 })
