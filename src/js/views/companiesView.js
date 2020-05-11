@@ -7,10 +7,17 @@ import {
 
 import { registeredSectionPage } from "../register";
 
-registeredSectionPage();
-companySearch();
+window.page = 1;
 
-document.getElementById("list_button").addEventListener("click", () => {
+registeredSectionPage();
+companySearch(page);
+document.getElementById('current-page').innerHTML = page;
+
+const resetField = () => {
+  document.getElementById('companies').innerHTML = ''
+}
+
+/*document.getElementById("list_button").addEventListener("click", () => {
   const userFilter = new search_variables(
     searchVariables.companyName.value,
     searchVariables.departure.value,
@@ -21,14 +28,14 @@ document.getElementById("list_button").addEventListener("click", () => {
   );
 
   userFilter.summarize();
-});
+});*/
 
 document.getElementById("pet_checkbox").addEventListener("click", () => {
-  companyFilter();
+  companyFilter(page);
 });
 
 document.getElementById("3seat_bus").addEventListener("click", () => {
-  companyFilter();
+  companyFilter(page);
 });
 
 document.getElementById("reset_button").addEventListener("click", () => {
@@ -43,7 +50,7 @@ document.getElementById("reset_button").addEventListener("click", () => {
 });
 
 window.pointFilter = function () {
-  companyFilter();
+  companyFilter(page);
 };
 
 function companyNameFilter() {
@@ -107,3 +114,19 @@ document
 document
   .getElementById("departure_place_text")
   .addEventListener("keyup", departureFilter);
+
+document.getElementById('decrease-page').addEventListener('click', () => {
+  if (page > 1) {
+    page--
+  }
+  resetField()
+  companySearch(page);
+  document.getElementById('current-page').innerHTML = page;
+})
+
+document.getElementById('increase-page').addEventListener('click', () => {
+  page++;
+  resetField()
+  companySearch(page);
+  document.getElementById('current-page').innerHTML = page;
+})

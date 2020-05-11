@@ -1771,14 +1771,13 @@ var companyCitiesBuilder = async function companyCitiesBuilder(uuid) {
   return { resultData: resultData };
 };
 
-async function companySearch() {
+async function companySearch(page) {
   var config = {
     method: "post",
     url: _register.url + "/api/companies/all",
     data: {
       filters: {
-        pageNumber: 1,
-        query: {}
+        pageNumber: page
       }
     }
   };
@@ -1808,10 +1807,15 @@ async function companySearch() {
   });
 }
 
-async function filterBuilder() {
+async function filterBuilder(page) {
   var config = {
     method: "post",
-    url: _register.url + "/api/companies/all"
+    url: _register.url + "/api/companies/all",
+    data: {
+      filters: {
+        pageNumber: page
+      }
+    }
   };
   var points = [];
   var threeSeatSupport = [];
@@ -1830,10 +1834,10 @@ async function filterBuilder() {
   return { points: points, threeSeatSupport: threeSeatSupport, petSupport: petSupport };
 }
 
-async function companyFilter() {
-  var pointsArr = await (await filterBuilder()).points;
-  var petValuesArr = await (await filterBuilder()).petSupport;
-  var threeSeatSupportArr = await (await filterBuilder()).threeSeatSupport;
+async function companyFilter(page) {
+  var pointsArr = await (await filterBuilder(page)).points;
+  var petValuesArr = await (await filterBuilder(page)).petSupport;
+  var threeSeatSupportArr = await (await filterBuilder(page)).threeSeatSupport;
 
   var point = document.getElementById("star_slide").value;
   var filterPet = document.getElementById("pet_checkbox").checked;
@@ -1975,21 +1979,35 @@ var _companiesModel = require("../models/companiesModel");
 
 var _register = require("../register");
 
-(0, _register.registeredSectionPage)();
-(0, _companiesModel.companySearch)();
+window.page = 1;
 
-document.getElementById("list_button").addEventListener("click", function () {
-  var userFilter = new _companiesModel.search_variables(_companiesModel.searchVariables.companyName.value, _companiesModel.searchVariables.departure.value, _companiesModel.searchVariables.destination.value, _companiesModel.searchVariables.minimumPoint.textContent.trim(), _companiesModel.searchVariables.pet.checked, _companiesModel.searchVariables.threeSeat.checked);
+(0, _register.registeredSectionPage)();
+(0, _companiesModel.companySearch)(page);
+document.getElementById('current-page').innerHTML = page;
+
+var resetField = function resetField() {
+  document.getElementById('companies').innerHTML = '';
+};
+
+/*document.getElementById("list_button").addEventListener("click", () => {
+  const userFilter = new search_variables(
+    searchVariables.companyName.value,
+    searchVariables.departure.value,
+    searchVariables.destination.value,
+    searchVariables.minimumPoint.textContent.trim(),
+    searchVariables.pet.checked,
+    searchVariables.threeSeat.checked
+  );
 
   userFilter.summarize();
-});
+});*/
 
 document.getElementById("pet_checkbox").addEventListener("click", function () {
-  (0, _companiesModel.companyFilter)();
+  (0, _companiesModel.companyFilter)(page);
 });
 
 document.getElementById("3seat_bus").addEventListener("click", function () {
-  (0, _companiesModel.companyFilter)();
+  (0, _companiesModel.companyFilter)(page);
 });
 
 document.getElementById("reset_button").addEventListener("click", function () {
@@ -2004,7 +2022,7 @@ document.getElementById("reset_button").addEventListener("click", function () {
 });
 
 window.pointFilter = function () {
-  (0, _companiesModel.companyFilter)();
+  (0, _companiesModel.companyFilter)(page);
 };
 
 function companyNameFilter() {
@@ -2062,5 +2080,21 @@ document.getElementById("company_name_text").addEventListener("keyup", companyNa
 document.getElementById("arrival_place_text").addEventListener("keyup", destinationFilter);
 
 document.getElementById("departure_place_text").addEventListener("keyup", departureFilter);
+
+document.getElementById('decrease-page').addEventListener('click', function () {
+  if (page > 1) {
+    page--;
+  }
+  resetField();
+  (0, _companiesModel.companySearch)(page);
+  document.getElementById('current-page').innerHTML = page;
+});
+
+document.getElementById('increase-page').addEventListener('click', function () {
+  page++;
+  resetField();
+  (0, _companiesModel.companySearch)(page);
+  document.getElementById('current-page').innerHTML = page;
+});
 
 },{"../models/companiesModel":28,"../register":29}]},{},[30]);

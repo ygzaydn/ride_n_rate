@@ -16,16 +16,13 @@ const companyCitiesBuilder = async (uuid) => {
   return { resultData };
 };
 
-async function companySearch() {
+async function companySearch(page) {
   const config = {
     method: "post",
     url: `${url}/api/companies/all`,
     data: {
       filters: {
-        pageNumber: 1,
-        query : {
-          
-        }
+        pageNumber: page
       }
     }
   };
@@ -76,10 +73,15 @@ async function companySearch() {
   });
 }
 
-async function filterBuilder() {
+async function filterBuilder(page) {
   const config = {
     method: "post",
     url: `${url}/api/companies/all`,
+    data: {
+      filters: {
+        pageNumber: page
+      }
+    }
   };
   const points = [];
   const threeSeatSupport = [];
@@ -98,10 +100,10 @@ async function filterBuilder() {
   return { points, threeSeatSupport, petSupport };
 }
 
-async function companyFilter() {
-  const pointsArr = await (await filterBuilder()).points;
-  const petValuesArr = await (await filterBuilder()).petSupport;
-  const threeSeatSupportArr = await (await filterBuilder()).threeSeatSupport;
+async function companyFilter(page) {
+  const pointsArr = await (await filterBuilder(page)).points;
+  const petValuesArr = await (await filterBuilder(page)).petSupport;
+  const threeSeatSupportArr = await (await filterBuilder(page)).threeSeatSupport;
 
   let point = document.getElementById("star_slide").value;
   let filterPet = document.getElementById("pet_checkbox").checked;
